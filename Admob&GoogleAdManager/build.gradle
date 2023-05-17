@@ -20,8 +20,6 @@ android {
         versionName "${googlex_ads_v}"
 
         consumerProguardFiles 'proguard-rules.pro'
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles 'consumer-rules.pro'
     }
 
 
@@ -52,5 +50,4 @@ android {
     }
 }
 
-//开源gradle
 apply from: '../bintray.gradle'
