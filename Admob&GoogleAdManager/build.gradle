@@ -1,0 +1,56 @@
+repositories {
+    mavenCentral()
+    jcenter()
+    google()
+
+
+}
+
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion 30
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "${googlex_ads_v}"
+
+        consumerProguardFiles 'proguard-rules.pro'
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+
+    buildTypes {
+        release {
+            buildConfigField "String", "NETWORK_VERSION", "\"${googlex_version}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "NETWORK_VERSION", "\"${googlex_version}\""
+        }
+    }
+
+}
+
+dependencies {
+    compileOnly "com.google.android.gms:play-services-ads:${googlex_version}"
+
+}
+
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
+//开源gradle
+apply from: '../bintray.gradle'
