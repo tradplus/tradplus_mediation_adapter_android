@@ -6,9 +6,6 @@ import com.tradplus.ads.base.adapter.TPShowAdapterListener;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by sainase on 2020-06-16.
- */
 public class KuaishouInterstitialCallbackRouter {
     private static KuaishouInterstitialCallbackRouter instance;
     private KuaishouPidReward mKuaishouPidReward;

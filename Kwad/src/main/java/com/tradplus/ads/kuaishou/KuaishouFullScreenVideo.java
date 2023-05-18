@@ -32,9 +32,6 @@ import static com.tradplus.ads.base.common.TPError.INIT_FAILED;
 import static com.tradplus.ads.base.common.TPError.NETWORK_NO_FILL;
 import static com.tradplus.ads.base.common.TPError.SHOW_FAILED;
 
-/**
- * Created by sainase on 2020-06-16.
- */
 public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
 
     private String placementId, mBidResponseV2;
@@ -55,14 +52,13 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
         if (tpParams != null && tpParams.size() > 0) {
             placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             mBidResponseV2 = tpParams.get(DataKeys.BIDDING_PAYLOAD);
-            // 指定自动播放时是否静音: 1 == true 自动播放时静音 ；2 == false 自动播放有声 ，默认值为true。
             String videoMute = tpParams.get(AppKeyManager.VIDEO_MUTE);
             String direct = tpParams.get(AppKeyManager.DIRECTION);
             String fullSreenTpye = tpParams.get(AppKeyManager.FULL_SCREEN_TYPE);
 
             if (!TextUtils.isEmpty(videoMute)) {
                 if (videoMute.equals(AppKeyManager.VIDEO_MUTE_YES)) {
-                    isVideoSoundEnable = false; // 如果想播放，传true
+                    isVideoSoundEnable = false;
                 }
             }
 
@@ -79,8 +75,6 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
         }
 
 
-//        appKey = "90010";
-//        placementId ="90009002";
 
         mRouter = KuaishouInterstitialCallbackRouter.getInstance();
         mRouter.addListener(placementId, mLoadAdapterListener);
@@ -116,7 +110,6 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
     private void requestInterstitial() {
         if (isFlullSreenVideoAd == AppKeyManager.FULL_TYPE) {
             mFullScreenVideoAd = null;
-            Log.i(TAG, "全屏视频: ");
             KsAdSDK.getLoadManager().loadFullScreenVideoAd(getKsScene(), new KsLoadManager.FullScreenVideoAdListener() {
                 @Override
                 public void onError(int code, String msg) {
@@ -129,7 +122,6 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
 
                 @Override
                 public void onFullScreenVideoResult(List<KsFullScreenVideoAd> list) {
-                    //全屏视频广告请求填充个数
                     Log.i(TAG, "onRequestResult: ");
                 }
 
@@ -155,7 +147,6 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
             });
 
         } else {
-            Log.i(TAG, "插屏广告: ");
             mKsInterstitialAd = null;
             // InterstitialAd
             KsAdSDK.getLoadManager().loadInterstitialAd(getKsScene(), new KsLoadManager.InterstitialAdListener() {
@@ -169,7 +160,6 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
 
                 @Override
                 public void onRequestResult(int i) {
-                    //插屏广告请求填充个数
                     Log.i(TAG, "onRequestResult: ");
                 }
 
@@ -207,7 +197,7 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
 
         KsVideoPlayConfig ksVideoPlayConfig = videoPlayConfig(activity);
         if (isFlullSreenVideoAd == AppKeyManager.FULL_TYPE) {
-            Log.i(TAG, "showAd 全屏: ");
+            Log.i(TAG, "showAd : ");
             if (mFullScreenVideoAd != null && mFullScreenVideoAd.isAdEnable()) {
                 mFullScreenVideoAd.setFullScreenVideoAdInteractionListener(mFsLinstener);
                 mFullScreenVideoAd.showFullScreenVideoAd(activity, ksVideoPlayConfig);
@@ -216,7 +206,7 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
                     mRouter.getShowListener(placementId).onAdVideoError(new TPError(SHOW_FAILED));
             }
         } else {
-            Log.i(TAG, "showAd 插屏: ");
+            Log.i(TAG, "showAd : ");
             if (mKsInterstitialAd != null) {
                 mKsInterstitialAd.setAdInteractionListener(mAdInteractionListener);
                 mKsInterstitialAd.showInterstitialAd(activity, ksVideoPlayConfig);
@@ -231,11 +221,10 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
     private KsVideoPlayConfig videoPlayConfig(Activity activity) {
         KsVideoPlayConfig.Builder builder = new KsVideoPlayConfig.Builder();
         if (direction == 1 || direction == 2) {
-            builder.showLandscape(direction == 2); //2是横屏、1是竖屏
+            builder.showLandscape(direction == 2);
         } else {
-            //自适应横竖屏
             int ori = activity.getResources().getConfiguration().orientation;
-            builder.showLandscape(ori == ORIENTATION_LANDSCAPE); // 横屏播放 else 竖屏播放
+            builder.showLandscape(ori == ORIENTATION_LANDSCAPE);
         }
         Log.i(TAG, "videoSoundEnable: " + isVideoSoundEnable);
         builder.videoSoundEnable(isVideoSoundEnable);
@@ -399,8 +388,6 @@ public class KuaishouFullScreenVideo extends TPInterstitialAdapter {
 
             }
         });
-        // 根据需要传入场景参数，注意：创建KsScene时 posId 可传无效值，在adx服务端拉取快手竞价信息时必须传有效的 posId
-        // 不用等待初始化结果
         return KsAdSDK.getLoadManager().getBidRequestTokenV2(new KsScene.Builder(0).build());
     }
 

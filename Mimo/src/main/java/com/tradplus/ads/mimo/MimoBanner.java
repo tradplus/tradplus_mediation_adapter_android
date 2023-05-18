@@ -28,7 +28,7 @@ public class MimoBanner extends TPBannerAdapter {
     private String placementId;
     private TPBannerAdImpl mTpBannerAd;
     private FrameLayout mFrameLayout;
-    private float bannerViewScale = 1.0F; // 支持等比例缩放。取值（0，1] 默认1
+    private float bannerViewScale = 1.0F;
     private static final String TAG = "MimoBanner";
 
     @Override
@@ -41,7 +41,6 @@ public class MimoBanner extends TPBannerAdapter {
             mLoadAdapterListener.loadAdapterLoadFailed(new TPError(ADAPTER_CONFIGURATION_ERROR));
             return;
         }
-//        placementId = "802e356f1726f9ff39c69308bfd6f06a";
 
         if (userParams != null && userParams.size() >0) {
             if (userParams.containsKey(MimoConstant.MIMO_BANNER_SCALE)) {

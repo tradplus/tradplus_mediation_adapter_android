@@ -31,7 +31,7 @@ public class KlevinSplash extends TPSplashAdapter {
     private SplashAd mSplashAd;
     private int mWidth;
     private int mHeight;
-    private int timeout = 3500; // 官方3500
+    private int timeout = 3500;
     private boolean isC2SBidding;
     private boolean isBiddingLoaded;
     private OnC2STokenListener onC2STokenListener;
@@ -70,7 +70,6 @@ public class KlevinSplash extends TPSplashAdapter {
 
             if (userParams.containsKey(AppKeyManager.TIME_DELTA)) {
                 int localTimeOut = (int) userParams.get(AppKeyManager.TIME_DELTA);
-                //可传值范围[3000-5000]
                 if (localTimeOut >= 3000) {
                     timeout = localTimeOut;
                     Log.i(TAG, "timeout: " + timeout);
@@ -90,7 +89,6 @@ public class KlevinSplash extends TPSplashAdapter {
         }
 
 
-//        mPostId = 30029;
 
         KlevinInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
             @Override
@@ -125,22 +123,20 @@ public class KlevinSplash extends TPSplashAdapter {
         }
 
         SplashAdRequest.Builder splashAdBuilder = new SplashAdRequest.Builder();
-        splashAdBuilder.setTimeOut(timeout)// 【可选】默认不限制，可传值范围[3000-5000]
-                .setViewSize(mWidth, mHeight) //【必传】展示开屏⼴告的view宽⾼
-                .setAdCount(1)//【可选】广告个数，默认1
-                .setPosId(mPostId);//【必须】开屏广告位id
+        splashAdBuilder.setTimeOut(timeout)
+                .setViewSize(mWidth, mHeight)
+                .setAdCount(1)
+                .setPosId(mPostId);
 
 
-        //开屏广告加载回调
         SplashAd.load(splashAdBuilder.build(), new SplashAd.SplashAdLoadListener() {
-            public void onTimeOut() { //加载超时
+            public void onTimeOut() {
                 Log.i(TAG, "onTimeOut");
                 if (mLoadAdapterListener != null)
                     mLoadAdapterListener.loadAdapterLoadFailed(new TPError(NETWORK_TIMEOUT));
             }
 
             public void onAdLoadError(int err, String msg) {
-                // 加载失败，err是错误码，msg是描述信息
                 Log.i(TAG, "onAdLoadError: " + err + " " + msg);
                 if (isC2SBidding) {
                     if (onC2STokenListener != null) {
@@ -153,14 +149,14 @@ public class KlevinSplash extends TPSplashAdapter {
                     mLoadAdapterListener.loadAdapterLoadFailed(KlevinErrorUtil.getTradPlusErrorCode(NETWORK_NO_FILL, err, msg));
             }
 
-            public void onAdLoaded(SplashAd ad) {//加载成功，ad为开屏广告实例
+            public void onAdLoaded(SplashAd ad) {
                 Log.i(TAG, "splash ad loaded");
                 mSplashAd = ad;
 
                 if (isC2SBidding) {
                     if (onC2STokenListener != null) {
                         ecpmLevel = mSplashAd.getECPM();
-                        Log.i(TAG, "开屏 bid price: " + ecpmLevel);
+                        Log.i(TAG, " bid price: " + ecpmLevel);
                         if (TextUtils.isEmpty(ecpmLevel+"")) {
                             onC2STokenListener.onC2SBiddingFailed("","ecpmLevel is empty");
                             return;
@@ -182,34 +178,32 @@ public class KlevinSplash extends TPSplashAdapter {
     @Override
     public void showAd() {
         if (mSplashAd != null && mSplashAd.isValid()) {
-            //设置开屏广告展示回调
             mSplashAd.registerAdInteractionListener(new SplashAd.SplashAdListener() {
-                public void onAdSkip() { //用户跳过广告回调
+                public void onAdSkip() {
                     Log.i(TAG, "onAdSkip");
                     if (mShowListener != null)
                         mShowListener.onRewardSkip();
                 }
 
-                public void onAdShow() { //广告曝光回调
+                public void onAdShow() {
                     Log.i(TAG, "onAdShow");
                     if (mShowListener != null)
                         mShowListener.onAdShown();
                 }
 
-                public void onAdClick() { //广告点击回调
+                public void onAdClick() {
                     Log.i(TAG, "onAdClick");
                     if (mShowListener != null)
                         mShowListener.onAdClicked();
                 }
 
-                public void onAdClosed() { //广告关闭回调
+                public void onAdClosed() {
                     Log.i(TAG, "onAdClosed");
                     if (mShowListener != null)
                         mShowListener.onAdClosed();
                 }
 
                 public void onAdError(int err, String msg) {
-                    //广告展示失败回调
                     Log.i(TAG, "onAdError err: " + err + " " + msg);
                     TPError tpError = new TPError(SHOW_FAILED);
                     tpError.setErrorCode(err + "");
@@ -227,10 +221,8 @@ public class KlevinSplash extends TPSplashAdapter {
                 Log.i(TAG, "sendWinNotificationWithPrice: " +ecpmLevel);
                 mSplashAd.sendWinNotificationWithPrice(ecpmLevel);
             }
-            //展示开屏广告
             View splashView = mSplashAd.getSplashView();
             if (splashView != null && mAdContainerView != null) {
-                // 把SplashView 添加到ViewGroup中
                 mAdContainerView.addView(splashView);
             } else {
                 Log.i(TAG, "showAd Failed, mSplashAd.getSplashView() == null ");

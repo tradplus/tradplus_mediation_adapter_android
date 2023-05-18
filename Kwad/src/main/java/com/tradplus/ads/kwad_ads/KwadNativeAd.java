@@ -67,12 +67,10 @@ public class KwadNativeAd extends TPBaseAd {
     private void initNativeAd(Context context) {
         mTPNativeAdView = setMiitInfo(mKsNativeAd);
 
-        // 下载类型的AppName，⾮下载返回为空
         String appName = mKsNativeAd.getAppName();
         if (!TextUtils.isEmpty(appName)) {
             mTPNativeAdView.setTitle(appName);
         } else {
-            // 获取⾮下载⼴告的产品名称
             String productName = mKsNativeAd.getProductName();
             if (!TextUtils.isEmpty(productName)) {
                 mTPNativeAdView.setTitle(productName);
@@ -89,14 +87,12 @@ public class KwadNativeAd extends TPBaseAd {
             mTPNativeAdView.setCallToAction(actionDescription);
         }
 
-        // ⼴告来源，可能为空
         String adSource = mKsNativeAd.getAdSource();
         Log.i(TAG, "adSource: " + adSource);
         if (!TextUtils.isEmpty(adSource)) {
             mTPNativeAdView.setAdSource(adSource);
         }
 
-        // 下载类型的AppIcon，⾮下载返回为空
         String appIconUrl = mKsNativeAd.getAppIconUrl();
         if (!TextUtils.isEmpty(appIconUrl)) {
             mTPNativeAdView.setIconImageUrl(appIconUrl);
@@ -107,14 +103,12 @@ public class KwadNativeAd extends TPBaseAd {
             mTPNativeAdView.setVideoUrl(videoUrl);
         }
 
-        // 应⽤下载评分，取值0-5.0; ⾮下载返回为0
         float appScore = mKsNativeAd.getAppScore();
         Log.i("StarRating", "kuaishou StarRating: " + appScore);
         if (appScore > 0) {
             mTPNativeAdView.setStarRating(Double.valueOf(appScore));
         }
 
-        // 获取⼴告⻆标的logo
         String adSourceLogoUrl = mKsNativeAd.getAdSourceLogoUrl(AdSourceLogoType.GREY);
         if (!TextUtils.isEmpty(adSourceLogoUrl)) {
             Log.i(TAG, "adSourceLogoUrl: " + adSourceLogoUrl);
@@ -179,9 +173,9 @@ public class KwadNativeAd extends TPBaseAd {
     @Override
     public Object getNetworkObj() {
         if (mKsNativeAd != null) {
-            return mKsNativeAd; // 自渲染
+            return mKsNativeAd;
         } else if (mKsFeedAd != null) {
-            return mKsFeedAd; // 模版
+            return mKsFeedAd;
         } else if (mKsDrawAd != null) {
             return mKsDrawAd;
         }
@@ -196,7 +190,6 @@ public class KwadNativeAd extends TPBaseAd {
         if (activity == null) {
             mKsNativeAd.registerViewForInteraction(viewGroup, clickViews, mListener);
         } else {
-            // 点击转换view的集合，传入的view点击时会触发转换操作：app下载， 打开h5页面
             Map<View, Integer> clickViewMap = new HashMap<>();
 
             View callToAction = viewGroup.findViewWithTag(TPBaseAd.NATIVE_AD_TAG_CALLTOACTION);
@@ -226,8 +219,8 @@ public class KwadNativeAd extends TPBaseAd {
 
             if (mKsNativeAd.getMaterialType() == MaterialType.VIDEO) {
                 Log.i(TAG, "initNativeAd:VIDEO");
-                KsAdVideoPlayConfig videoPlayConfig = new KsAdVideoPlayConfig.Builder().videoSoundEnable(false)// 有声播放
-                        .dataFlowAutoStart(true)// 流量下自动播放
+                KsAdVideoPlayConfig videoPlayConfig = new KsAdVideoPlayConfig.Builder().videoSoundEnable(false)
+                        .dataFlowAutoStart(true)
                         .build();
                 View mView = mKsNativeAd.getVideoView(activity, videoPlayConfig);
 
@@ -257,8 +250,6 @@ public class KwadNativeAd extends TPBaseAd {
                 }
             }
 
-            // 如果是自定义弹窗，请使用下面的配置
-            // 注册View的点击，点击后触发转化
             if (mKsNativeAd != null) {
                 mKsNativeAd.registerViewForInteraction(activity, viewGroup, clickViewMap, mListener);
             }
@@ -280,12 +271,7 @@ public class KwadNativeAd extends TPBaseAd {
             if (mShowListener != null) mShowListener.onAdShown();
         }
 
-        /*
-         * @return  返回为true, 则只会给媒体弹出回调，SDK的默认弹窗逻辑不会执行
-         * @return  返回为true 返回为 false, 则使用SDK默认的合规弹窗。
-         * 弹出弹窗dialog后， 用户确认下载，则媒体需要回调 OnClickListener.onClick(dialog, DialogInterface.BUTTON_POSITIVE)
-         * 弹出弹窗dialog后， 用户点击取消，则媒体需要回调 OnClickListener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE)
-         * */
+
         @Override
         public boolean handleDownloadDialog(DialogInterface.OnClickListener onClickListener) {
             return false;
@@ -293,12 +279,12 @@ public class KwadNativeAd extends TPBaseAd {
 
         @Override
         public void onDownloadTipsDialogShow() {
-            Log.i(TAG, "onDownloadTipsDialogShow: 广告展示下载合规弹窗");
+            Log.i(TAG, "onDownloadTipsDialogShow: ");
         }
 
         @Override
         public void onDownloadTipsDialogDismiss() {
-            Log.i(TAG, "onDownloadTipsDialogShow:广告关闭下载合规弹窗");
+            Log.i(TAG, "onDownloadTipsDialogShow:");
 
         }
     };
@@ -341,11 +327,11 @@ public class KwadNativeAd extends TPBaseAd {
     @Override
     public int getNativeAdType() {
         if (isRender == TPBaseAd.AD_TYPE_NATIVE_EXPRESS) {
-            return AD_TYPE_NATIVE_EXPRESS; //模版
+            return AD_TYPE_NATIVE_EXPRESS;
         } else if (isRender == TPBaseAd.AD_TYPE_NATIVE_LIST) {
-            return AD_TYPE_NATIVE_LIST; //DrawList
+            return AD_TYPE_NATIVE_LIST;
         } else {
-            return AD_TYPE_NORMAL_NATIVE;//自渲染
+            return AD_TYPE_NORMAL_NATIVE;
         }
     }
 

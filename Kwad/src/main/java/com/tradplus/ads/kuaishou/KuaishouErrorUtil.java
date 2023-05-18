@@ -6,9 +6,6 @@ import static com.tradplus.ads.base.common.TPError.CONFIGURATION_ERROR;
 import static com.tradplus.ads.base.common.TPError.CONNECTION_ERROR;
 import static com.tradplus.ads.base.common.TPError.UNSPECIFIED;
 
-/**
- * Created by sainase on 2020-06-16.
- */
 public class KuaishouErrorUtil {
 
     public static TPError getTradPlusErrorCode(int errorCode) {

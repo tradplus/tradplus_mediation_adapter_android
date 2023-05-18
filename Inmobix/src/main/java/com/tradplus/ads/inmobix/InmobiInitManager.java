@@ -43,7 +43,6 @@ public class InmobiInitManager extends TPInitMediation {
     public void initSDK(Context context, Map<String, Object> userParams, Map<String, String> tpParams, final InitCallback initCallback) {
 
         if (!availableParams(tpParams)) {
-            // 初始化SDK参数有问题返回失败
             sendResult(TAG, false, "", TPError.EMPTY_INIT_CONFIGURATION);
             return;
         }
@@ -116,7 +115,6 @@ public class InmobiInitManager extends TPInitMediation {
 
             if (userParams.containsKey(AppKeyManager.KEY_COPPA) || userParams.containsKey(AppKeyManager.DFF)) {
                 boolean isChildDirected = false;
-                // COPPA隐私标志设置为true，以限制传输android广告标识符后才能设置DFF
                 if (userParams.containsKey(AppKeyManager.KEY_COPPA)) {
                     isChildDirected = (boolean) userParams.get(AppKeyManager.KEY_COPPA);
                     Log.i("privacylaws", "coppa: " + isChildDirected);
@@ -130,9 +128,6 @@ public class InmobiInitManager extends TPInitMediation {
 
             if (userParams.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean ccpa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
-                // 如果您不想退出基于兴趣的广告，请将不出售标志设置为 false
-                // 如果您想选择退出基于兴趣的广告，请将不出售标志设置为 true
-                // TP ccpa true表示同意出售，此时do_not_sell标志要返回false,String传“0”
                 mParameters = new HashMap<>();
                 mParameters.put("do_not_sell", ccpa ? "0" : "1");
                 Log.i("privacylaws", "ccpa:" + ccpa);

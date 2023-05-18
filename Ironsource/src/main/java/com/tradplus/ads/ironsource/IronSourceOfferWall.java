@@ -175,7 +175,6 @@ public class IronSourceOfferWall extends TPRewardAdapter implements OfferwallLis
         Log.d("TradPlus", "IronSource OfferWall ad onOfferwallAdCredited : " + " credits:" + credits + " totalCredits:" + totalCredits + " totalCreditsFlag:" + totalCreditsFlag);
         if (mCallbackRouter.getShowListener(placementId) != null) {
             mCallbackRouter.getShowListener(placementId).onReward(Integer.toString(credits), totalCredits);
-//            mHandler.removeCallbacks(interstitialDismissedRunnable);
 
         }
         return true;
@@ -200,12 +199,6 @@ public class IronSourceOfferWall extends TPRewardAdapter implements OfferwallLis
 
     }
 
-//    private Runnable interstitialDismissedRunnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            mCallbackRouter.getListener(placementId).onInterstitialDismissed();
-//        }
-//    };
 
     /**
      * Invoked when the user is about to return to the application after closing
@@ -216,7 +209,6 @@ public class IronSourceOfferWall extends TPRewardAdapter implements OfferwallLis
         Log.d("TradPlus", "IronSource OfferWall ad onOfferwallClosed.");
         if (mCallbackRouter.getShowListener(placementId) != null)
         mCallbackRouter.getShowListener(placementId).onAdClosed();
-//        mHandler.postDelayed(interstitialDismissedRunnable, 5000);
     }
 
     /**

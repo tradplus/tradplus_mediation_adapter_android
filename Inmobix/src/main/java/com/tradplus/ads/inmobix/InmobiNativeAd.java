@@ -68,7 +68,6 @@ public class InmobiNativeAd extends TPBaseAd {
         }
 
 
-//        TPImageLoader.getInstance().loadImage(null, mInMobiNative.getAdIconUrl());
     }
 
     @Override

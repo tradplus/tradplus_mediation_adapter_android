@@ -29,11 +29,11 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
     private int mPostId;
     private RewardAd mRewardAd;
     private KlevinInterstitialCallbackRouter mCallbackRouter;
-    private boolean isVideoSoundEnable = true; // true（自动播放时静音）; 1 :静音
+    private boolean isVideoSoundEnable = true;
     private boolean hasGrantedReward = false;
     private boolean alwaysRewardUser;
-    private int rewardTime = 30; // 官方给出默认值
-    private int rewardTrigger = RewardAdRequest.TRIGGER_OTHER; // 官方给出默认值
+    private int rewardTime = 30;
+    private int rewardTrigger = RewardAdRequest.TRIGGER_OTHER;
     private boolean isC2SBidding;
     private boolean isBiddingLoaded;
     private OnC2STokenListener onC2STokenListener;
@@ -45,7 +45,6 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
         String videoMute;
         if (extrasAreValid(tpParams)) {
             placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             videoMute = tpParams.get(AppKeyManager.VIDEO_MUTE);
 
             if (!TextUtils.isEmpty(placementId)) {
@@ -54,7 +53,7 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
 
             if (!TextUtils.isEmpty(videoMute)) {
                 if (!AppKeyManager.VIDEO_MUTE_YES.equals(videoMute)) {
-                    isVideoSoundEnable = false; // true（自动播放时静音）；false(自动播放有声)
+                    isVideoSoundEnable = false;
                     Log.i(TAG, "isVideoSoundEnable: " + isVideoSoundEnable);
                 }
             }
@@ -90,7 +89,6 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
             }
         }
 
-//        mPostId = 30031;
 
         mCallbackRouter = KlevinInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(placementId, mLoadAdapterListener);
@@ -128,17 +126,16 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
 
         Log.i(TAG, "requestInterstitialVideo: " + placementId);
         RewardAdRequest.Builder rewardAdBuilder = new RewardAdRequest.Builder();
-        rewardAdBuilder.autoMute(isVideoSoundEnable)//【可选】设置是否自动静音，默认false【有声】，true【静音】
-                .setRewardTime(rewardTime)//【可选】设置激励卡秒，激励发放时间。不配置时默认为视频长度。必须大于3s
-                .setRewardTrigger(rewardTrigger)//【可选】激励类型
-                .setPosId(mPostId)//【必须】激励视频广告位id
-                .setAdCount(1);//【可选】广告个数，默认1
+        rewardAdBuilder.autoMute(isVideoSoundEnable)
+                .setRewardTime(rewardTime)
+                .setRewardTrigger(rewardTrigger)
+                .setPosId(mPostId)
+                .setAdCount(1);
 
 
         RewardAd.load(rewardAdBuilder.build(), new RewardAd.RewardAdLoadListener() {
 
             public void onAdLoadError(int err, String msg) {
-                // 加载失败，err是错误码，msg是描述信息
                 Log.i(TAG, "onAdLoadError err: " + err + " " + msg);
                 if (isC2SBidding) {
                     if (onC2STokenListener != null) {
@@ -154,16 +151,13 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
             }
 
             public void onVideoPrepared(RewardAd ad) {
-                // 2.1开始支持在线播放功能，该回调在2.1版本开始引入
-                // 广告信息已解析完成，参数ad为激励视频广告实例
-                // 在此回调中触发展示广告，则优先使用在线播放的方式加载广告
                 Log.i(TAG, "onVideoPrepared");
                 mRewardAd = ad;
 
                 if (isC2SBidding) {
                     if (onC2STokenListener != null) {
                         ecpmLevel = mRewardAd.getECPM();
-                        Log.i(TAG, "激励视频 bid price: " + ecpmLevel);
+                        Log.i(TAG, " bid price: " + ecpmLevel);
                         if (TextUtils.isEmpty(ecpmLevel + "")) {
                             onC2STokenListener.onC2SBiddingFailed("", "ecpmLevel is empty");
                             return;
@@ -182,10 +176,6 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
             }
 
             public void onAdLoaded(RewardAd ad) {
-                // 广告素材下载完成，参数ad为激励视频广告实例
-                // 在此回调中触发展示广告，则使用本地播放的方式读取广告
-//                Log.i(TAG, "onAdLoaded");
-//                mRewardAd = ad;
             }
         });
     }
@@ -197,11 +187,9 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
         }
 
         if (mRewardAd != null && mRewardAd.isValid()) {
-            //isValid接口2.1以上版本支持, 2.1以下移除调用。
-            //设置激励视频广告展示回调
             mRewardAd.setListener(new RewardAd.RewardAdListener() {
                 @Override
-                public void onAdSkip() { //用户跳过广告回调
+                public void onAdSkip() {
                     Log.i(TAG, "onAdSkip");
                     alwaysRewardUser = false;
                     if (mCallbackRouter.getShowListener(placementId) != null)
@@ -213,13 +201,13 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
                     hasGrantedReward = true;
                 }
 
-                public void onVideoComplete() { //视频播放完成回调
+                public void onVideoComplete() {
                     Log.i(TAG, "onVideoComplete");
                     if (mCallbackRouter.getShowListener(placementId) != null)
                         mCallbackRouter.getShowListener(placementId).onAdVideoEnd();
                 }
 
-                public void onAdShow() { //广告曝光回调
+                public void onAdShow() {
                     Log.i(TAG, "onAdShow");
                     if (mCallbackRouter.getShowListener(placementId) != null) {
                         mCallbackRouter.getShowListener(placementId).onAdShown();
@@ -227,13 +215,13 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
                     }
                 }
 
-                public void onAdClick() { //广告点击回调
+                public void onAdClick() {
                     Log.i(TAG, "onAdClick");
                     if (mCallbackRouter.getShowListener(placementId) != null)
                         mCallbackRouter.getShowListener(placementId).onAdVideoClicked();
                 }
 
-                public void onAdClosed() { //广告关闭回调
+                public void onAdClosed() {
                     if (mCallbackRouter.getShowListener(placementId) != null) {
                         if (hasGrantedReward || alwaysRewardUser) {
                             Log.i(TAG, "onReward");
@@ -246,7 +234,6 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
                 }
 
                 public void onAdError(int err, String msg) {
-                    //广告展示失败回调
                     Log.i(TAG, "onAdError err: " + err + " " + msg);
                     if (mCallbackRouter.getShowListener(placementId) != null)
                         mCallbackRouter.getShowListener(placementId)
@@ -264,7 +251,7 @@ public class KlevinInterstitialVideo extends TPRewardAdapter {
                 mRewardAd.sendWinNotificationWithPrice(ecpmLevel);
             }
 
-            mRewardAd.show(); //展示激励视频广告
+            mRewardAd.show();
         } else {
             if (mCallbackRouter.getShowListener(placementId) != null)
                 mCallbackRouter.getShowListener(placementId).onAdVideoError(new TPError(UNSPECIFIED));

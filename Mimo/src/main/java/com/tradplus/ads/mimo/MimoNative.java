@@ -31,10 +31,10 @@ public class MimoNative extends TPNativeAdapter {
 
     private NativeAd mNativeAd;
     private String placementId;
-    private int mIsTemplateRending = AppKeyManager.TEMPLATE_RENDERING_NO; // 默认自渲染
-    private MimoNativeAd mMimoNativeAd; //自渲染
-    private TemplateAd mTemplateAd; //模版
-    private FeedAd mFeedAd;//原生视频
+    private int mIsTemplateRending = AppKeyManager.TEMPLATE_RENDERING_NO;
+    private MimoNativeAd mMimoNativeAd;
+    private TemplateAd mTemplateAd;
+    private FeedAd mFeedAd;
     private boolean mNeedDownloadImg = false;
     private static final String TAG = "MimoNative";
 
@@ -53,12 +53,6 @@ public class MimoNative extends TPNativeAdapter {
             mLoadAdapterListener.loadAdapterLoadFailed(new TPError(ADAPTER_CONFIGURATION_ERROR));
             return;
         }
-//        placementId = "ffc009779b4a62177fffe3d594bb35ff";//原生模板-横版视频模板
-//        placementId = "702b6a3b2f67a52efd3bdbf51fbef5fe";//自渲染大图（仅图片）
-//        placementId = "737fd8fce83832ffac1da2244d24add5";//自渲染大图（仅视频）
-//        placementId = "270c1630710a858d633aaf752025eae2";//自渲染——大图（图片+视频混出）
-//        placementId = "4966931579570a31c70269f560e9577e";//原生模板-上文下图
-//        placementId = "e8cad3a962d8f5ccb3e42a5c2427107d";//原生模板-左文右图
         if (userParams != null && userParams.size() > 0) {
             if (userParams.containsKey(DataKeys.DOWNLOAD_IMG)) {
                 String downLoadImg = (String) userParams.get(DataKeys.DOWNLOAD_IMG);
@@ -88,7 +82,7 @@ public class MimoNative extends TPNativeAdapter {
 
     private void requestNative(Context context) {
         if (mIsTemplateRending == 3) {
-            Log.i(TAG, "loadCustomAd: 模版图片，placementId == " + placementId);
+            Log.i(TAG, "loadCustomAd: ，placementId == " + placementId);
             mTemplateAd = new TemplateAd();
             mTemplateAd.load(placementId, new TemplateAd.TemplateAdLoadListener() {
                 @Override
@@ -113,7 +107,7 @@ public class MimoNative extends TPNativeAdapter {
                 }
             });
         } else if (mIsTemplateRending == 4) {
-            Log.i(TAG, "loadCustomAd: 模版视频，placementId == " + placementId);
+            Log.i(TAG, "loadCustomAd: ，placementId == " + placementId);
             Activity activity = GlobalTradPlus.getInstance().getActivity();
             if (activity == null) {
                 if (mLoadAdapterListener != null) {
@@ -127,7 +121,6 @@ public class MimoNative extends TPNativeAdapter {
                 @Override
                 public void onAdResourceCached() {
                     Log.i(TAG, "onAdResourceCached: ");
-                    //资源缓存成功
                     mMimoNativeAd = new MimoNativeAd(mFeedAd, activity, TPBaseAd.AD_TYPE_NATIVE_EXPRESS);
 
                     if (mLoadAdapterListener != null) {
@@ -137,12 +130,10 @@ public class MimoNative extends TPNativeAdapter {
 
                 @Override
                 public void onAdRequestSuccess() {
-                    //网络请求成功
                 }
 
                 @Override
                 public void onAdLoadFailed(int errorCode, String errorMessage) {
-                    //广告加载失败
                     Log.i(TAG, "onAdLoadFailed: code ==" + errorCode + " , msg ==" + errorMessage);
                     if (mLoadAdapterListener != null) {
                         TPError tpError = new TPError(NETWORK_NO_FILL);
@@ -153,7 +144,7 @@ public class MimoNative extends TPNativeAdapter {
                 }
             });
         } else {
-            Log.i(TAG, "loadCustomAd: 自渲染，placementId == " + placementId);
+            Log.i(TAG, "loadCustomAd: ，placementId == " + placementId);
             mNativeAd = new NativeAd();
             mNativeAd.load(placementId, new NativeAd.NativeAdLoadListener() {
                 @Override
@@ -182,20 +173,6 @@ public class MimoNative extends TPNativeAdapter {
 
     @Override
     public void clean() {
-//        if (mNativeAd != null) {
-//            mNativeAd.destroy();
-//            mNativeAd = null;
-//        }
-//
-//        if (mFeedAd != null) {
-//            mFeedAd.destroy();
-//            mFeedAd = null;
-//        }
-//
-//        if (mTemplateAd != null) {
-//            mTemplateAd.destroy();
-//            mTemplateAd = null;
-//        }
 
     }
 

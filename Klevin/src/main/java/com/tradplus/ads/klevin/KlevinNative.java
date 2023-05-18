@@ -33,16 +33,16 @@ import java.util.Map;
 public class KlevinNative extends TPNativeAdapter {
 
     private int mPostId, mIsTemplateRending;
-    private List<NativeAd> mNativeAds; // 自渲染
-    private NativeExpressAd nativeExpressAd; // 模版
-    private NativeAd nativeAd; // 自渲染
+    private List<NativeAd> mNativeAds;
+    private NativeExpressAd nativeExpressAd;
+    private NativeAd nativeAd;
     private KlevinNativeAd mKlevinNativeAd;
-    private int autoPlayVideo = NativeAd.AUTO_PLAY_POLICY_WIFI; //默认值Wi-Fi下自动播放
-    private boolean isVideoSoundEnable = true; // 下发 1 ；静音
+    private int autoPlayVideo = NativeAd.AUTO_PLAY_POLICY_WIFI;
+    private boolean isVideoSoundEnable = true;
     private boolean mNeedDownloadImg = false;
     private int mAdWidth;
     private int mAdHeight;
-    private View mView;//模板
+    private View mView;
     private int ecpmLevel;
     private boolean isC2SBidding;
     private boolean isBiddingLoaded;
@@ -54,9 +54,7 @@ public class KlevinNative extends TPNativeAdapter {
         String placementId, mAutoPlayVideo, mVideoMute, template;
         if (extrasAreValid(tpParams)) {
             placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
-            // 自动播放视频
             mAutoPlayVideo = tpParams.get(AppKeyManager.AUTO_PLAY_VIDEO);
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             mVideoMute = tpParams.get(AppKeyManager.VIDEO_MUTE);
             template = tpParams.get(AppKeyManager.IS_TEMPLATE_RENDERING);
 
@@ -73,7 +71,7 @@ public class KlevinNative extends TPNativeAdapter {
 
             if (!TextUtils.isEmpty(mVideoMute)) {
                 if (!AppKeyManager.VIDEO_MUTE_YES.equals(mVideoMute)) {
-                    isVideoSoundEnable = false; // 三方静音，传true
+                    isVideoSoundEnable = false;
                     Log.i(TAG, "videoMute: " + isVideoSoundEnable);
                 }
             }
@@ -109,11 +107,9 @@ public class KlevinNative extends TPNativeAdapter {
         }
 
         if (mAdHeight == 0 || mAdWidth == 0) {
-            mAdWidth = 375; //官方Demo设置
-            mAdHeight = 350; //官方Demo设置
+            mAdWidth = 375;
+            mAdHeight = 350;
         }
-//        appId = "30008";
-//        mPostId = 32797;
 
 
         KlevinInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
@@ -150,7 +146,7 @@ public class KlevinNative extends TPNativeAdapter {
                 return;
             }
 
-            Log.i(TAG, "request 模版: ");
+            Log.i(TAG, "request : ");
             if (nativeExpressAd != null) {
                 nativeExpressAd.destroy();
                 nativeExpressAd = null;
@@ -177,7 +173,6 @@ public class KlevinNative extends TPNativeAdapter {
                     nativeExpressAd = ads.get(0);
                     nativeExpressAd.setAdSize(new AdSize(mAdWidth, mAdHeight));
                     nativeExpressAd.setInteractionListener(mAdInteractionListener);
-                    // 是否为视频广告
                     if (nativeExpressAd.isVideoAd()) {
                         nativeExpressAd.setVideoAdListener(mExpressVideoAdListener);
                     }
@@ -237,20 +232,19 @@ public class KlevinNative extends TPNativeAdapter {
             if (isC2SBidding && isBiddingLoaded && mKlevinNativeAd != null) {
                 int mediaMode = nativeAd.getMediaMode();
                 if (mediaMode == NativeAd.MEDIA_MODE_VIDEO || mediaMode == NativeAd.MEDIA_MODE_VERTICAL_VIDEO) {
-                    Log.i(TAG, "自渲染素材类型 VIDEO");
+                    Log.i(TAG, " VIDEO");
                     nativeAd.setMute(isVideoSoundEnable);
                 }
                 downloadAndCallback(mKlevinNativeAd, mNeedDownloadImg);
                 return;
             }
 
-            Log.i(TAG, "request 自渲染: ");
+            Log.i(TAG, "request : ");
             NativeAdRequest.Builder builder = new NativeAdRequest.Builder();
             builder.setPosId(mPostId).setAdCount(1);
             NativeAd.load(builder.build(), new NativeAd.NativeAdLoadListener() {
                 @Override
                 public void onAdLoadError(int err, String msg) {
-                    //加载失败，err是错误码，msg是描述信息
                     Log.i(TAG, "onAdLoadError: errcode :" + err + ", msg :" + msg);
                     loadC2SBiddingFailed(err, msg);
                 }
@@ -258,11 +252,9 @@ public class KlevinNative extends TPNativeAdapter {
                 @Override
                 public void onAdLoaded(List<NativeAd> ads) {
                     if (ads == null) return;
-                    //加载成功，参数ads为自渲染广告数组实例
                     Log.i(TAG, "onAdLoaded: ");
                     mNativeAds = ads;
                     nativeAd = ads.get(0);
-                    //设置apk下载监听接口
                     nativeAd.setDownloadListener(new AppDownloadListener() {
                         @Override
                         public void onIdle() {
@@ -318,7 +310,7 @@ public class KlevinNative extends TPNativeAdapter {
                     if (isC2SBidding) {
                         if (onC2STokenListener != null) {
                             ecpmLevel = nativeAd.getECPM();
-                            Log.i(TAG, "原生bid price: " + ecpmLevel);
+                            Log.i(TAG, "bid price: " + ecpmLevel);
                             if (TextUtils.isEmpty(ecpmLevel + "")) {
                                 onC2STokenListener.onC2SBiddingFailed("","ecpmLevel is empty");
                                 return;
@@ -331,20 +323,12 @@ public class KlevinNative extends TPNativeAdapter {
                     int mediaMode = nativeAd.getMediaMode();
                     if (mediaMode == NativeAd.MEDIA_MODE_IMAGE ||
                             mediaMode == NativeAd.MEDIA_MODE_VERTICAL_IMAGE) {
-                        Log.i(TAG, "自渲染素材类型IMAGE onAdLoaded");
+                        Log.i(TAG, " onAdLoaded");
                         downloadAndCallback(mKlevinNativeAd, mNeedDownloadImg);
                     } else if (mediaMode == NativeAd.MEDIA_MODE_VIDEO ||
                             mediaMode == NativeAd.MEDIA_MODE_VERTICAL_VIDEO) {
-                        // 视频广告设置静音
                         nativeAd.setMute(isVideoSoundEnable);
-                        /* 视频自动播放策略
-                         * 服务器下发：0 代表wifi网络下；1，代表总是自动播放。
-                         * AUTO_PLAY_POLICY_WIFI = 0; WiFi下自动播放
-                         * AUTO_PLAY_POLICY_ALWAYS = 1; 视频自动播放策略，总是自动播放，无论什么网络条件
-                         * AUTO_PLAY_POLICY_NEVER = 2; 视频自动播放策略，从不自动播放，无论什么网络条件
-                         * */
                         nativeAd.setAutoPlayPolicy(autoPlayVideo);
-                        // 视频广告设置视频播放监听
                         nativeAd.setVideoAdListener(mVideoAdListener);
                     }
 
@@ -353,11 +337,9 @@ public class KlevinNative extends TPNativeAdapter {
         }
     }
 
-    // 模版
     private final NativeExpressAd.AdInteractionListener mAdInteractionListener = new NativeExpressAd.AdInteractionListener() {
         @Override
         public void onRenderSuccess(View adView, float width, float height) {
-            // 原生模版广告View渲染成功后会回调该方法，之后可把模版View添加在布局中进行显示
             if (!nativeExpressAd.isVideoAd()) {
                 Log.i(TAG, "onRenderSuccess: ");
                 mView = adView;
@@ -405,18 +387,15 @@ public class KlevinNative extends TPNativeAdapter {
         }
     };
 
-    // 自渲染 视频监听
     private final NativeAd.VideoAdListener mVideoAdListener = new NativeAd.VideoAdListener() {
         @Override
         public void onVideoCached(NativeAd nativeAd) {
-            //视频文件下载完成
-            Log.i(TAG, "自渲染素材类型VIDEO onAdLoaded");
+            Log.i(TAG, " onAdLoaded");
             downloadAndCallback(mKlevinNativeAd, mNeedDownloadImg);
         }
 
         @Override
         public void onVideoLoad(NativeAd nativeAd) {
-            //播放器prepare完成
             Log.i(TAG, "onVideoLoad: ");
         }
 
@@ -458,11 +437,9 @@ public class KlevinNative extends TPNativeAdapter {
         }
     };
 
-    // 模版监听回调
     private final NativeExpressAd.VideoAdListener mExpressVideoAdListener = new NativeExpressAd.VideoAdListener() {
         @Override
         public void onVideoCached(View view) {
-            //视频文件下载完成
             Log.i(TAG, "onVideoCached: VIDEO");
             mView = view;
             loadExpressC2SBiddingSuccess(nativeExpressAd, view);
@@ -529,7 +506,7 @@ public class KlevinNative extends TPNativeAdapter {
         if (isC2SBidding) {
             if (onC2STokenListener != null) {
                 ecpmLevel = nativeAd.getECPM();
-                Log.i(TAG, "原生bid price: " + ecpmLevel);
+                Log.i(TAG, "bid price: " + ecpmLevel);
                 if (TextUtils.isEmpty(ecpmLevel + "")) {
                     onC2STokenListener.onC2SBiddingFailed("","ecpmLevel is empty");
                     return;
@@ -547,7 +524,6 @@ public class KlevinNative extends TPNativeAdapter {
 
     @Override
     public void clean() {
-        //在页面销毁时销毁所有的广告对象
         if (mNativeAds != null) {
             for (NativeAd ad : mNativeAds) {
                 ad.destroy();

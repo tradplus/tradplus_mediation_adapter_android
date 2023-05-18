@@ -39,8 +39,6 @@ public class MaioInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-//        appId = "m34feaf3f599ab8cb25a8a840dd4ff2e4";
-//        mPlacementId = "zc25c58a915fc377f96dd881dc1efbc5f";
         maioInterstitialCallbackRouter = MaioInterstitialCallbackRouter.getInstance();
         maioInterstitialCallbackRouter.addListener(mPlacementId, mLoadAdapterListener);
 

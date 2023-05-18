@@ -2,16 +2,6 @@ plugins {
     id 'com.android.library'
 }
 
-repositories{
-    if ((useMaven as int == 0 )) {
-        if (isDev as int == 0) {
-            println("引用 'aar' ")
-            flatDir {
-                dirs project(':flute-sdk').file('aar')
-            }
-        }
-    }
-}
 
 android {
     compileSdkVersion 30
@@ -44,69 +34,13 @@ android {
     }
 }
 
-ext{
-    PROJ_GROUP="com.tradplus.ads.klevin"
-    PROJ_DESCRIPTION="tradplus-klevin"
-    PROJ_ARTIFACTID="tradplus-klevin"//包名
-    PROJ_VERSION=klevin_ads_v
-    PROJ_REPO="tradplus-klevin"
-    PROJ_NAME = "tradplus-klevin"
-    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
-    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
-
-    DEVELOPER_ID=""
-    DEVELOPER_NAME="you accout name"
-    DEVELOPER_EMAIL=""
-}
 
 dependencies {
     compileOnly fileTree(include: ['*.aar'], dir: 'libs')
-//    compileOnly 'com.tencent.klevin:KlevinAdSDK:2.6.2.3'
 
-    if(useMaven as int ==1){
-        compileOnly project(':flute-sdk')
-    }else {
 
-        if(isDev as int == 1){
-
-            compileOnly project(':flute-sdk')
-        }else {
-            println("引用tradplus-sdk-android.aar")
-            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
-        }
-    }
 }
 
-android.libraryVariants.all {
-    variant-> variant.outputs.all{
-        outputFileName = "klevin_ads"+"_${klevin_ads_v}."+'aar'
-    }
-        variant.getAssembleProvider().configure() {
-            it.doLast {
-                variant.outputs.all { output ->
-                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "klevin"].join(File.separator)
-                    copy {
-                        from output.outputFile
-                        into outputPath
-                    }
-                }
-            }
-        }
-}
-
-task moveNetworkaar(type: Copy) {
-
-    println "----------> ARR copy start <-----------"
-    def buildPath = project.files("klevin").from("libs")
-    //AAR所在的编译路径
-    from buildPath
-    //AAR所拷贝的目录
-    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "klevin"].join(File.separator)
-    println "outputPath = " + outputPath
-    into outputPath
-
-    println "----------> ARR copy succeeded <-----------"
-}
 
 
 android {
@@ -114,5 +48,4 @@ android {
         abortOnError false
     }
 }
-//开源gradle
 apply from: '../bintray.gradle'

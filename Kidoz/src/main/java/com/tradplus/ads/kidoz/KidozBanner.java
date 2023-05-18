@@ -48,8 +48,6 @@ public class KidozBanner extends TPBannerAdapter {
         }
 
 
-//        appId = "14452";
-//        appToken = "V44ZTKg086Kc9B48AATufEs98LRcBlZv";
         Activity activity = GlobalTradPlus.getInstance().getActivity();
         if (activity == null) {
             if (mLoadAdapterListener != null) {
@@ -84,7 +82,6 @@ public class KidozBanner extends TPBannerAdapter {
 
     private void requestBanner(Activity activity) {
         kidozBanner = KidozSDK.getKidozBanner(activity);
-//        kidozBanner.setLayoutParams(new RelativeLayout.LayoutParams(DeviceUtils.dip2px(activity, 320), DeviceUtils.dip2px(activity, 50)));
         kidozBanner.setLayoutWithoutShowing();
         kidozBanner.setKidozBannerListener(new KidozBannerListener() {
             @Override

@@ -15,9 +15,6 @@ import com.tradplus.ads.base.util.TradPlusInterstitialConstants;
 
 import java.util.Map;
 
-/**
- * 广告sdk 初始化工具
- */
 public class KuaishouInitManager extends TPInitMediation {
 
     private static final String TAG = "Kuaishou";
@@ -37,7 +34,7 @@ public class KuaishouInitManager extends TPInitMediation {
     public void initSDK(Context context, Map<String, Object> userParams, Map<String, String> tpParams, InitCallback initCallback) {
         boolean openPersonalizedAd = GlobalTradPlus.getInstance().isOpenPersonalizedAd();
         KsAdSDK.setPersonalRecommend(openPersonalizedAd);
-        Log.i("PersonalizeEnable", TAG + " openPersonalizedAd 个性化开关: " + openPersonalizedAd);
+        Log.i("PersonalizeEnable", TAG + " openPersonalizedAd : " + openPersonalizedAd);
 
         if (tpParams != null && tpParams.size() > 0) {
             mAppId = tpParams.get(AppKeyManager.APP_ID);
@@ -61,8 +58,8 @@ public class KuaishouInitManager extends TPInitMediation {
         Log.i(TAG, "mTTCustomController == null ? " + (mKsCustomController == null) + "，privacyUserAgree :" + privacyUserAgree);
 
         KsAdSDK.init(context, new SdkConfig.Builder()
-                .appId(mAppId) // 测试aapId，请联系快手平台申请正式AppId，必填
-                .showNotification(true) // 是否展示下载通知栏
+                .appId(mAppId)
+                .showNotification(true)
                 .debug(TestDeviceUtil.getInstance().isNeedTestDevice())
                 .customController(mKsCustomController == null ? new UserDataObtainController(privacyUserAgree) : getKsCustomController())
                 .setInitCallback(new KsInitCallback() {

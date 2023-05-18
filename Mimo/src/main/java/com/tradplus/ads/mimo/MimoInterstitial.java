@@ -39,10 +39,6 @@ public class MimoInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-//        placementId = "1d576761b7701d436f5a9253e7cf9572"; //横屏
-//        placementId = "9b31b19c061a4db0d5f4f004cf16c92d"; //横屏全屏视频
-//        placementId = "67b05e7cc9533510d4b8d9d4d78d0ae9"; //竖屏
-//        placementId= "ea7b05ddc1a85d3d04ab0231b3b5e4bb";  //竖屏全屏视频
 
         mCallbackRouter = MimoInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(placementId, mLoadAdapterListener);
@@ -70,7 +66,6 @@ public class MimoInterstitial extends TPInterstitialAdapter {
         mInterstitialAd.loadAd(placementId, new InterstitialAd.InterstitialAdLoadListener() {
             @Override
             public void onAdLoadSuccess() {
-                //广告加载（缓存）成功
                 Log.i(TAG, "onAdLoadSuccess: ");
                 if (mCallbackRouter.getListener(placementId) != null) {
                     setNetworkObjectAd(mInterstitialAd);
@@ -80,7 +75,6 @@ public class MimoInterstitial extends TPInterstitialAdapter {
 
             @Override
             public void onAdRequestSuccess() {
-                //广告请求成功
             }
 
             @Override
@@ -142,7 +136,6 @@ public class MimoInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdClosed() {
-            // 点击后 会先调用关闭广告
             Log.i(TAG, "onAdClosed: ");
             if (mCallbackRouter.getShowListener(placementId) != null) {
                 mCallbackRouter.getShowListener(placementId).onAdClosed();
@@ -163,7 +156,6 @@ public class MimoInterstitial extends TPInterstitialAdapter {
         @Override
         public void onVideoStart() {
             Log.i(TAG, "onVideoStart: ");
-            // 插屏图片不会在此回调，所以在onAdShow里调用1300
             if (mCallbackRouter.getShowListener(placementId) != null) {
                 mCallbackRouter.getShowListener(placementId).onAdVideoStart();
             }

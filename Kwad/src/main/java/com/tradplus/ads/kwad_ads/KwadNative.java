@@ -36,9 +36,9 @@ public class KwadNative extends TPNativeAdapter {
 
     private String mPlacementId, mBidResponseV2;
     private KwadNativeAd mKwadNativeAd;
-    private KsFeedAd mKsFeedAd; // 模版
-    private KsNativeAd mKsNativeAd; // 自渲染
-    private KsDrawAd mKsDrawAd; // DrawList
+    private KsFeedAd mKsFeedAd;
+    private KsNativeAd mKsNativeAd;
+    private KsDrawAd mKsDrawAd;
     private String secType;
     private int mIsTemplateRending;
     private static final String TAG = "KwadNative";
@@ -95,7 +95,7 @@ public class KwadNative extends TPNativeAdapter {
 
     private KsScene getKsScene() {
         KsScene.Builder builder = new KsScene.Builder(Long.parseLong(mPlacementId));
-        builder.adNum(3);// 支持返回多条广告，默认1条，最多5条，参数范围1-5
+        builder.adNum(3);
 
         if (!TextUtils.isEmpty(mBidResponseV2)) {
             builder.setBidResponseV2(mBidResponseV2);
@@ -105,16 +105,13 @@ public class KwadNative extends TPNativeAdapter {
 
     private void requestNative() {
         if (secType.equals(AppKeyManager.NATIVE_TYPE_DRAWLIST)) {
-            //draw 信息流
-            Log.i(TAG, "requestDrawAd 信息流: ");
+            Log.i(TAG, "requestDrawAd : ");
             requestDrawAd();
         } else if (mIsTemplateRending == AppKeyManager.TEMPLATE_RENDERING_YES) {
-            // 模版
-            Log.i(TAG, "requestExpress 模版: ");
+            Log.i(TAG, "requestExpress : ");
             requestExpress();
         } else {
-            // 自渲染
-            Log.i(TAG, "request 自渲染: ");
+            Log.i(TAG, "request : ");
             requestAd();
         }
 
@@ -152,7 +149,6 @@ public class KwadNative extends TPNativeAdapter {
             return;
         }
 
-        // 加载模版渲染
         if (ksFeedAd != null) {
             mKwadNativeAd = new KwadNativeAd(context, ksFeedAd);
 
@@ -284,7 +280,6 @@ public class KwadNative extends TPNativeAdapter {
                     });
                 }
 
-//                Log.i(TAG, "requestAd: " + list.size() + ":list data:" + list);
 
                 mKwadNativeAd.setDrawViews(views);
 
@@ -296,9 +291,6 @@ public class KwadNative extends TPNativeAdapter {
         });
     }
 
-    /**
-     * 请求自渲染的广告数据
-     */
     private void requestAd() {
         KsAdSDK.getLoadManager().loadNativeAd(getKsScene(), new KsLoadManager.NativeAdListener() {
             @Override
@@ -322,9 +314,6 @@ public class KwadNative extends TPNativeAdapter {
         });
     }
 
-    /**
-     * 加载自渲染View
-     */
     private void showAd(KsNativeAd ksNativeAd) {
         if (ksNativeAd != null && !secType.equals(AppKeyManager.NATIVE_TYPE_DRAWLIST)) {
 
@@ -456,8 +445,6 @@ public class KwadNative extends TPNativeAdapter {
 
             }
         });
-        // 根据需要传入场景参数，注意：创建KsScene时 posId 可传无效值，在adx服务端拉取快手竞价信息时必须传有效的 posId
-        // 不用等待初始化结果
         return KsAdSDK.getLoadManager().getBidRequestTokenV2(new KsScene.Builder(0).build());
     }
 }

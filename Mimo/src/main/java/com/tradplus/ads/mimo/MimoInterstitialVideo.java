@@ -47,8 +47,6 @@ public class MimoInterstitialVideo extends TPRewardAdapter {
         }
 
 
-//        placementId = "17853953c5adafd100f24cd747edd6b7"; //横屏
-//        placementId = "92d90db71791e6b9f7caaf46e4a997ec"; //竖屏
 
         mCallbackRouter = MimoInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(placementId, mLoadAdapterListener);

@@ -38,8 +38,6 @@ public class MimoSplash extends TPSplashAdapter {
         }
 
 
-//        placementId = "94f4805a2d50ba6e853340f9035fda18"; //横屏
-//        placementId = "b373ee903da0c6fc9c9da202df95a500"; //竖屏
         MimoInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
             @Override
             public void onSuccess() {

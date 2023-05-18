@@ -31,9 +31,6 @@ import static com.tradplus.ads.base.common.TPError.INIT_FAILED;
 import static com.tradplus.ads.base.common.TPError.NETWORK_NO_FILL;
 import static com.tradplus.ads.base.common.TPError.SHOW_FAILED;
 
-/**
- * Created by sainase on 2020-06-16.
- */
 public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewardVideoAd.RewardAdInteractionListener {
 
     private String placementId, userId, customData, mBidResponseV2;
@@ -46,7 +43,7 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
     private boolean canAgain;
     private boolean alwaysRewardUser;
     private boolean alwaysRewardUserAgain;
-    private int onRewardVerify = 0; // 1 表示已经触发过奖励回调
+    private int onRewardVerify = 0;
     private int onRewardVerifyAgain = 0;
 
     @Override
@@ -58,7 +55,6 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
         if (tpParams != null && tpParams.size() > 0) {
             placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             mBidResponseV2 = tpParams.get(DataKeys.BIDDING_PAYLOAD);
-            // 指定自动播放时是否静音: 1 == true 自动播放时静音 ；2 == false 自动播放有声 ，默认值为true。
             String videoMute = tpParams.get(AppKeyManager.VIDEO_MUTE);
             String direct = tpParams.get(AppKeyManager.DIRECTION);
 
@@ -70,7 +66,7 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
 
             if (!TextUtils.isEmpty(videoMute)) {
                 if (videoMute.equals(AppKeyManager.VIDEO_MUTE_YES)) {
-                    isVideoSoundEnable = false; // 如果想播放，传true
+                    isVideoSoundEnable = false;
                 }
             }
             if (!TextUtils.isEmpty(direct)) {
@@ -82,8 +78,6 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
         }
 
         getUseParams(userParams);
-//        appKey = "90010";
-//        placementId ="90009001";
 
         mRouter = KuaishouInterstitialCallbackRouter.getInstance();
         mRouter.addListener(placementId, mLoadAdapterListener);
@@ -135,13 +129,10 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
         }
         if (!TextUtils.isEmpty(userId) || !TextUtils.isEmpty(customData)) {
             Log.i(TAG, "RewardData: userId : " + userId + " , customData : " + customData);
-            // 激励视频服务端回调的参数设置
             Map<String, String> rewardCallbackExtraData = new HashMap<>();
-            // 开发者系统中的⽤户id，会在请求客户的回调url中带上
             if (!TextUtils.isEmpty(userId)) {
                 rewardCallbackExtraData.put("thirdUserId", userId);
             }
-            // 开发者⾃定义的附加参数，会在请求客户的回调url中带上
             if (!TextUtils.isEmpty(customData)) {
                 rewardCallbackExtraData.put("extraData", customData);
             }
@@ -168,7 +159,6 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
 
             @Override
             public void onRewardVideoResult(List<KsRewardVideoAd> list) {
-                //广告请求填充个数
                 Log.i(TAG, "onRequestResult: ");
             }
 
@@ -225,7 +215,6 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
                     Log.i(TAG, "onPageDismiss: ");
                     if (mRouter.getShowListener(placementId) != null) {
                         if (onRewardVerifyAgain == 0 && alwaysRewardUserAgain) {
-                            // 奖励回调未触发 同时设置一直回调
                             mRouter.getShowListener(placementId).onReward();
                         }
                         mRouter.getShowListener(placementId).onAdClosed();
@@ -271,7 +260,6 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
 
                 @Override
                 public void onRewardStepVerify(int taskType, int currentTaskStatus) {
-                    Log.i(TAG, "onRewardStepVerify: 视频激励分阶段回调, taskType:" + taskType + ",currentTaskStatus:" + currentTaskStatus);
                     onRewardVerifyAgain = 1;
                     if (mRouter.getShowListener(placementId) != null) {
                         Map<String, Object> mHashMap = new HashMap<>();
@@ -296,11 +284,10 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
     private KsVideoPlayConfig videoPlayConfig(Activity activity) {
         KsVideoPlayConfig.Builder builder = new KsVideoPlayConfig.Builder();
         if (direction == 1 || direction == 2) {
-            builder.showLandscape(direction == 2); //2是横屏、1是竖屏
+            builder.showLandscape(direction == 2);
         } else {
-            //自适应横竖屏
             int ori = activity.getResources().getConfiguration().orientation;
-            builder.showLandscape(ori == ORIENTATION_LANDSCAPE); // 横屏播放 else 竖屏播放
+            builder.showLandscape(ori == ORIENTATION_LANDSCAPE);
         }
 
         Log.i(TAG, "videoSoundEnable: " + isVideoSoundEnable);
@@ -357,8 +344,6 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
 
             }
         });
-        // 根据需要传入场景参数，注意：创建KsScene时 posId 可传无效值，在adx服务端拉取快手竞价信息时必须传有效的 posId
-        // 不用等待初始化结果
         return KsAdSDK.getLoadManager().getBidRequestTokenV2(new KsScene.Builder(0).build());
     }
 
@@ -376,7 +361,6 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
         if (mRouter.getShowListener(placementId) == null) return;
         Log.i(TAG, "onPageDismiss: ");
         if (onRewardVerify == 0 && alwaysRewardUser) {
-            // 奖励回调未触发 同时设置一直回调
             mRouter.getShowListener(placementId).onReward();
         }
         mRouter.getShowListener(placementId).onAdClosed();
@@ -423,18 +407,9 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
 
     }
 
-    /**
-     * 视频激励分阶段回调（激励⼴告新玩法，相关政策请联系商务或技术⽀持）
-     *
-     * @param taskType          当前激励视频所属任务类型
-     *                          RewardTaskType.LOOK_VIDEO 观看视频类型 属于浅度奖励类型
-     *                          RewardTaskType.LOOK_LANDING_PAGE 浏览落地⻚N秒类型 属于深度奖励类型
-     *                          RewardTaskType.USE_APP 下载使⽤App N秒类型 属于深度奖励类型
-     * @param currentTaskStatus 当前所完成任务类型，@RewardTaskType中之⼀
-     */
+
     @Override
     public void onRewardStepVerify(int taskType, int currentTaskStatus) {
-        Log.i(TAG, "onRewardStepVerify: 视频激励分阶段回调, taskType:" + taskType + ",currentTaskStatus:" + currentTaskStatus);
         onRewardVerify = 1;
         if (mRouter.getShowListener(placementId) != null) {
             Map<String, Object> mHashMap = new HashMap<>();
@@ -444,12 +419,7 @@ public class KuaishouInterstitialVideo extends TPRewardAdapter implements KsRewa
         }
     }
 
-    /**
-     * 额外奖励的回调，在触发激励视频的额外奖励的时候进⾏通知
-     * AD_3.3.25 新增
-     *
-     * @param extraRewardType 额外奖励的类型，定义在 KsExtraRewardType 中
-     */
+
     @Override
     public void onExtraRewardVerify(int extraRewardType) {
 

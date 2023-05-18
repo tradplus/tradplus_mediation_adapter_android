@@ -65,11 +65,9 @@ public class MintegralInitManager extends TPInitMediation {
             @Override
             public void onInitSuccess() {
                 Log.i(TAG, "onInitSuccess: ");
-                // Note 跟我们定义相反
-                // 如果设置为 TRUE，服务器将不会显示基于用户个人信息的个性化广告。
                 boolean openPersonalizedAd = GlobalTradPlus.getInstance().isOpenPersonalizedAd();
                 mIntegralSDK.setDoNotTrackStatus(!openPersonalizedAd);
-                Log.i("PersonalizeEnable", TAG + " openPersonalizedAd 个性化开关: " + !openPersonalizedAd);
+                Log.i("PersonalizeEnable", TAG + " openPersonalizedAd : " + !openPersonalizedAd);
                 sendResult(mAppKey + mAppId, true);
             }
 

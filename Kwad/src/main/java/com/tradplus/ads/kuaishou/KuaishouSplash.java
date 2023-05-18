@@ -27,15 +27,12 @@ import static com.tradplus.ads.base.common.TPError.INIT_FAILED;
 import static com.tradplus.ads.base.common.TPError.NETWORK_NO_FILL;
 import static com.tradplus.ads.base.common.TPError.SHOW_FAILED;
 
-/**
- * Created by sainase on 2020-07-14.
- */
 public class KuaishouSplash extends TPSplashAdapter {
 
     private String placementId, mBidResponseV2;
     private KsSplashScreenAd mKsSplashScreenAd;
     private int onAdClosed = 0 ;
-    private boolean mShakable = true; // 默认开启摇一摇
+    private boolean mShakable = true;
     private static final String TAG = "KuaishouSplash";
 
     @Override
@@ -54,7 +51,6 @@ public class KuaishouSplash extends TPSplashAdapter {
 
         if (userParams.containsKey(KuaishouConstant.SHAKABLE)) {
             mShakable = (boolean) userParams.get(KuaishouConstant.SHAKABLE);
-            Log.i(TAG, "是否关闭摇一摇: " + mShakable);
         }
 
         KuaishouInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
@@ -165,8 +161,6 @@ public class KuaishouSplash extends TPSplashAdapter {
 
                 @Override
                 public void onAdShowEnd() {
-                    //Skip和onAdShowEnd互不回调
-                    //最后一秒点击跳过，两个都会回调
                     Log.i(TAG, "Kuaishou Splash ad onAdShowEnd");
                     if (mShowListener != null && onAdClosed == 0) {
                         onAdClosed = 1;
@@ -183,7 +177,6 @@ public class KuaishouSplash extends TPSplashAdapter {
 
                 @Override
                 public void onSkippedAd() {
-                    //Skip和onAdShowEnd互不回调
                     Log.i(TAG, "Kuaishou Splash ad onSkippedAd");
                     if (mShowListener != null && onAdClosed == 0) {
                         onAdClosed = 1;
@@ -207,17 +200,6 @@ public class KuaishouSplash extends TPSplashAdapter {
                 }
             });
 
-//            // 快手需要刷新context，否则有预加载的情况下，之前保存的context对应的activity已经finish，需要用新的activity
-//            if(contextWeakReference.get() == null|| ((FragmentActivity)contextWeakReference.get()).isFinishing()) {
-//                Context context = GlobalTradPlus.getInstance().getActivity();
-//                contextWeakReference = new WeakReference<>(context);
-//            }
-//
-//            if (mAdContainerView != null && frameLayout != null) {
-//                ((FragmentActivity) contextWeakReference.get()).getSupportFragmentManager().beginTransaction().
-//                        replace(mAdContainerView.getId(), frameLayout).commitAllowingStateLoss();
-//
-//            }
             if (mAdContainerView != null) {
                 mAdContainerView.removeAllViews();
                 mAdContainerView.addView(frameLayout);
@@ -239,7 +221,6 @@ public class KuaishouSplash extends TPSplashAdapter {
 
             }
         });
-        // 不用等待初始化结果
         return KsAdSDK.getLoadManager().getBidRequestTokenV2(new KsScene.Builder(0).build());
     }
 

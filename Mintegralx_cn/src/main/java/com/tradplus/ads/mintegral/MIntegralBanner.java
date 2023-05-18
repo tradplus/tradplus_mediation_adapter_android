@@ -81,7 +81,6 @@ public class MIntegralBanner extends TPBannerAdapter {
 
     private void requestBanner(Context context) {
         mtgBannerView = new MBBannerView(context);
-        //bannerSize 5 自定义宽高
         mBannerSize = new BannerSize(5, mAdWidth, mAdHeight);
         mtgBannerView.init(mBannerSize, mPlacementId, mUnitId);
         mtgBannerView.setRefreshTime(0);
@@ -193,7 +192,6 @@ public class MIntegralBanner extends TPBannerAdapter {
                     public void onSuccess() {
                         String token = BidManager.getBuyerUid(context);
                         if (!finalInitSuccess) {
-                            // 第一次初始化 250
                             MintegralInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                         }
 

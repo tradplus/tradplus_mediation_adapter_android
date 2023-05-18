@@ -70,9 +70,6 @@ public class IronSourceInitManager extends TPInitMediation {
             if (userParams.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean cppa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
                 Log.i("privacylaws", "suportGDPR ccpa: " + cppa);
-                // note : 跟我们定义是反的
-                // If the user has opted out of “sale” of personal information: "true"   用户拒绝,不上传信息,传true
-                // If “sale” of personal information is permitted:"false"  用户同意,上传信息,传false
                 IronSource.setMetaData("do_not_sell", cppa ? "false" : "true");
             }
 

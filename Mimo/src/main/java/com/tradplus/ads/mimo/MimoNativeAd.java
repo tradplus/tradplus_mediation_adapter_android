@@ -25,17 +25,16 @@ import java.util.List;
 public class MimoNativeAd extends TPBaseAd {
 
     private int mIsRender;
-    private NativeAd mNativeAd; //自渲染
-    private TemplateAd mTemplateAd; //模版
+    private NativeAd mNativeAd;
+    private TemplateAd mTemplateAd;
     private FrameLayout mFrameLayout;
     private TPNativeAdView mTPNativeAdView;
-    private FeedAd mFeedAd; // 模版 原生视频
+    private FeedAd mFeedAd;
     private Activity mActivity;
     private boolean isAdShown = true;
     public static final String TAG = "MimoNative";
 
     public MimoNativeAd(FeedAd feedAd, Activity activity, int isRender) {
-        //模版视频
         mFeedAd = feedAd;
         mActivity = activity;
         mIsRender = isRender;
@@ -51,14 +50,12 @@ public class MimoNativeAd extends TPBaseAd {
     }
 
     public MimoNativeAd(NativeAd nativeAd, NativeAdData nativeAdData, int isRender) {
-        // 自渲染
         mNativeAd = nativeAd;
         mIsRender = isRender;
         initNative(nativeAdData);
     }
 
     public MimoNativeAd(TemplateAd templateAd, Context context, int isRender) {
-        // 模版 图片
         mTemplateAd = templateAd;
         mFrameLayout = new FrameLayout(context);
         mIsRender = isRender;
@@ -86,7 +83,7 @@ public class MimoNativeAd extends TPBaseAd {
             mTPNativeAdView.setIconImageUrl(nativeAdData.getIconUrl());
         }
 
-        if (nativeAdData.getAdMark() != null) { //广告标识
+        if (nativeAdData.getAdMark() != null) {
             Log.i(TAG, "initNative: " + nativeAdData.getAdMark());
             mTPNativeAdView.setAdChoiceUrl(nativeAdData.getAdMark());
         }
@@ -112,7 +109,6 @@ public class MimoNativeAd extends TPBaseAd {
     private boolean getVideoStyle(NativeAdData nativeAdData) {
         int style = nativeAdData.getAdStyle();
         Log.i(TAG, "AdStyle: " + style);
-        // 视频 || 图片+视频混出
         if (style == NativeAdData.AD_STYLE_VIDEO || style == NativeAdData.AD_STYLE_IMAGE_AND_VIDEO) {
             return nativeAdData.getVideoUrl() != null && !TextUtils.isEmpty(nativeAdData.getVideoUrl());
         }
@@ -135,12 +131,9 @@ public class MimoNativeAd extends TPBaseAd {
         return super.getDownloadImgUrls();
     }
 
-    // 模版监听
     private final TemplateAd.TemplateAdInteractionListener mTemplateAdInteractionListener = new TemplateAd.TemplateAdInteractionListener() {
         @Override
         public void onAdShow() {
-            // 因为mimo loaded后会立马调用onAdShow，TP端showlistener此时还没有生成
-            // 就一直不回有1300回调，只能做延迟处理。
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -207,7 +200,6 @@ public class MimoNativeAd extends TPBaseAd {
                     @Override
                     public void onAdShow() {
                         if (isAdShown) {
-                            // Mimo BUG 会多次回调onAdShow
                             Log.i(TAG, "onAdShow: ");
                             if (mShowListener != null) {
                                 mShowListener.onAdShown();
@@ -293,9 +285,9 @@ public class MimoNativeAd extends TPBaseAd {
     @Override
     public int getNativeAdType() {
         if (mIsRender == TPBaseAd.AD_TYPE_NORMAL_NATIVE) {
-            return AD_TYPE_NORMAL_NATIVE; //自渲染 ，下发isRender == 2
+            return AD_TYPE_NORMAL_NATIVE;
         } else {
-            return AD_TYPE_NATIVE_EXPRESS; //模版
+            return AD_TYPE_NATIVE_EXPRESS;
         }
     }
 
@@ -316,23 +308,5 @@ public class MimoNativeAd extends TPBaseAd {
 
     @Override
     public void clean() {
-//        if (mNativeAd != null) {
-//            mNativeAd.destroy();
-//            mNativeAd = null;
-//        }
-//
-//        if (mTemplateAd != null) {
-//            mTemplateAd.destroy();
-//            mTemplateAd = null;
-//        }
-//
-//        if (mFeedAd != null) {
-//            mFeedAd.destroy();
-//            mFeedAd = null;
-//        }
-//
-//        if (mFrameLayout != null) {
-//            mFrameLayout.removeAllViews();
-//        }
     }
 }

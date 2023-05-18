@@ -42,8 +42,6 @@ public class InmobiInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-//         mAccountId = "6d2e43a4d0694d8990f382629eeebe42";
-//         mPlacementId = "1604818679996";
 
         mInmobICbR = InmobiInterstitialCallbackRouter.getInstance();
         mInmobICbR.addListener(mPlacementId, mLoadAdapterListener);

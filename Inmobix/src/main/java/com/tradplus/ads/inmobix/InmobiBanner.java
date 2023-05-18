@@ -27,11 +27,6 @@ import static com.tradplus.ads.base.common.TPError.ADAPTER_CONFIGURATION_ERROR;
 import static com.tradplus.ads.base.common.TPError.INIT_FAILED;
 import static com.tradplus.ads.base.common.TPError.UNSPECIFIED;
 
-/*
- * Modified: 19 October, 2020
- * SDK Version: 9.1.1
- * Banner支持 320 * 50 ，三方自动刷新功能Closed，动画设置Closed
- */
 public class InmobiBanner extends TPBannerAdapter {
 
     private String mPlacementId;
@@ -46,16 +41,12 @@ public class InmobiBanner extends TPBannerAdapter {
 
         if (tpParams != null && tpParams.size() > 0) {
             mPlacementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
-            // 服务器下发
             setAdHeightAndWidthByService(mPlacementId, tpParams);
         } else {
             mLoadAdapterListener.loadAdapterLoadFailed(new TPError(ADAPTER_CONFIGURATION_ERROR));
             return;
         }
-        // 服务器未下发时宽高
         setDefaultAdSize(320, 50);
-//        mAccountId = "6d2e43a4d0694d8990f382629eeebe42";
-//        mPlacementId = "1602852101675";
 
         InmobiInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
             @Override
@@ -91,7 +82,7 @@ public class InmobiBanner extends TPBannerAdapter {
     }
 
     private BannerAdEventListener bannerAdEventListener = new BannerAdEventListener() {
-        /** 不回调
+        /**
          * Called to notify that the banner ad was displayed
          * @param inMobiBanner Represents the {@link InMobiBanner} ad which was displayed
          */
@@ -106,9 +97,6 @@ public class InmobiBanner extends TPBannerAdapter {
         public void onAdDismissed(InMobiBanner inMobiBanner) {
             super.onAdDismissed(inMobiBanner);
             Log.i(TAG, "onAdDismissed: ");
-            // 点击跳转会导致广告关闭
-//                if (tpBannerAd != null)
-//                    tpBannerAd.adClosed();
         }
 
         @Override
@@ -118,7 +106,7 @@ public class InmobiBanner extends TPBannerAdapter {
 
         }
 
-        /** 加载成功但是还没有展示
+        /**
          * Called to notify that an ad was received successfully but is not ready to be displayed yet.
          *
          * @param inMobiBanner Represents the ad which was loaded or preloaded
@@ -193,7 +181,6 @@ public class InmobiBanner extends TPBannerAdapter {
         bannerAd = new InMobiBanner(context, pid);
         //Close AutoRefresh
         bannerAd.setEnableAutoRefresh(false);
-        //关闭动画设置
         bannerAd.setAnimationType(InMobiBanner.AnimationType.ANIMATION_OFF);
         bannerAd.setListener(bannerAdEventListener);
         bannerAd.setBannerSize(mAdWidth, mAdHeight);
@@ -243,7 +230,6 @@ public class InmobiBanner extends TPBannerAdapter {
     public void requestBid(final Context context, Map<String, Object> userParams, Map<String, String> tpParams, final OnC2STokenListener onC2STokenListener) {
         if (tpParams != null && tpParams.size() > 0) {
             mPlacementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
-            // 服务器下发
             setAdHeightAndWidthByService(mPlacementId, tpParams);
         }
 
@@ -265,7 +251,6 @@ public class InmobiBanner extends TPBannerAdapter {
                 bannerAd = new InMobiBanner(context, finalPid);
                 //Close AutoRefresh
                 bannerAd.setEnableAutoRefresh(false);
-                //关闭动画设置
                 bannerAd.setAnimationType(InMobiBanner.AnimationType.ANIMATION_OFF);
                 Log.i(TAG, "mAdWidth: " + mAdWidth + ",mAdHeight：" + mAdHeight);
                 bannerAd.setBannerSize(mAdWidth, mAdHeight);

@@ -1,8 +1,5 @@
 package com.tradplus.ads.kuaishou;
 
-/**
- * Created by sainase on 2020-06-16.
- */
 public class KuaishouPidReward {
 
     private String currency;

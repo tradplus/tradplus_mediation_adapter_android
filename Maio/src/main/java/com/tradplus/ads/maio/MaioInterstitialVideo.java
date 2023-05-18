@@ -44,10 +44,6 @@ public class MaioInterstitialVideo extends TPRewardAdapter {
         if (!TextUtils.isEmpty(serverExtras.get(AppKeyManager.ALWAYS_REWARD))) {
             alwaysReward =  (Integer.parseInt(serverExtras.get(AppKeyManager.ALWAYS_REWARD)) == AppKeyManager.ENFORCE_REWARD);
         }
-//        appId = "m365efed61ea596e098cf332f2229d18d";
-//        mPlacementId = "zd5f64c708da06628cee107147766be3f";
-//        mCurrencyName = "测试";
-//        mAmount="100";
 
         maioInterstitialCallbackRouter = MaioInterstitialCallbackRouter.getInstance();
         maioInterstitialCallbackRouter.addListener(mPlacementId, mLoadAdapterListener);

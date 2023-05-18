@@ -56,8 +56,6 @@ public class InmobiNative extends TPNativeAdapter {
             }
         }
 
-//        mAccountId = "6d2e43a4d0694d8990f382629eeebe42";
-//        mPlacementId = "1604506512084";
         this.mContext = context;
         InmobiInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
             @Override
@@ -144,7 +142,6 @@ public class InmobiNative extends TPNativeAdapter {
         public void onAdLoadSucceeded(InMobiNative inMobiNative, AdMetaInfo adMetaInfo) {
             super.onAdLoadSucceeded(inMobiNative, adMetaInfo);
 
-            //判断广告是否准备好展示
             mInmobiNativeAd = new InmobiNativeAd(mContext, inMobiNative);
 
             if (inMobiNative.isReady()) {

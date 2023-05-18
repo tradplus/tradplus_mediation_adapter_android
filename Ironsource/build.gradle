@@ -1,20 +1,5 @@
 apply plugin: 'com.android.library'
 
-ext {
-    PROJ_GROUP = "com.tradplus.ads.ironsource"
-    PROJ_DESCRIPTION = "tradplus-ironsource"
-    PROJ_ARTIFACTID = "tradplus-ironsource"//包名
-    PROJ_VERSION = ironsource_ads_v
-    PROJ_REPO = "tradplus-ironsource"
-    PROJ_NAME = "tradplus-ironsource"
-    PROJ_VCSURL = "https://github.com/tradplus.keystore/sdk.git"
-    PROJ_WEBSITEURL = "https://github.com/tradplus.keystore/sdk"
-
-    DEVELOPER_ID = ""
-    DEVELOPER_NAME = "you accout name"
-    DEVELOPER_EMAIL = ""
-}
-
 android {
     compileSdkVersion 30
 
@@ -47,85 +32,23 @@ repositories {
     mavenCentral()
     jcenter()
     google()
-    if ((useMaven as int == 0)) {
-        if (isDev as int == 0) {
-            println("引用 'aar' ")
-            flatDir {
-                dirs project(':flute-sdk').file('aar')
-            }
-        }
-    }
+
     maven { url 'https://android-sdk.is.com/' }
 }
 
 
 dependencies {
-//    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     compileOnly "com.ironsource.sdk:mediationsdk:${ironsource_version}"
     compileOnly 'com.google.android.gms:play-services-appset:16.0.0'
 
-    if(isAndroidSupport as int == 0){
-        compileOnly 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-        compileOnly 'com.google.android.gms:play-services-basement:17.3.0'
-    }else{
-        compileOnly 'com.google.android.gms:play-services-ads-identifier:16.0.0'
-        compileOnly 'com.google.android.gms:play-services-basement:16.0.0'
-    }
-
-
-
-    if (useMaven as int == 1) {
-        compileOnly project(':flute-sdk')
-    } else {
-
-        if (isDev as int == 1) {
-
-            compileOnly project(':flute-sdk')
-        } else {
-            println("引用tradplus-sdk-android.aar")
-            compileOnly(name: 'tradplus-sdk-android', ext: 'aar')
-        }
-    }
 }
 
-android.libraryVariants.all {
-    variant ->
-        variant.outputs.all {
-            outputFileName = "ironsource_ads" + "_${ironsource_ads_v}." + 'aar'
-        }
-        variant.getAssembleProvider().configure() {
-            it.doLast {
-                variant.outputs.all { output ->
-                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "ironsource"].join(File.separator)
-                    copy {
-                        from output.outputFile
-                        into outputPath
-                    }
-                }
-            }
-        }
-}
-
-task moveNetworkaar(type: Copy) {
-
-    println "----------> ARR copy start <-----------"
-    def buildPath = project.files("ironsource_ads").from("network_libs")
-    //AAR所在的编译路径
-    from buildPath
-    //AAR所拷贝的目录
-    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "ironsource"].join(File.separator)
-    println "outputPath = " + outputPath
-    into outputPath
-
-    println "----------> ARR copy succeeded <-----------"
-}
 
 android {
     lintOptions {
         abortOnError false
     }
 }
-//开源gradle
 apply from: '../bintray.gradle'
 

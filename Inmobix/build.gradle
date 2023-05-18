@@ -5,31 +5,10 @@ repositories {
     mavenCentral()
     jcenter()
     google()
-     if ((useMaven as int == 0 )) {
-        if (isDev as int == 0) {
-            println("引用 'aar' ")
-            flatDir {
-                dirs project(':flute-sdk').file('aar')
-            }
-        }
-    }
+
 
 }
 
-ext{
-    PROJ_GROUP="com.tradplus.ads.inmobix"
-    PROJ_DESCRIPTION="tradplus-inmobix"
-    PROJ_ARTIFACTID="tradplus-inmobix"//包名
-    PROJ_VERSION=inmobix_ads_v
-    PROJ_REPO="tradplus-inmobix"
-    PROJ_NAME = "tradplus-inmobix"
-    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
-    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
-
-    DEVELOPER_ID=""
-    DEVELOPER_NAME="you accout name"
-    DEVELOPER_EMAIL=""
-}
 
 android {
     compileSdkVersion 30
@@ -61,56 +40,12 @@ dependencies {
     compileOnly "com.inmobi.monetization:inmobi-ads:${inmobi_version}"
     compileOnly 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     compileOnly 'com.google.android.gms:play-services-location:17.0.0'//optional dependency for better targeting
-    //noinspection GradleCompatible
-//    compileOnly 'com.android.support:customtabs:28.0.0'
     compileOnly 'androidx.browser:browser:1.0.0'
     compileOnly 'androidx.appcompat:appcompat:1.0.0'
     compileOnly 'androidx.recyclerview:recyclerview:1.0.0'
 
-    if(useMaven as int ==1){
-        compileOnly project(':flute-sdk')
-    }else {
-         
-        if(isDev as int == 1){
-              
-            compileOnly project(':flute-sdk')
-        }else {
-            println("引用tradplus-sdk-android.aar")
-            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
-        }
-    }
 }
 
-android.libraryVariants.all {
-    variant-> variant.outputs.all{
-        outputFileName = "inmobix_ads"+"_${inmobix_ads_v}."+'aar'
-    }
-        variant.getAssembleProvider().configure() {
-            it.doLast {
-                variant.outputs.all { output ->
-                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "inmobi"].join(File.separator)
-                    copy {
-                        from output.outputFile
-                        into outputPath
-                    }
-                }
-            }
-        }
-}
-
-task moveNetworkaar(type: Copy) {
-
-    println "----------> ARR copy start <-----------"
-    def buildPath = project.files("inmobix_ads").from("network_libs")
-    //AAR所在的编译路径
-    from buildPath
-    //AAR所拷贝的目录
-    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "inmobi"].join(File.separator)
-    println "outputPath = " + outputPath
-    into outputPath
-
-    println "----------> ARR copy succeeded <-----------"
-}
 
 
 android {
@@ -119,5 +54,4 @@ android {
     }
 }
 
-//开源gradle
 apply from: '../bintray.gradle'

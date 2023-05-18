@@ -52,12 +52,11 @@ public class MimoInitManager extends TPInitMediation {
                 sendResult(customAs, false,code+ "" ,msg);
             }
         });
-        // 新版本设置Debug必须在MimoSdk后调用 MimoSdk & GlobalHolder must init before using
-        MimoSdk.setDebugOn(TestDeviceUtil.getInstance().isNeedTestDevice()); //打开调试，输出调试信息
-        MimoSdk.setStagingOn(TestDeviceUtil.getInstance().isNeedTestDevice());//打开请求小米测试服务器
+        MimoSdk.setDebugOn(TestDeviceUtil.getInstance().isNeedTestDevice());
+        MimoSdk.setStagingOn(TestDeviceUtil.getInstance().isNeedTestDevice());
         boolean openPersonalizedAd = GlobalTradPlus.getInstance().isOpenPersonalizedAd();
-        MimoSdk.setPersonalizedAdEnabled(openPersonalizedAd); // 个性化广告，可以在任意位置设置
-        Log.i("PersonalizeEnable",  TAG + " openPersonalizedAd 个性化开关: " + openPersonalizedAd);
+        MimoSdk.setPersonalizedAdEnabled(openPersonalizedAd);
+        Log.i("PersonalizeEnable",  TAG + " openPersonalizedAd : " + openPersonalizedAd);
 
     }
 

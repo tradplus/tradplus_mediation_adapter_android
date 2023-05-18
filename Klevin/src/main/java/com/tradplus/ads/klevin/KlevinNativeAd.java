@@ -23,9 +23,9 @@ import java.util.List;
 
 public class KlevinNativeAd extends TPBaseAd {
 
-    private NativeAd mNativeAd; // 自渲染
-    private NativeExpressAd mNativeExpressAd; // 模版
-    private View mView;// 模版
+    private NativeAd mNativeAd;
+    private NativeExpressAd mNativeExpressAd;
+    private View mView;
     private TPNativeAdView mTPNativeAdView;
     private int isRender;
     public static final String TAG = "KlevinNative";
@@ -42,7 +42,7 @@ public class KlevinNativeAd extends TPBaseAd {
     }
 
     private void initNativeAd(NativeAd nativeAd) {
-        mTPNativeAdView = setMiitInfo(nativeAd); //合规五要素
+        mTPNativeAdView = setMiitInfo(nativeAd);
 
         Bitmap adLogo = nativeAd.getAdLogo();
         if (adLogo != null) {
@@ -68,7 +68,6 @@ public class KlevinNativeAd extends TPBaseAd {
 
         String downloadButtonLabel = nativeAd.getDownloadButtonLabel();
         if (!TextUtils.isEmpty(downloadButtonLabel)) {
-            //下载按钮的相关文案
             mTPNativeAdView.setCallToAction(downloadButtonLabel);
         }
 
@@ -79,8 +78,6 @@ public class KlevinNativeAd extends TPBaseAd {
 
         View adView = nativeAd.getAdView();
         if (adView != null) {
-            //通过getAdView()方法返回的广告组件得到有效曝光后会回调该方法，可用于判断广告组件是否正确被曝光
-            //广告内容的可视性组件，如图片展示或视频播放，可直接加入到布局中
             mTPNativeAdView.setMediaView(adView);
         }
     }
@@ -89,12 +86,12 @@ public class KlevinNativeAd extends TPBaseAd {
         TPNativeAdView nativeAdView = new TPNativeAdView();
         ComplianceInfo complianceInfo = nativeData.getComplianceInfo();
         if (complianceInfo != null) {
-            nativeAdView.setAppName(complianceInfo.getDeveloperName()); // 目标app的版本
-            nativeAdView.setAuthorName(complianceInfo.getDeveloperName()); // 开发公司
-            nativeAdView.setLastUpdateTime(complianceInfo.getLastUpdateTime());// 最新更新时间
-            nativeAdView.setPermissionsUrl(complianceInfo.getPrivacyUrl()); // 隐私协议url
-            nativeAdView.setPrivacyAgreement(complianceInfo.getPermissionUrl()); // 权限说明url
-            nativeAdView.setVersionName(complianceInfo.getAppVersion()); // 目标app的版本
+            nativeAdView.setAppName(complianceInfo.getDeveloperName());
+            nativeAdView.setAuthorName(complianceInfo.getDeveloperName());
+            nativeAdView.setLastUpdateTime(complianceInfo.getLastUpdateTime());
+            nativeAdView.setPermissionsUrl(complianceInfo.getPrivacyUrl());
+            nativeAdView.setPrivacyAgreement(complianceInfo.getPermissionUrl());
+            nativeAdView.setVersionName(complianceInfo.getAppVersion());
         }
 
         return nativeAdView;
@@ -119,7 +116,6 @@ public class KlevinNativeAd extends TPBaseAd {
 
     @Override
     public void registerClickView(ViewGroup viewGroup, ArrayList<View> clickViews) {
-        // 注册广告点击事件，涉及广告计费，必须调用！而且不能再给注册的view设置OnClickListener
         if (mNativeAd == null) return;
         mNativeAd.registerAdInteractionViews(viewGroup, clickViews, new NativeAd.AdInteractionListener() {
             @Override
@@ -206,9 +202,9 @@ public class KlevinNativeAd extends TPBaseAd {
     @Override
     public int getNativeAdType() {
         if (isRender == AD_TYPE_NORMAL_NATIVE) {
-            return AD_TYPE_NORMAL_NATIVE; //自渲染
+            return AD_TYPE_NORMAL_NATIVE;
         } else {
-            return AD_TYPE_NATIVE_EXPRESS; //模版
+            return AD_TYPE_NATIVE_EXPRESS;
         }
     }
 

@@ -52,8 +52,6 @@ public class KidozAdsInterstitialVideo extends TPRewardAdapter {
             return;
         }
 
-//        appId = "14452";
-//        appToken = "V44ZTKg086Kc9B48AATufEs98LRcBlZv";
 
         mKidozICaR = KidozInterstitialCallbackRouter.getInstance();
         mKidozICaR.addListener(placementId, mLoadAdapterListener);
@@ -179,7 +177,6 @@ public class KidozAdsInterstitialVideo extends TPRewardAdapter {
             mKidozInterstitial = null;
         }
 
-        // 由于三方在奖励回来之前回调Closed，TP内部收到closed后调用clean()，会导致1500无法打印
         if (placementId != null)
             mKidozICaR.removeListeners(placementId);
     }

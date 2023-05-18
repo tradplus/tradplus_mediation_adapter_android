@@ -58,7 +58,6 @@ public class KlevinInterstitial extends TPInterstitialAdapter {
         }
 
 
-//        mPostId = 30032;
 
         mCallbackRouter = KlevinInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(placementId, mLoadAdapterListener);
@@ -99,12 +98,11 @@ public class KlevinInterstitial extends TPInterstitialAdapter {
 
         InterstitialAdRequest.Builder interstitialBuilder = new InterstitialAdRequest.Builder();
         interstitialBuilder.setAdCount(1)
-                .setPosId(mPostId); //【必须】插屏广告位id
+                .setPosId(mPostId);
 
-        InterstitialAd.load(interstitialBuilder.build(), new InterstitialAd.InterstitialAdLoadListener() { //插屏广告加载回调
+        InterstitialAd.load(interstitialBuilder.build(), new InterstitialAd.InterstitialAdLoadListener() {
             @Override
             public void onAdLoadError(int err, String msg) {
-                //加载失败，err是错误码，msg是描述信息
                 Log.i(TAG, "ad load err: " + err + " " + msg);
 
                 if (isC2SBidding) {
@@ -121,14 +119,13 @@ public class KlevinInterstitial extends TPInterstitialAdapter {
             }
 
             public void onAdLoaded(InterstitialAd ad) {
-                //加载成功，参数ad为插屏广告实例
                 Log.i(TAG, "interstitial ad loaded");
                 mInterstitialAd = ad;
 
                 if (isC2SBidding) {
                     if (onC2STokenListener != null) {
                         ecpmLevel = mInterstitialAd.getECPM();
-                        Log.i(TAG, "插屏 bid price: " + ecpmLevel);
+                        Log.i(TAG, " bid price: " + ecpmLevel);
                         if (TextUtils.isEmpty(ecpmLevel +"")) {
                             onC2STokenListener.onC2SBiddingFailed("","ecpmLevel is empty");
                             return;
@@ -154,29 +151,26 @@ public class KlevinInterstitial extends TPInterstitialAdapter {
         }
 
         if (mInterstitialAd != null && mInterstitialAd.isValid()) {
-            //isValid接口2.1以上版本支持, 2.1以下移除调用。
-            //设置插屏广告展示回调
             mInterstitialAd.setListener(new InterstitialAd.InterstitialAdListener() {
-                public void onAdShow() { //广告曝光回调
+                public void onAdShow() {
                     Log.i(TAG, "onAdShow");
                     if (mCallbackRouter.getShowListener(placementId) != null)
                         mCallbackRouter.getShowListener(placementId).onAdShown();
                 }
 
-                public void onAdClick() { //广告点击回调
+                public void onAdClick() {
                     Log.i(TAG, "onAdClick");
                     if (mCallbackRouter.getShowListener(placementId) != null)
                         mCallbackRouter.getShowListener(placementId).onAdVideoClicked();
                 }
 
-                public void onAdClosed() { //广告关闭回调
+                public void onAdClosed() {
                     Log.i(TAG, "onAdClosed");
                     if (mCallbackRouter.getShowListener(placementId) != null)
                         mCallbackRouter.getShowListener(placementId).onAdClosed();
                 }
 
                 public void onAdError(int err, String msg) {
-                    //广告展示失败回调
                     Log.i(TAG, "onAdError err: " + err + " " + msg);
                     if (mCallbackRouter.getShowListener(placementId) != null)
                         mCallbackRouter.getShowListener(placementId)
@@ -192,7 +186,7 @@ public class KlevinInterstitial extends TPInterstitialAdapter {
                 Log.i(TAG, "sendWinNotificationWithPrice: " +ecpmLevel);
                 mInterstitialAd.sendWinNotificationWithPrice(ecpmLevel);
             }
-            mInterstitialAd.show(); //展示插屏广告
+            mInterstitialAd.show();
         } else {
             if (mCallbackRouter.getShowListener(placementId) != null)
                 mCallbackRouter.getShowListener(placementId).onAdVideoError(new TPError(UNSPECIFIED));

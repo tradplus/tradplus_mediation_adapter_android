@@ -45,8 +45,6 @@ public class KidozAdsInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-//        appId = "14452";
-//        appToken = "V44ZTKg086Kc9B48AATufEs98LRcBlZv";
 
         mKidozICaR = KidozInterstitialCallbackRouter.getInstance();
         mKidozICaR.addListener(placementId, mLoadAdapterListener);
