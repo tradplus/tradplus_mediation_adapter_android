@@ -23,9 +23,9 @@ public class BaiduInitManager extends TPInitMediation {
     private static final String TAG = "Baidu";
     private String mAppId;
     private static BaiduInitManager sInstance;
-    private boolean isHttps = true; //Baidu SDK默认请求https广告，若需要请求http广告,设置false
-    private int dlDialogType = BDDialogParams.TYPE_BOTTOM_POPUP; //弹窗样式类型，默认底部呼起
-    private int dlDialogAnimStyle = BDDialogParams.ANIM_STYLE_NONE; //弹窗按钮动效类型，默认无动效
+    private boolean isHttps = true;
+    private int dlDialogType = BDDialogParams.TYPE_BOTTOM_POPUP;
+    private int dlDialogAnimStyle = BDDialogParams.ANIM_STYLE_NONE;
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public synchronized static BaiduInitManager getInstance() {
@@ -39,7 +39,7 @@ public class BaiduInitManager extends TPInitMediation {
     public void initSDK(Context context, Map<String, Object> userParams, Map<String, String> tpParams, InitCallback initCallback) {
         boolean openPersonalizedAd = GlobalTradPlus.getInstance().isOpenPersonalizedAd();
         MobadsPermissionSettings.setLimitPersonalAds(openPersonalizedAd);
-        Log.i("PersonalizeEnable", TAG +" openPersonalizedAd 个性化开关: " + openPersonalizedAd);
+        Log.i("PersonalizeEnable", TAG +" openPersonalizedAd: " + openPersonalizedAd);
 
         if (tpParams != null && tpParams.size() > 0) {
             mAppId = tpParams.get(AppKeyManager.APP_ID);
@@ -88,7 +88,6 @@ public class BaiduInitManager extends TPInitMediation {
         bdAdConfig.init();
 
         sendResult(mAppId, true);
-//        postDelayResult(mAppId,1000); Bidding C2S 会卡住
     }
 
     @Override

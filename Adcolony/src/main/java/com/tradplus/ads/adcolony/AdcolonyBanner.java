@@ -103,9 +103,6 @@ public class AdcolonyBanner extends TPBannerAdapter {
         @Override
         public void onOpened(AdColonyAdView ad) {
             super.onOpened(ad);
-            //Called when the ad view is clicked on and expanded.
-//            Log.d("TradPlus", "Showing AdColony Banner ad.");
-//            mBannerListener.onAdViewExpanded();
         }
 
         @Override

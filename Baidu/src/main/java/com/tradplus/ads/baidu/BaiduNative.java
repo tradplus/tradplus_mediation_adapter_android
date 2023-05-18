@@ -39,7 +39,7 @@ public class BaiduNative extends TPNativeAdapter {
     private boolean isBiddingLoaded;
     private OnC2STokenListener onC2STokenListener;
     private NativeResponse nativeResponse;
-    private ExpressResponse mExpressResponse;//模版
+    private ExpressResponse mExpressResponse;
     private static final String TAG = "BaiduNative";
 
     @Override
@@ -74,9 +74,6 @@ public class BaiduNative extends TPNativeAdapter {
                 }
             }
         }
-//        mAppId = "e866cfb0";
-//        mPlacementId = "2058628";
-//        mIsTemplateRending = 2;
 
         BaiduInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
             @Override
@@ -108,20 +105,16 @@ public class BaiduNative extends TPNativeAdapter {
             }
             return;
         }
-        // C2S loaded成功
         C2SBiddingLoaded(mActivity);
 
         mBaiduNativeManager = new BaiduNativeManager(mActivity, mPlacementId);
         RequestParameters requestParameters = new RequestParameters.Builder()
-                // 用户点击下载类广告时，是否弹出提示框让用户选择下载与否
                 .downloadAppConfirmPolicy(RequestParameters.DOWNLOAD_APP_CONFIRM_ALWAYS)
                 .build();
 
         if (mIsTemplateRending == AppKeyManager.TEMPLATE_RENDERING_YES) {
-            Log.i(TAG, "智能优选");
             mBaiduNativeManager.loadExpressAd(requestParameters, mExpressAdListener);
         } else {
-            Log.i(TAG, "自渲染");
             mBaiduNativeManager.loadFeedAd(requestParameters, mFeedAdListener);
         }
     }
@@ -129,13 +122,13 @@ public class BaiduNative extends TPNativeAdapter {
     private void C2SBiddingLoaded(Activity activity) {
         if (isC2SBidding && isBiddingLoaded) {
             if (mIsTemplateRending == AppKeyManager.TEMPLATE_RENDERING_YES) {
-                Log.i(TAG, "ExpressResponse: 智能优选");
+                Log.i(TAG, "ExpressResponse: ");
                 mBaiduNativeAd = new BaiduNativeAd(mExpressResponse, activity);
                 mBaiduNativeAd.setRenderType(TPBaseAd.AD_TYPE_NATIVE_EXPRESS);
                 mExpressResponse.setInteractionListener(mListener);
                 mExpressResponse.render();
             } else {
-                Log.i(TAG, "nativeResponse: 自渲染");
+                Log.i(TAG, "nativeResponse: ");
                 mBaiduNativeAd = new BaiduNativeAd(nativeResponse, activity);
                 mBaiduNativeAd.setRenderType(TPBaseAd.AD_TYPE_NORMAL_NATIVE);
                 downloadAndCallback(mBaiduNativeAd, mNeedDownloadImg);
@@ -143,7 +136,6 @@ public class BaiduNative extends TPNativeAdapter {
         }
     }
 
-    // 百度自渲染
     private final BaiduNativeManager.FeedAdListener mFeedAdListener = new BaiduNativeManager.FeedAdListener() {
         @Override
         public void onNativeLoad(List<NativeResponse> nativeResponses) {
@@ -161,8 +153,7 @@ public class BaiduNative extends TPNativeAdapter {
 
                 return;
             }
-            Log.i(TAG, "onNativeLoad: 自渲染");
-            // 一个广告只允许展现一次，多次展现、点击只会计入一次
+            Log.i(TAG, "onNativeLoad: ");
             if (nativeResponses != null && nativeResponses.size() > 0) {
                 nativeResponse = nativeResponses.get(0);
                 if (isC2SBidding) {
@@ -210,11 +201,7 @@ public class BaiduNative extends TPNativeAdapter {
 
         @Override
         public void onLpClosed() {
-            // lp页面被关闭，并不是真正的Closed，落地页被关闭会有回调
             Log.i(TAG, "onLpClosed: ");
-//            if(mBaiduNativeAd != null){
-//                mBaiduNativeAd.close();
-//            }
         }
     };
 
@@ -236,7 +223,6 @@ public class BaiduNative extends TPNativeAdapter {
                 return;
             }
 
-            // 一个广告只允许展现一次，多次展现、点击只会计入一次
             if (list != null && list.size() > 0) {
                 mExpressResponse = list.get(0);
                 if (isC2SBidding) {
@@ -257,7 +243,7 @@ public class BaiduNative extends TPNativeAdapter {
                     mExpressResponse.render();
                 }
             } else {
-                loadFailed(0, "ExpressResponse返回list为空");
+                loadFailed(0, "ExpressResponse list NULL");
             }
         }
 
@@ -305,7 +291,6 @@ public class BaiduNative extends TPNativeAdapter {
         }
     }
 
-    // Baidu模版
     ExpressResponse.ExpressInteractionListener mListener =
             new ExpressResponse.ExpressInteractionListener() {
         @Override

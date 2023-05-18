@@ -84,14 +84,12 @@ public class HuaweiInterstitialVideo extends TPRewardAdapter {
 
     private void requestInterstitalVideo(Context context) {
 
-        // "testx9dtjwj8hp"为测试专用的广告位ID，App正式发布时需要改为正式的广告位ID
         if (rewardAd == null)
             rewardAd = new RewardAd(context, mPlacementId);
 
         RewardAdLoadListener listener = new RewardAdLoadListener() {
             @Override
             public void onRewardedLoaded() {
-                // 激励广告加载成功
                 Log.i(TAG, "onRewardedLoaded: ");
                 if (mCallbackRouter.getListener(mPlacementId) != null) {
                     setNetworkObjectAd(rewardAd);
@@ -102,7 +100,6 @@ public class HuaweiInterstitialVideo extends TPRewardAdapter {
 
             @Override
             public void onRewardAdFailedToLoad(int errorCode) {
-                // 激励广告加载失败
                 Log.i(TAG, "onRewardAdFailedToLoad: errorCode :" + errorCode);
                 TPError tpError = new TPError(NETWORK_NO_FILL);
                 tpError.setErrorCode(errorCode + "");
@@ -140,7 +137,6 @@ public class HuaweiInterstitialVideo extends TPRewardAdapter {
             rewardAd.show(activity, new RewardAdStatusListener() {
                 @Override
                 public void onRewardAdOpened() {
-                    // 激励广告被打开
                     Log.i(TAG, "onRewardAdOpened: ");
                     if (mCallbackRouter.getShowListener(mPlacementId) != null)
                         mCallbackRouter.getShowListener(mPlacementId).onAdVideoStart();
@@ -151,7 +147,6 @@ public class HuaweiInterstitialVideo extends TPRewardAdapter {
 
                 @Override
                 public void onRewardAdFailedToShow(int errorCode) {
-                    // 激励广告展示失败
                     Log.i(TAG, "onRewardAdFailedToShow: errorCode : " + errorCode);
                     TPError tpError = new TPError(SHOW_FAILED);
                     tpError.setErrorCode(errorCode + "");
@@ -162,7 +157,6 @@ public class HuaweiInterstitialVideo extends TPRewardAdapter {
 
                 @Override
                 public void onRewardAdClosed() {
-                    // 激励广告被关闭
                     Log.i(TAG, "onRewardAdClosed: ");
                     if (mCallbackRouter.getShowListener(mPlacementId) != null) {
                         if (hasGrantedReward || alwaysRewardUser) {
@@ -175,7 +169,6 @@ public class HuaweiInterstitialVideo extends TPRewardAdapter {
 
                 @Override
                 public void onRewarded(Reward reward) {
-                    // 激励广告奖励达成，发放奖励
                     Log.i(TAG, "onRewarded: ");
                     hasGrantedReward = true;
 

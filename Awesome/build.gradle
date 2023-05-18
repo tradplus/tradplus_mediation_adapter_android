@@ -4,14 +4,7 @@ plugins {
 
 repositories{
     maven { url "https://aa-sdk.s3-eu-west-1.amazonaws.com/android_repo" }
-    if ((useMaven as int == 0 )) {
-        if (isDev as int == 0) {
-            println("引用 'aar' ")
-            flatDir {
-                dirs project(':flute-sdk').file('aar')
-            }
-        }
-    }
+
 }
 
 android {
@@ -44,76 +37,16 @@ android {
     }
 }
 
-ext{
-    PROJ_GROUP="com.tradplus.ads.awesome"
-    PROJ_DESCRIPTION="tradplus-awesome"
-    PROJ_ARTIFACTID="tradplus-awesome"//包名
-    PROJ_VERSION= awesome_ads_v
-    PROJ_REPO="tradplus-awesome"
-    PROJ_NAME = "tradplus-awesome"
-    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
-    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
 
-    DEVELOPER_ID=""
-    DEVELOPER_NAME="you accout name"
-    DEVELOPER_EMAIL=""
-}
 
 
 dependencies {
 
 //    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
     compileOnly "tv.superawesome.sdk.publisher:superawesome:${awesome_version}"
-    if(isAndroidSupport as int == 0){
-        compileOnly "com.google.android.gms:play-services-ads:${googlex_version}"
-    }else{
-        compileOnly 'com.google.android.gms:play-services-ads:17.2.1'
-    }
 
-    if(useMaven as int ==1){
-        compileOnly project(':flute-sdk')
-    }else {
-
-        if(isDev as int == 1){
-
-            compileOnly project(':flute-sdk')
-        }else {
-            println("引用tradplus-sdk-android.aar")
-            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
-        }
-    }
 }
 
-android.libraryVariants.all {
-    variant-> variant.outputs.all{
-        outputFileName = "awesome_ads"+"_${awesome_ads_v}."+'aar'
-    }
-        variant.getAssembleProvider().configure() {
-            it.doLast {
-                variant.outputs.all { output ->
-                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "awesome"].join(File.separator)
-                    copy {
-                        from output.outputFile
-                        into outputPath
-                    }
-                }
-            }
-        }
-}
-
-task moveNetworkaar(type: Copy) {
-
-    println "----------> ARR copy start <-----------"
-    def buildPath = project.files("awesome").from("libs")
-    //AAR所在的编译路径
-    from buildPath
-    //AAR所拷贝的目录
-    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "awesome"].join(File.separator)
-    println "outputPath = " + outputPath
-    into outputPath
-
-    println "----------> ARR copy succeeded <-----------"
-}
 
 
 android {
@@ -121,5 +54,4 @@ android {
         abortOnError false
     }
 }
-//开源gradle
 apply from: '../bintray.gradle'

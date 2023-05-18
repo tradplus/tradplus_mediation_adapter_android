@@ -88,10 +88,6 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
     }
 
     private void reqeusetInterstitialVideo(Context context) {
-        //context : 需传入Activity的context
-        //adPlaceId : 广告位
-        //listener : 激励视频回调监听
-        //useSurfaceView : 是否使用SurfaceView，默认使用TextureView
         if (isC2SBidding && isBiddingLoaded) {
             if (mCallbackRouter != null && mCallbackRouter.getListener(mPlacementId) != null) {
                 setNetworkObjectAd(mRewardVideoAd);
@@ -159,8 +155,6 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
                 }
                 return;
             }
-            // 广告失败回调 原因：广告内容填充为空；网络原因请求广告超时
-            // 建议：收到该回调之后，可以重新load下一条广告，最好限制load次数（4-5次即可）
             if (mCallbackRouter.getListener(mPlacementId) != null) {
                 TPError tpError = new TPError(NETWORK_NO_FILL);
                 tpError.setErrorMessage(s);
@@ -170,11 +164,11 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
 
         @Override
         public void onVideoDownloadSuccess() {
-            Log.i(TAG, "onVideoDownloadSuccess: 视频缓存成功");
+            Log.i(TAG, "onVideoDownloadSuccess: ");
             if (isC2SBidding) {
                 if (onC2STokenListener != null) {
                     String ecpmLevel = mRewardVideoAd.getECPMLevel();
-                    Log.i(TAG, "激励视频 bid price: " + ecpmLevel);
+                    Log.i(TAG, " bid price: " + ecpmLevel);
                     if (TextUtils.isEmpty(ecpmLevel)) {
                         onC2STokenListener.onC2SBiddingFailed("","ecpmLevel is Empty");
                         return;
@@ -193,10 +187,10 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
 
         @Override
         public void onVideoDownloadFailed() {
-            Log.i(TAG, "onVideoDownloadFailed: 视频缓存失败");
+            Log.i(TAG, "onVideoDownloadFailed: ");
             if (isC2SBidding) {
                 if (onC2STokenListener != null) {
-                    onC2STokenListener.onC2SBiddingFailed("","视频缓存失败");
+                    onC2STokenListener.onC2SBiddingFailed("","");
                 }
                 return;
             }
@@ -208,7 +202,7 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
 
         @Override
         public void playCompletion() {
-            Log.i(TAG, "playCompletion: 播放完成");
+            Log.i(TAG, "playCompletion: ");
             if (mCallbackRouter.getShowListener(mPlacementId) != null) {
                 mCallbackRouter.getShowListener(mPlacementId).onAdVideoEnd();
             }
@@ -217,7 +211,7 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
 
         @Override
         public void onAdSkip(float v) {
-            Log.i(TAG, "onAdSkip: 用户点击跳过");
+            Log.i(TAG, "onAdSkip: ");
             alwaysRewardUser = false;
             if (mCallbackRouter.getShowListener(mPlacementId) != null) {
                 mCallbackRouter.getShowListener(mPlacementId).onRewardSkip();
@@ -232,7 +226,7 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
 
         @Override
         public void onAdLoaded() {
-            Log.i(TAG, "onAdLoaded: 请求成功");
+            Log.i(TAG, "onAdLoaded: ");
         }
     };
 

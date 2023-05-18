@@ -54,7 +54,6 @@ public class AppNextReward extends TPRewardAdapter implements OnAdLoaded, OnAdCl
             }
 
         }
-//        mPID = "37d5b4a5-500b-44fb-b745-788084be2794";
         mAppNextInterstitialCallbackRouter = AppNextInterstitialCallbackRouter.getInstance();
         mAppNextInterstitialCallbackRouter.addListener(mPID, mLoadAdapterListener);
         mLoadAdapterListener = mAppNextInterstitialCallbackRouter.getListener(mPID);

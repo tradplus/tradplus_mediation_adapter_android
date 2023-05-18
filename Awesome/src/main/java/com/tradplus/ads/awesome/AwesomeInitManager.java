@@ -44,7 +44,6 @@ public class AwesomeInitManager extends TPInitMediation {
 
         Log.d(TradPlusInterstitialConstants.INIT_TAG, "initSDK: appId :" + customAs);
 
-        // 参数2 ：是否开启log日志
         boolean needTestDevice = TestDeviceUtil.getInstance().isNeedTestDevice();
         AwesomeAds.init((Application) context.getApplicationContext(), needTestDevice);
         if (needTestDevice) {

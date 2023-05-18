@@ -32,8 +32,8 @@ public class BigoNative extends TPNativeAdapter {
     private String serverBiddingAdm;
     private NativeAd mNativeAd;
     private BigoNativeAd mBgioNativeAd;
-    private int mVideoMute = 1; // 1 静音
-    private boolean isNativeBanner = false; // 默认原生类型
+    private int mVideoMute = 1;
+    private boolean isNativeBanner = false;
     private boolean mNeedDownloadImg = false;
 
     @Override
@@ -158,7 +158,6 @@ public class BigoNative extends TPNativeAdapter {
                 boolean tokenEmpty = TextUtils.isEmpty(bidderToken);
                 Log.i(TAG, "onSuccess bidderToken isEmpty " + tokenEmpty);
                 if (!initialized) {
-                    // 第一次初始化打印250
                     BigoInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                 }
                 onS2STokenListener.onTokenResult(!tokenEmpty ? bidderToken : "", null);

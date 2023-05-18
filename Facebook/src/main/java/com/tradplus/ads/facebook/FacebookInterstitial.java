@@ -59,18 +59,6 @@ public class FacebookInterstitial extends TPInterstitialAdapter {
 
 
         if (localExtras.size() > 0) {
-//            Log.i(TAG, "suportGDPR ccpa: " + localExtras.get(AppKeyManager.KEY_CCPA) + ":COPPA:" + localExtras.get(AppKeyManager.KEY_COPPA));
-//            if (localExtras.containsKey(AppKeyManager.KEY_CCPA)) {
-//                boolean cppa = (boolean) localExtras.get(AppKeyManager.KEY_CCPA);
-//                if (cppa) {
-//                    AdSettings.setDataProcessingOptions(new String[]{});
-//                } else {
-//                    AdSettings.setDataProcessingOptions(new String[]{"LDU"}, 1, 1000);
-//                }
-//
-//            } else {
-//                AdSettings.setDataProcessingOptions(new String[]{"LDU"}, 0, 0);
-//            }
 
             if (localExtras.containsKey(AppKeyManager.KEY_COPPA)) {
                 boolean coppa = (boolean) localExtras.get(AppKeyManager.KEY_COPPA);

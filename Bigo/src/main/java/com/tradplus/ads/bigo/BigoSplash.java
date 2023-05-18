@@ -122,11 +122,9 @@ public class BigoSplash extends TPSplashAdapter {
                 .withSlotId(mPlacementId);
 
         if (isFlullSreenVideoAd == BigoConstant.SPLASH_HALF_FULL) {
-            Log.i(TAG, "半屏开屏");
             builder.withAppLogo(mAppIcon);
             builder.withAppName(mAppName);
         } else {
-            Log.i(TAG, "全屏开屏");
         }
 
         if (!TextUtils.isEmpty(serverBiddingAdm)) {
@@ -190,13 +188,11 @@ public class BigoSplash extends TPSplashAdapter {
 
         @Override
         public void onAdOpened() {
-            // 开屏广告不会触发此回调
 
         }
 
         @Override
         public void onAdClosed() {
-            // 开屏广告不会触发此回调
 
         }
     };
@@ -255,7 +251,6 @@ public class BigoSplash extends TPSplashAdapter {
                 boolean tokenEmpty = TextUtils.isEmpty(bidderToken);
                 Log.i(TAG, "onSuccess bidderToken isEmpty " + tokenEmpty);
                 if (!initialized) {
-                    // 第一次初始化打印250
                     BigoInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                 }
                 onS2STokenListener.onTokenResult(!tokenEmpty ? bidderToken : "", null);

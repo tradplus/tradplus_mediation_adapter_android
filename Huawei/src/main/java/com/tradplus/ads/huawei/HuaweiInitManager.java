@@ -51,16 +51,12 @@ public class HuaweiInitManager extends TPInitMediation {
 
         Log.d(TradPlusInterstitialConstants.INIT_TAG, "initSDK: ");
 
-        // ALLOW_ALL = 0：个性化广告与非个性化广告
-        // ALLOW_NON_PERSONALIZED = 1：非个性化广告
-        // 当nonPersonalizedAd为0时，使用hwNonPersonalizedAd和thirdNonPersonalizedAd设置个性化广告是有效的。
         boolean openPersonalizedAd = GlobalTradPlus.getInstance().isOpenPersonalizedAd();
         RequestOptions build = HwAds.getRequestOptions().toBuilder()
                 .setNonPersonalizedAd(openPersonalizedAd ? ALLOW_ALL : ALLOW_NON_PERSONALIZED).build();
         Log.i("PersonalizeEnable", TAG + " openPersonalizedAd 个性化开关: " + openPersonalizedAd);
         HwAds.setRequestOptions(build);
 
-        // 初始化HUAWEI Ads SDK
         HwAds.init(context);
 
         sendResult(key, true);
@@ -70,9 +66,6 @@ public class HuaweiInitManager extends TPInitMediation {
     public void suportGDPR(Context context, Map<String, Object> userParams) {
 
         RequestOptions.Builder builder = HwAds.getRequestOptions().toBuilder();
-        //PROTECTION_TRUE：表明您的广告内容需要符合COPPA的规定。
-        //PROTECTION_FALSE：表明您的广告内容不需要符合COPPA的规定。
-        //PROTECTION_UNSPECIFIED：表明您不希望明确您的广告内容是否需要符合COPPA的规定。
         if (userParams.containsKey(AppKeyManager.KEY_COPPA)) {
             boolean coppa = (boolean) userParams.get(AppKeyManager.KEY_COPPA);
             Log.i("privacylaws", "coppa: " + coppa);
@@ -81,9 +74,6 @@ public class HuaweiInitManager extends TPInitMediation {
             builder.setTagForChildProtection(-1);
         }
 
-        //PROMISE_TRUE = 1：表明您希望按适合未达到法定承诺年龄的用户的方式来处理广告请求。
-        //PROMISE_FALSE = 0;：表明您不希望按适合未达到法定承诺年龄的用户的方式来处理广告请求。
-        //PROMISE_UNSPECIFIED = -1：表明您未明确是否按适合未达到法定承诺年龄的用户的方式来处理广告请求。
         if (userParams.containsKey(AppKeyManager.GDPR_CONSENT)) {
             Integer gdpr = (Integer) userParams.get(AppKeyManager.GDPR_CONSENT);
             Log.i("privacylaws", "gdpr: " + (gdpr == TradPlus.PERSONALIZED));

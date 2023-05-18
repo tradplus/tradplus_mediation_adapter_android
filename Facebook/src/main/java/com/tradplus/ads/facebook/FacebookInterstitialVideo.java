@@ -73,18 +73,6 @@ public class FacebookInterstitialVideo extends TPRewardAdapter {
         }
 
         if (localExtras.size() > 0) {
-//            Log.i(TAG, "suportGDPR ccpa: " + localExtras.get(AppKeyManager.KEY_CCPA) + ":COPPA:" + localExtras.get(AppKeyManager.KEY_COPPA));
-//            if (localExtras.containsKey(AppKeyManager.KEY_CCPA)) {
-//                boolean cppa = (boolean) localExtras.get(AppKeyManager.KEY_CCPA);
-//                if (cppa) {
-//                    AdSettings.setDataProcessingOptions(new String[]{});
-//                } else {
-//                    AdSettings.setDataProcessingOptions(new String[]{"LDU"}, 1, 1000);
-//                }
-//
-//            } else {
-//                AdSettings.setDataProcessingOptions(new String[]{"LDU"}, 0, 0);
-//            }
 
             if (localExtras.containsKey(AppKeyManager.KEY_COPPA)) {
                 boolean coppa = (boolean) localExtras.get(AppKeyManager.KEY_COPPA);
@@ -111,7 +99,7 @@ public class FacebookInterstitialVideo extends TPRewardAdapter {
 
     private void requestAd(Context context) {
         if (isRewardedInterstitialAd == AppKeyManager.INTERACTION_TYPE) {
-            Log.i(TAG, "load 奖励式插屏");
+            Log.i(TAG, "load ");
             rewardedInterstitialAd = new RewardedInterstitialAd(context, mPlacementId);
             RewardedInterstitialAd.RewardedInterstitialAdLoadConfigBuilder configBuilder =
                     rewardedInterstitialAd.buildLoadAdConfig()
@@ -125,7 +113,7 @@ public class FacebookInterstitialVideo extends TPRewardAdapter {
             }
             rewardedInterstitialAd.loadAd(configBuilder.build());
         } else {
-            Log.i(TAG, "load 激励视频");
+            Log.i(TAG, "load ");
             mRewardedVideoAd = new RewardedVideoAd(context, mPlacementId);
             RewardedVideoAd.RewardedVideoAdLoadConfigBuilder rewardedVideoAdLoadConfigBuilder =
                     mRewardedVideoAd.buildLoadAdConfig().withAdListener(rewardedVideoAdListener);

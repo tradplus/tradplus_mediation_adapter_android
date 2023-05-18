@@ -71,7 +71,6 @@ public class BigoNativeAd extends TPBaseAd {
 
         // 返回广告是否含有图标
         boolean hasIcon = ad.hasIcon();
-        Log.i(TAG, "返回广告是否含有图标: " + hasIcon);
         if (hasIcon) {
             mTPNativeAdView.setIconView(new ImageView(context));
         }
@@ -185,7 +184,6 @@ public class BigoNativeAd extends TPBaseAd {
 
         // 视频播放的控制与回调
         if (mNativeAd.getCreativeType() == NativeAd.CreativeType.VIDEO) {
-            Log.i(TAG, "视频素材,是否静音:" + mMute);
             VideoController videoController = mNativeAd.getVideoController();
             videoController.mute(mMute);
             videoController.setVideoLifeCallback(new VideoController.VideoLifeCallback() {

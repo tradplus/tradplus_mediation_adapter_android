@@ -45,8 +45,6 @@ public class ChartboostInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-//        appId = "4f7b433509b6025804000002";
-//        appSignature = "dd2d41b69ac01b80f443f5b6cf06096d457f82bd";
 
         if (tpParams != null && tpParams.size() > 0) {
             location = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);

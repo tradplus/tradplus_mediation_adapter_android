@@ -79,7 +79,6 @@ public class AdFlySplash extends TPSplashAdapter {
 
             @Override
             public void onAdLoaded(AdflyAd ad) {
-                // 这里可以开始显示广告
                 Log.i(TAG, "onAdLoaded: ");
                 if (mLoadAdapterListener != null) {
                     setNetworkObjectAd(ad);

@@ -59,7 +59,6 @@ public class AdFlyBanner extends TPBannerAdapter {
     }
 
     private void requestAd(Context context) {
-        // 高度50dp，30秒刷新一次，未曝光时不刷新
         mAdView = new AdView(context, mPlacementId);
         mAdView.setAutoRefresh(false);
         mAdView.setAdListener(new AdListener() {

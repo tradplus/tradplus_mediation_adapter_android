@@ -74,7 +74,6 @@ public class AdFlyInterstitial extends TPInterstitialAdapter {
             public void onAdLoadFailure(AdflyAd ad, AdError adError) {
                 Log.i(TAG, "onAdLoadFailure: ");
                 TPError tpError = new TPError(NETWORK_NO_FILL);
-                // 建议在这里做重试处理，但重试时间间隔不要太短了
                 if (adError != null) {
                     String errorMessage = adError.getErrorMessage();
                     int errorCode = adError.getErrorCode();

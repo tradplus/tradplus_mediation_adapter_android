@@ -26,8 +26,8 @@ public class BaiduSplash extends TPSplashAdapter {
     private String mPlacementId;
     private SplashAd mSplashAd;
     private static final String TAG = "BaiduSplash";
-    private int mHeight = 640; // 官方默认
-    private int mWidth = 480; // 官方默认
+    private int mHeight = 640;
+    private int mWidth = 480;
     private boolean isC2SBidding;
     private boolean isBiddingLoaded;
     private OnC2STokenListener onC2STokenListener;
@@ -87,12 +87,10 @@ public class BaiduSplash extends TPSplashAdapter {
             return;
         }
 
-        // 1. 设置开屏listener
         SplashInteractionListener listener = new SplashInteractionListener() {
             @Override
             public void onLpClosed() {
                 Log.i(TAG, "onLpClosed");
-                // 落地页关闭后关闭广告，并跳转到应用的主页
 
             }
 
@@ -169,16 +167,12 @@ public class BaiduSplash extends TPSplashAdapter {
         };
 
 
-        // 2. 设置开屏广告请求参数
         RequestParameters.Builder parameters = new RequestParameters.Builder()
-                // 设置图片宽高(单位dp)，非必选
                 .setHeight(mHeight)
                 .setWidth(mWidth)
-                .addExtra(SplashAd.KEY_POPDIALOG_DOWNLOAD, "true") //点击下载类广告时是否弹出Dialog
-                .addExtra(SplashAd.KEY_DISPLAY_DOWNLOADINFO, "true") //下载类广告隐私权限是否展示
-                // sdk内部默认值为true，load广告和show广告分开时设置为false
+                .addExtra(SplashAd.KEY_POPDIALOG_DOWNLOAD, "true")
+                .addExtra(SplashAd.KEY_DISPLAY_DOWNLOADINFO, "true")
                 .addExtra(SplashAd.KEY_FETCHAD, "false");
-        // 3. 初始化开屏实例，请求开屏广告
         mSplashAd = new SplashAd(context, mPlacementId, parameters.build(),
                 listener);
 
@@ -230,7 +224,6 @@ public class BaiduSplash extends TPSplashAdapter {
 
     @Override
     public void clean() {
-        // Activity销毁时，销毁广告对象释放资源，避免潜在的内存泄露
         if (mSplashAd != null) {
             mSplashAd.destroy();
             mSplashAd = null;

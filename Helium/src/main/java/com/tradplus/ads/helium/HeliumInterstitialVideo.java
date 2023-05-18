@@ -64,9 +64,6 @@ public class HeliumInterstitialVideo extends TPRewardAdapter {
         }
 
 
-//        mPlacementId = "reward_test";
-//        appId = "5f61c8db2f7592083addee07";
-//        appSignature = "75fb5298c60ce8bc874cd25e43dd9d99037d2014";
 
         mCallbackRouter = HeliumInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(mPlacementId, mLoadAdapterListener);
@@ -105,7 +102,6 @@ public class HeliumInterstitialVideo extends TPRewardAdapter {
             return;
         }
 
-        // 同一个pid之前loaded成功但没有show，再次请求不会成功
         // clear loaded ads on existing placements
         if (mHeliumReward != null) {
             mHeliumReward.clearLoaded();

@@ -30,7 +30,7 @@ public class HuaweiSplash extends TPSplashAdapter {
     private String mPlacementId;
     private SplashView splashView;
     private static final String TAG = "HuaweiCnSplash";
-    private int direction = 1; // 默认竖屏
+    private int direction = 1;
     private boolean isReady = true;
 
     @Override
@@ -64,15 +64,12 @@ public class HuaweiSplash extends TPSplashAdapter {
 
     private void requestSplash(Context context) {
         int orientation = direction == 1 ? ActivityInfo.SCREEN_ORIENTATION_PORTRAIT : SCREEN_ORIENTATION_LANDSCAPE;
-//        int orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ;
         AdParam adParam = new AdParam.Builder().build();
 
         splashView = new SplashView(context);
 
         splashView.setAdDisplayListener(adDisplayListener);
-        // 设置视频类开屏广告的音频焦点类型
         splashView.setAudioFocusType(AudioFocusType.NOT_GAIN_AUDIO_FOCUS_WHEN_MUTE);
-        // 获取并展示开屏广告
         splashView.load(mPlacementId, orientation, adParam, splashAdLoadListener);
     }
 
@@ -92,7 +89,7 @@ public class HuaweiSplash extends TPSplashAdapter {
                 }
             } else {
                 TPError tpError = new TPError(UNSPECIFIED);
-                tpError.setErrorMessage("mAdContainerView 容器为空");
+                tpError.setErrorMessage("mAdContainerView is null");
                 if (mLoadAdapterListener != null)
                     mLoadAdapterListener.loadAdapterLoadFailed(tpError);
             }
@@ -100,7 +97,6 @@ public class HuaweiSplash extends TPSplashAdapter {
 
         @Override
         public void onAdFailedToLoad(int errorCode) {
-            // 广告获取失败时调用, 跳转至App主界面
             Log.i(TAG, "onAdFailedToLoad: errorCode : " + errorCode);
             TPError tpError = new TPError(NETWORK_NO_FILL);
             tpError.setErrorCode(errorCode + "");
@@ -111,7 +107,6 @@ public class HuaweiSplash extends TPSplashAdapter {
 
         @Override
         public void onAdDismissed() {
-            // 广告展示完毕时调用, 跳转至App主界面
             if (mShowListener != null && isLoaded && isReady) {
                 Log.i(TAG, "onAdDismissed: ");
                 isReady = false;
@@ -123,7 +118,6 @@ public class HuaweiSplash extends TPSplashAdapter {
     private final SplashAdDisplayListener adDisplayListener = new SplashAdDisplayListener() {
         @Override
         public void onAdShowed() {
-            // 广告显示时调用
             Log.i(TAG, "onAdShowed: ");
             if (mShowListener != null)
                 mShowListener.onAdShown();
@@ -131,13 +125,11 @@ public class HuaweiSplash extends TPSplashAdapter {
 
         @Override
         public void onAdClick() {
-            // 广告被点击时调用
             Log.i(TAG, "onAdClick: ");
             if (mShowListener != null) {
                 mShowListener.onAdClicked();
             }
 
-            // 不在生命周期stop回来时候clean，需要延迟，否则跳转前会看到广告remove 客户体验不好
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

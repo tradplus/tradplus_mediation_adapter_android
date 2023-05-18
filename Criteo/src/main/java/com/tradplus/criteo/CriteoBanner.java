@@ -41,8 +41,6 @@ public class CriteoBanner extends TPBannerAdapter {
             mCriteoPublisherId = serverExtras.get(AppKeyManager.APP_ID);
             mAdUnitId = serverExtras.get(AppKeyManager.AD_PLACEMENT_ID);
         }
-//         mAdUnitId = "30s6zt3ayypfyemwjvmp";
-//         mCriteoPublisherId = "B-000000";
 
         final BannerAdUnit bannerAdUnit = new BannerAdUnit(mAdUnitId,
                 new AdSize(AppKeyManager.NATIVE_DEFAULT_WIDTH, AppKeyManager.BANNER_DEFAULT_HEIGHT));

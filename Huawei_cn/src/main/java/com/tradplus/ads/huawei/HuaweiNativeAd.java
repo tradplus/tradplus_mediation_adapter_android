@@ -28,12 +28,12 @@ import java.util.List;
 public class HuaweiNativeAd extends TPBaseAd {
 
     private TPNativeAdView mTpNativeAdView;
-    private NativeAd mNativeAd;// 华为Ad
-    private NativeView mNativeAdContainer; // 华为容器
+    private NativeAd mNativeAd;
+    private NativeView mNativeAdContainer;
     private Context mContext;
     private static final String TAG = "HuaweiCnNative";
     private int NATIVE_TYPE = AD_TYPE_NORMAL_NATIVE;
-    private int mTemplateType;//TP 内置模板
+    private int mTemplateType;
     private int mAppAutoInstall;
     private AppDownloadButton appDownloadButton;
 
@@ -112,7 +112,6 @@ public class HuaweiNativeAd extends TPBaseAd {
             Log.i(TAG, "using AppDownloadButton: " + appDownloadButton);
         }
 
-        // 获取视频控制器实例。当广告中没有视频素材时，此方法也会返回VideoOperator对象。
         VideoOperator videoOperator = nativeAd.getVideoOperator();
         if (videoOperator.hasVideo()) {
             // Add a video lifecycle event listener.
@@ -182,7 +181,6 @@ public class HuaweiNativeAd extends TPBaseAd {
     public void registerClickAfterRender(ViewGroup viewGroup, ArrayList<View> clickViews) {
         for (View childView : clickViews) {
             if (childView instanceof ImageView) {
-//                imageViews.add(childView);
             } else if (childView instanceof Button || childView instanceof TextView) {
                 String text = ((TextView) childView).getText().toString();
                 if (mNativeAd != null && mTpNativeAdView != null) {
@@ -199,17 +197,15 @@ public class HuaweiNativeAd extends TPBaseAd {
             }
         }
 
-        // 注册原生广告对象
         if (mNativeAdContainer != null) {
             mNativeAdContainer.setNativeAd(mNativeAd);
 
             try {
                 if (mAppAutoInstall != 0 && appDownloadButton != null) {
-                    // 是下载类广告
                     boolean register = mNativeAdContainer.register(appDownloadButton);
                     if (register) {
                         Log.i(TAG, "appDownloadButton register success");
-                        appDownloadButton.refreshAppStatus(); // 刷新下载按钮的状态。
+                        appDownloadButton.refreshAppStatus();
                     }
                 }
             }catch (Throwable throwable) {
@@ -218,13 +214,11 @@ public class HuaweiNativeAd extends TPBaseAd {
         }
     }
 
-    // 俄罗斯广告法适配，支持获取和展示广告主信息
     private TPNativeAdView setMiitInfo(NativeAd nativeAd) {
         TPNativeAdView nativeAdView = new TPNativeAdView();
         List<AdvertiserInfo> advertiserInfo = nativeAd.getAdvertiserInfo();
         Log.i(TAG, "advertiserInfo: " + advertiserInfo);
         if (advertiserInfo != null && advertiserInfo.size() > 0) {
-            //获取广告主信息内容。
             AdvertiserInfo advertiserInfo1 = advertiserInfo.get(0);
             if (advertiserInfo1 != null) {
                 nativeAdView.setHuaweiAdInfoKey(advertiserInfo1.getKey());
@@ -291,11 +285,9 @@ public class HuaweiNativeAd extends TPBaseAd {
         Log.i(TAG, "TemplateType is: " + layoutName);
         _nativeView = (NativeView) LayoutInflater.from(mContext).inflate((ResourceUtils.getLayoutIdByName(mContext, layoutName)), null, false);
 
-        // 三小图
         if (mTemplateType == 3) {
             createSmallImageAdView(_nativeView, nativeAd);
         } else {
-            // 其他类型 Video & Image
             _nativeView.setMediaView((MediaView) _nativeView.findViewById(ResourceUtils.getViewIdByName(mContext, "tp_ad_media")));
             _nativeView.getMediaView().setMediaContent(nativeAd.getMediaContent());
         }

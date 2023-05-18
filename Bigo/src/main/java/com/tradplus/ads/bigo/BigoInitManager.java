@@ -76,14 +76,12 @@ public class BigoInitManager extends TPInitMediation {
 
                 boolean isEu = (boolean) userParams.get(AppKeyManager.IS_UE);
                 Log.i("privacylaws", "suportGDPR: " + need_set_gdpr + ":isUe:" + isEu);
-                // “true”值表示用户已同意存储和处理个人信息，“false”值表示用户已拒绝同意。
                 BigoAdSdk.setUserConsent(context, ConsentOptions.GDPR, need_set_gdpr);
             }
 
             if (userParams.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean cppa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
                 Log.i("privacylaws", "cppa: " + cppa);
-                // “true”值表示用户已同意存储和处理个人信息，“false”值表示用户已拒绝同意。
                 BigoAdSdk.setUserConsent(context, ConsentOptions.CCPA, cppa);
             }
         }

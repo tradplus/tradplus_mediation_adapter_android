@@ -36,8 +36,6 @@ public class AppNextInterstitial extends TPInterstitialAdapter implements OnAdEr
         if (serverExtras != null && serverExtras.size() > 0) {
             mPID = serverExtras.get(AppKeyManager.AD_PLACEMENT_ID);
         }
-        // TODO: 2021/2/4 目前不支持全屏插屏，激励
-//        mPID = "103029bd-5625-4ba2-9293-8a29461b8692";
         mAppNextInterstitialCallbackRouter = AppNextInterstitialCallbackRouter.getInstance();
         mAppNextInterstitialCallbackRouter.addListener(mPID, mLoadAdapterListener);
         mLoadAdapterListener = mAppNextInterstitialCallbackRouter.getListener(mPID);

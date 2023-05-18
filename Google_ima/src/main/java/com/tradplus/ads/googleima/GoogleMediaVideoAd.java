@@ -66,7 +66,7 @@ public class GoogleMediaVideoAd extends TPBaseAd {
     @Override
     public void pause() {
         if (mAdsManager != null) {
-            Log.i(TAG, "AdsManager pause 暂停: ");
+            Log.i(TAG, "AdsManager pause : ");
             mAdsManager.pause();
         }
     }
@@ -74,7 +74,7 @@ public class GoogleMediaVideoAd extends TPBaseAd {
     @Override
     public void resume() {
         if (mAdsManager != null) {
-            Log.i(TAG, "AdsManager resume 继续播放: ");
+            Log.i(TAG, "AdsManager resume : ");
             mAdsManager.resume();
         }
     }
@@ -82,7 +82,7 @@ public class GoogleMediaVideoAd extends TPBaseAd {
     @Override
     public void start() {
         if (mAdsManager != null) {
-            Log.i(TAG, "AdsManager start 播放: ");
+            Log.i(TAG, "AdsManager start : ");
             mAdsManager.start();
         }
     }

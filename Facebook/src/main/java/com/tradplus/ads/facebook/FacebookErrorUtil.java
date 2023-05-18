@@ -15,9 +15,6 @@ import static com.tradplus.ads.base.common.TPError.LOAD_TOO_FREQUENTLY;
 import static com.tradplus.ads.base.common.TPError.NETWORK_NO_FILL;
 import static com.tradplus.ads.base.common.TPError.UNSPECIFIED;
 
-/**
- * Created by sainase on 2020-06-10.
- */
 public class FacebookErrorUtil {
 
     public static TPError getTradPlusErrorCode(AdError errorCode){

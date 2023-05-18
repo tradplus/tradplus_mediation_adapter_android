@@ -114,7 +114,6 @@ public class AdcolonyInterstitialVideo extends TPRewardAdapter {
 
         @Override
         public void onExpiring(AdColonyInterstitial ad) {
-//            AdColony.requestInterstitial(zoneId, this, adOptions);
         }
 
         @Override

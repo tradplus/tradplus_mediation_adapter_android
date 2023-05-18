@@ -44,16 +44,12 @@ public class HuaweiInitManager extends TPInitMediation {
 
         Log.d(TradPlusInterstitialConstants.INIT_TAG, "initSDK: ");
 
-        // ALLOW_ALL = 0：个性化广告与非个性化广告
-        // ALLOW_NON_PERSONALIZED = 1：非个性化广告
-        // 当nonPersonalizedAd为0时，使用hwNonPersonalizedAd和thirdNonPersonalizedAd设置个性化广告是有效的。
         boolean openPersonalizedAd = GlobalTradPlus.getInstance().isOpenPersonalizedAd();
         RequestOptions build = HwAds.getRequestOptions().toBuilder()
                 .setNonPersonalizedAd(openPersonalizedAd ? ALLOW_ALL : ALLOW_NON_PERSONALIZED).build();
         Log.i("PersonalizeEnable", TAG + " openPersonalizedAd 个性化开关: " + openPersonalizedAd);
         HwAds.setRequestOptions(build);
 
-        // 初始化HUAWEI Ads SDK
         HwAds.init(context);
 
         sendResult(key, true);

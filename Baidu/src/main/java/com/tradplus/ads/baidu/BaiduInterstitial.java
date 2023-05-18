@@ -32,9 +32,9 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
 
     private String mPlacementId, mAppId;
     private BaiduInterstitialCallbackRouter mCallbackRouter;
-    private FullScreenVideoAd mFullScreenVideoAd; // 全屏插屏
-    private InterstitialAd mInterstitialAd; // 插屏广告
-    private ExpressInterstitialAd mExpressInterstitialAd; //新模版插屏
+    private FullScreenVideoAd mFullScreenVideoAd;
+    private InterstitialAd mInterstitialAd;
+    private ExpressInterstitialAd mExpressInterstitialAd;
     private int mInterstitialType;
     private boolean isC2SBidding;
     private boolean isBiddingLoaded;
@@ -93,7 +93,6 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
 
     private void loadSuccess() {
         setFirstLoadedTime();
-        // 非C2Sloaded 或者 是C2S，loaded成功的
         if (!isC2SBidding || isBiddingLoaded) {
             if (mCallbackRouter != null && mCallbackRouter.getListener(mPlacementId) != null) {
                 setNetworkObjectAd(mInterstitialType == AppKeyManager.FULL_TYPE ? mFullScreenVideoAd == null : mExpressInterstitialAd);
@@ -105,10 +104,10 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
             String ecpmLevel = null;
             if (mInterstitialType == AppKeyManager.FULL_TYPE && mFullScreenVideoAd != null) {
                 ecpmLevel = mFullScreenVideoAd.getECPMLevel();
-                Log.i(TAG, "全屏视频 bid price: " + ecpmLevel);
+                Log.i(TAG, "bid price: " + ecpmLevel);
             } else if (mExpressInterstitialAd != null) {
                 ecpmLevel = mExpressInterstitialAd.getECPMLevel();
-                Log.i(TAG, "新模版插屏 bid price: " + ecpmLevel);
+                Log.i(TAG, " bid price: " + ecpmLevel);
             }
 
             if (TextUtils.isEmpty(ecpmLevel)) {
@@ -122,13 +121,10 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
 
     private void requestInterstitial(Context context) {
         if (mInterstitialType == AppKeyManager.FULL_TYPE) {
-            // 全屏视频
             intFullScreen(context);
         } else if (mInterstitialType == AppKeyManager.INTERACTION_TYPE) {
-            // 插屏 —— 不支持C2S
             intInterstitial();
         } else {
-            // 支持新模版插屏 下发 "full_screen_video": 3
             initExpressInterstitial(context);
         }
     }
@@ -144,7 +140,6 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
             //useSurfaceView : 是否使用SurfaceView，默认使用TextureView
             mFullScreenVideoAd = new FullScreenVideoAd(context, mPlacementId, mFullScreenVideoAdListener, false);
         }
-        Log.i(TAG, "FullScreenVideoAd: 请求全屏视频");
         mFullScreenVideoAd.load();
     }
 
@@ -161,12 +156,12 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
         //  mExpressInterstitialAd.setDownloadListener(adDownloadListener);
         // 设置下载弹窗，默认为false
         mExpressInterstitialAd.setDialogFrame(true);
-        Log.i(TAG, "ExpressInterstitial: 请求新模版插屏");
+        Log.i(TAG, "ExpressInterstitial: ");
         mExpressInterstitialAd.load();
     }
 
     private void intInterstitial() {
-        Log.i(TAG, "intInterstitial: 请求插屏广告");
+        Log.i(TAG, "intInterstitial: ");
         Activity mActivity = GlobalTradPlus.getInstance().getActivity();
         if (mActivity == null) {
             if (mLoadAdapterListener != null) {
@@ -175,7 +170,6 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-        // 视频插屏广告：初始化展示布局
         final RelativeLayout parentLayout = new RelativeLayout(mActivity);
         RelativeLayout.LayoutParams parentLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -251,7 +245,7 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
                 return;
             }
 
-            Log.i(TAG, "showAd: FullScreenVideo全屏视频");
+            Log.i(TAG, "showAd: ");
             mFullScreenVideoAd.show();
 
         } else if (mInterstitialType == AppKeyManager.INTERACTION_TYPE) {
@@ -262,7 +256,7 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
                 return;
             }
 
-            Log.i(TAG, "showAd: Interstitial插屏广告");
+            Log.i(TAG, "showAd: ");
             mInterstitialAd.showAd();
         } else {
             if (mExpressInterstitialAd == null) {
@@ -281,7 +275,7 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
                 return;
             }
 
-            Log.i(TAG, "showAd: ExpressInterstitial新模版插屏");
+            Log.i(TAG, "showAd: ");
             mExpressInterstitialAd.show(activity);
         }
     }
@@ -294,17 +288,14 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
         } else if (mInterstitialType == AppKeyManager.INTERACTION_TYPE) {
             return mInterstitialAd != null && mInterstitialAd.isAdReady() && !isAdsTimeOut();
         } else {
-            // 通过isReady接口来判断广告是否有效且缓存成功
             return mExpressInterstitialAd != null && mExpressInterstitialAd.isReady() && !isAdsTimeOut();
         }
     }
 
 
-    // 新模版插屏
     private final ExpressInterstitialListener mExpressInterstitialListener = new ExpressInterstitialListener() {
         @Override
         public void onADLoaded() {
-            // 广告在回调onADLoaded后，才可调用show接口展示插屏广告
             if (mExpressInterstitialAd.isReady()) {
                 loadSuccess();
             }
@@ -377,12 +368,10 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onVideoDownloadSuccess() {
-            // 【废弃】插屏接口：ExpressInterstitialListeneronAd废弃onVideoDownloadSuccess回调和onVideoDownloadFailed回调
         }
 
         @Override
         public void onVideoDownloadFailed() {
-            // 【废弃】
 
         }
 
@@ -392,7 +381,6 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
         }
     };
 
-    // 全屏视频监听
     FullScreenVideoAd.FullScreenVideoAdListener mFullScreenVideoAdListener = new FullScreenVideoAd.FullScreenVideoAdListener() {
         @Override
         public void onAdShow() {
@@ -416,9 +404,6 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdClose(float v) {
-            // 用户关闭了广告
-            // 说明：关闭按钮在mssp上可以动态配置，媒体通过mssp配置，可以选择广告一开始就展示关闭按钮，还是播放结束展示关闭按钮
-            // 建议：收到该回调之后，可以重新load下一条广告,最好限制load次数（4-5次即可）
             Log.i(TAG, "onAdClose: ");
             if (mCallbackRouter.getShowListener(mPlacementId) != null) {
                 mCallbackRouter.getShowListener(mPlacementId).onAdClosed();
@@ -427,8 +412,6 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdFailed(String s) {
-            // 广告失败回调 原因：广告内容填充为空；网络原因请求广告超时
-            // 建议：收到该回调之后，可以重新load下一条广告，最好限制load次数（4-5次即可）
             Log.i(TAG, "onAdFailed: " + s);
             if (mCallbackRouter.getListener(mPlacementId) != null) {
                 TPError tpError = new TPError(NETWORK_NO_FILL);
@@ -439,15 +422,13 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onVideoDownloadSuccess() {
-            // 视频缓存成功
-            // 说明：如果想一定走本地播放，那么收到该回调之后，可以调用show
-            Log.i(TAG, "onVideoDownloadSuccess: 视频缓存成功");
+            Log.i(TAG, "onVideoDownloadSuccess: ");
             loadSuccess();
         }
 
         @Override
         public void onVideoDownloadFailed() {
-            Log.i(TAG, "onVideoDownloadFailed: 视频缓存失败");
+            Log.i(TAG, "onVideoDownloadFailed: ");
             loadFailed(new TPError(CACHE_FAILED));
         }
 

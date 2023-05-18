@@ -1,17 +1,4 @@
-ext {
-    PROJ_GROUP = "com.tradplus.ads.adcolony"
-    PROJ_DESCRIPTION = "tradplus-adcolony"
-    PROJ_ARTIFACTID = "tradplus-adcolony"//包名
-    PROJ_VERSION = adcolony_ads_v
-    PROJ_REPO = "tradplus-adcolony"
-    PROJ_NAME = "tradplus-adcolony"
-    PROJ_VCSURL = "https://github.com/tradplus.keystore/sdk.git"
-    PROJ_WEBSITEURL = "https://github.com/tradplus.keystore/sdk"
 
-    DEVELOPER_ID = ""
-    DEVELOPER_NAME = "you accout name"
-    DEVELOPER_EMAIL = ""
-}
 
 apply plugin: 'com.android.library'
 
@@ -27,8 +14,6 @@ android {
         versionName "${adcolony_ads_v}"
         consumerProguardFiles 'proguard-rules.pro'
 
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles 'consumer-rules.pro'
     }
 
 
@@ -53,15 +38,6 @@ repositories {
     jcenter()
     google()
 
-    if ((useMaven as int == 0 )) {
-        if (isDev as int == 0) {
-            println("引用 'aar' ")
-            flatDir {
-                dirs project(':flute-sdk').file('aar')
-            }
-        }
-    }
-
 }
 
 
@@ -69,49 +45,8 @@ dependencies {
     implementation 'org.chromium.net:cronet-embedded:76.3809.111'
     compileOnly "com.adcolony:sdk:${adcolony_version}"
 
-    if (useMaven as int == 1) {
-        compileOnly project(':flute-sdk')
-    } else {
-        if (isDev as int == 1) {
-            compileOnly project(':flute-sdk')
-        } else {
-            println("引用tradplus-sdk-android.aar")
-            compileOnly(name: 'tradplus-sdk-android', ext: 'aar')
-        }
-    }
-}
-android.libraryVariants.all {
-    variant ->
-        variant.outputs.all {
-            outputFileName = "adcolony_ads" + "_${adcolony_ads_v}." + 'aar'
-        }
-        variant.getAssembleProvider().configure() {
-            it.doLast {
-                variant.outputs.all { output ->
-                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "adcolony"].join(File.separator)
-                    copy {
-                        from output.outputFile
-                        into outputPath
-                    }
-                }
-            }
-        }
-
 }
 
-task moveNetworkaar(type: Copy) {
-
-    println "----------> ARR copy start <-----------"
-    def buildPath = project.files("adcolony_ads").from("network_libs")
-    //AAR所在的编译路径
-    from buildPath
-    //AAR所拷贝的目录
-    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "adcolony"].join(File.separator)
-    println "outputPath = " + outputPath
-    into outputPath
-
-    println "----------> ARR copy succeeded <-----------"
-}
 
 android {
     lintOptions {
@@ -119,5 +54,4 @@ android {
     }
 }
 
-//开源gradle
 apply from: '../bintray.gradle'

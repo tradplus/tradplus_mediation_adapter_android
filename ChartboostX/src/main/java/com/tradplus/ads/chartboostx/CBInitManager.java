@@ -75,7 +75,6 @@ public class CBInitManager extends TPInitMediation {
 
                 boolean isEu = (boolean) localExtras.get(AppKeyManager.IS_UE);
                 Log.i("privacylaws", "suportGDPR: " + need_set_gdpr + ":isUe:" + isEu);
-                // BEHAVIORAL(1) 同意; NON_BEHAVIORAL(0) 拒绝
                 if (need_set_gdpr) {
                     Chartboost.addDataUseConsent(context, new GDPR(GDPR.GDPR_CONSENT.BEHAVIORAL));
                 } else {
@@ -98,7 +97,6 @@ public class CBInitManager extends TPInitMediation {
 
             if (localExtras.containsKey(AppKeyManager.KEY_COPPA) || localExtras.containsKey(AppKeyManager.DFF)) {
                 boolean isChildDirected = false;
-                // COPPA隐私标志设置为true，以限制传输android广告标识符后才能设置DFF
                 if (localExtras.containsKey(AppKeyManager.KEY_COPPA)) {
                     isChildDirected = (boolean) localExtras.get(AppKeyManager.KEY_COPPA);
                     Log.i("privacylaws", "coppa: " + isChildDirected);

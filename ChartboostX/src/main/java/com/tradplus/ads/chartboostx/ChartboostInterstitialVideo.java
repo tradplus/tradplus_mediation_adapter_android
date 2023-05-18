@@ -61,8 +61,6 @@ public class ChartboostInterstitialVideo extends TPRewardAdapter {
             return;
         }
 
-//        appId = "4f7b433509b6025804000002";
-//        appSignature = "dd2d41b69ac01b80f443f5b6cf06096d457f82bd";
 
         mCallBackRouter = InterstitialCallbackRouter.getInstance();
         mCallBackRouter.addListener(location, mLoadAdapterListener);

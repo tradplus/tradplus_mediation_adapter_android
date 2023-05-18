@@ -54,9 +54,6 @@ public class HeliumInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-//        appId = "5f61c8db2f7592083addee07";
-//        appSignature = "75fb5298c60ce8bc874cd25e43dd9d99037d2014";
-//        mPlacementId = "interstiital_test";
 
         mCallbackRouter = HeliumInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(mPlacementId, mLoadAdapterListener);
@@ -96,7 +93,6 @@ public class HeliumInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-        // 同一个pid之前loaded成功但没有show，再次请求不会成功
         // clear loaded ads on existing placements
         if (mHeliumInterstitialAd != null) {
             mHeliumInterstitialAd.clearLoaded();
@@ -128,7 +124,6 @@ public class HeliumInterstitial extends TPInterstitialAdapter {
                 String price = winningBidInfo.get("price");
                 if (isC2SBidding) {
                     if (onC2STokenListener != null) {
-                        Log.i(TAG, "插屏 bid price: " + price);
                         if (TextUtils.isEmpty(price)) {
                             onC2STokenListener.onC2SBiddingFailed("", "price is empty");
                             return;

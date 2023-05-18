@@ -39,7 +39,7 @@ public class FyberInterstitial extends TPInterstitialAdapter {
     private FyberInterstitialCallbackRouter mCallbackRouter;
     private static final String TAG = "FyberInterstitial";
     private InneractiveAdSpot mInneractiveAdSpot;
-    private Integer mVideoMute = 1; // 1 静音
+    private Integer mVideoMute = 1;
 
     @Override
     public void loadCustomAd(Context context, Map<String, Object> localExtras, Map<String, String> serverExtras) {

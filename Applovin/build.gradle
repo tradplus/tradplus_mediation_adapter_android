@@ -29,91 +29,28 @@ android {
     }
 
 }
-ext{
-    PROJ_GROUP="com.tradplus.ads.applovin"
-    PROJ_DESCRIPTION="tradplus-applovin"
-    PROJ_ARTIFACTID="tradplus-applovin"//包名
-    PROJ_VERSION=applovin_ads_v
-    PROJ_REPO="tradplus-applovin"
-    PROJ_NAME = "tradplus-applovin"
-    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
-    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
 
-    DEVELOPER_ID=""
-    DEVELOPER_NAME="you accout name"
-    DEVELOPER_EMAIL=""
-}
 repositories {
     mavenCentral()
     jcenter()
     google()
 
-    if ((useMaven as int == 0 )) {
-        if (isDev as int == 0) {
-            println("引用 'aar' ")
-            flatDir {
-                dirs project(':flute-sdk').file('aar')
-            }
-        }
-    }
+
 }
 
 dependencies {
 
-    // pom 自带 play-services-ads-identifier 17.1.0 版本从11.2.2 开始仅支持AndroidX
     compileOnly "com.applovin:applovin-sdk:${max_version}"
 
-    if(useMaven as int ==1){
-        compileOnly project(':flute-sdk')
-    }else {
-
-        if(isDev as int == 1){
-              
-            compileOnly project(':flute-sdk')
-        }else {
-            println("引用tradplus-sdk-android.aar")
-            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
-        }
-    }
-}
-
-android.libraryVariants.all {
-    variant-> variant.outputs.all{
-        outputFileName = "applovin_ads"+"_${applovin_ads_v}."+'aar'
-    }
-        variant.getAssembleProvider().configure() {
-            it.doLast {
-                variant.outputs.all { output ->
-                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "applovin"].join(File.separator)
-                    copy {
-                        from output.outputFile
-                        into outputPath
-                    }
-                }
-            }
-        }
 
 }
 
-task moveNetworkaar(type: Copy) {
 
-    println "----------> ARR copy start <-----------"
-    def buildPath = project.files("applovin_ads").from("network_libs")
-    //AAR所在的编译路径
-    from buildPath
-    //AAR所拷贝的目录
-    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "applovin"].join(File.separator)
-    println "outputPath = " + outputPath
-    into outputPath
-
-    println "----------> ARR copy succeeded <-----------"
-}
 
 android {
     lintOptions {
         abortOnError false
     }
 }
-//开源gradle
 apply from: '../bintray.gradle'
 

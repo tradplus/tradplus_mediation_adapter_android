@@ -51,7 +51,6 @@ public class HeliumInitManager extends TPInitMediation {
         }
 
         Log.d(TradPlusInterstitialConstants.INIT_TAG, "initSDK: appId :" + appId + ", appSignature :" + appSignature);
-        //新版本 Initialize the SDK first
         HeliumSdk.start(context, appId, appSignature, new HeliumSdk.HeliumSdkListener() {
             @Override
             public void didInitialize(Error error) {
@@ -65,7 +64,6 @@ public class HeliumInitManager extends TPInitMediation {
             }
         });
         suportGDPR(context, userParams);
-        // 在set测试模式
         HeliumSdk.setTestMode(TestDeviceUtil.getInstance().isNeedTestDevice());
         HeliumSdk.setDebugMode(TestDeviceUtil.getInstance().isNeedTestDevice());
 

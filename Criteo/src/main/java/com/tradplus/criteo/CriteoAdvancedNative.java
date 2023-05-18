@@ -50,8 +50,6 @@ public class CriteoAdvancedNative extends TPNativeAdapter {
             return;
         }
 
-//         mAdUnitId = "190tsfngohsvfkh3hmkm";
-//         mCriteoPublisherId = "B-000000";
 
         final NativeAdUnit nativeAdUnit = new NativeAdUnit(mAdUnitId);
         List<AdUnit> adUnits = new ArrayList<>();

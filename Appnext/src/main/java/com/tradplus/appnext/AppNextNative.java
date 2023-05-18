@@ -32,10 +32,10 @@ public class AppNextNative extends TPNativeAdapter {
     private String mPID;
     private NativeAd mNativeAd;
     private AppNextNativeAd mAppNextNativeAd;
-    private int mVideoMute = 1; // 默认静音播放
-    private boolean mAutoPlayVideo = true; // 默认自动播放
+    private int mVideoMute = 1;
+    private boolean mAutoPlayVideo = true;
     private boolean mNeedDownloadImg = false;
-    private int adChoicesPosition = PrivacyIcon.PP_ICON_POSITION_TOP_RIGHT; // 默认 顶右
+    private int adChoicesPosition = PrivacyIcon.PP_ICON_POSITION_TOP_RIGHT;
 
     @Override
     public void loadCustomAd(Context context, Map<String, Object> localExtras, Map<String, String> serverExtras) {
@@ -47,20 +47,16 @@ public class AppNextNative extends TPNativeAdapter {
         String videomute;
         if (serverExtras != null && serverExtras.size() > 0) {
             mPID = serverExtras.get(AppKeyManager.AD_PLACEMENT_ID);
-            // 1 播放时静音；2 播放时有声
             videomute = serverExtras.get(AppKeyManager.VIDEO_MUTE);
-            // 自动播放视频
             autoPlayVideo = serverExtras.get(AppKeyManager.AUTO_PLAY_VIDEO);
             if (!AppKeyManager.VIDEO_MUTE_YES.equals(videomute)) {
                 mVideoMute = 2;
             }
 
             if (!TextUtils.isEmpty(autoPlayVideo)) {
-                // 1 总是自动播放
                 mAutoPlayVideo = (Integer.parseInt(autoPlayVideo) == 1);
             }
         }
-//        mPID = "f47aaeb4-302c-4733-a13a-22a2bb721aae";
 
         if (localExtras != null && localExtras.size() > 0) {
             if (localExtras.containsKey(DataKeys.DOWNLOAD_IMG)) {
@@ -107,12 +103,6 @@ public class AppNextNative extends TPNativeAdapter {
         mNativeAd.setAdListener(nativeAdListener);
         mNativeAd.setPrivacyPolicyPosition(adChoicesPostition(adChoicesPosition));
         mNativeAd.setPrivacyPolicyColor(PrivacyIcon.PP_ICON_COLOR_LIGHT);
-        // 以下设置均默认值,固不调用
-//        NativeAdRequest nativeAdRequest = new NativeAdRequest()
-//                .setCachingPolicy(NativeAdRequest.CachingPolicy.ALL) // 视频和图片素材均会缓存
-//                .setCreativeType(NativeAdRequest.CreativeType.ALL) // 设置过滤广告内容
-//                .setVideoLength(NativeAdRequest.VideoLength.SHORT) // 设置广告视频创意的首选长度
-//                .setVideoQuality(NativeAdRequest.VideoQuality.LOW); // 设置广告视频创意的首选质量
         mNativeAd.loadAd(new NativeAdRequest());
     }
 
@@ -186,7 +176,6 @@ public class AppNextNative extends TPNativeAdapter {
     }
 
     private int adChoicesPostition(int postion) {
-        // 位置按照google native角标定义：0 顶左;1 顶右;2 底右;3 底左
         if (postion == 0) {
             return PrivacyIcon.PP_ICON_POSITION_TOP_LEFT;
         } else if (postion == 2) {

@@ -62,7 +62,6 @@ public class AppLovinInitManager extends TPInitMediation {
         //Enable verbose logging to see the GAID to use for test devices
         appLovinSdk.getSettings().setVerboseLogging(needTestDevice);
         // To disable the creative debugger in code
-//        appLovinSdk.getSettings().setCreativeDebuggerEnabled(needTestDevice);
 
         appLovinSdk.initializeSdk(new AppLovinSdk.SdkInitializationListener() {
             @Override

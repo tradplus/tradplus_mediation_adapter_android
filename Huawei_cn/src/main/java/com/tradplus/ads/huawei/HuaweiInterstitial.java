@@ -65,7 +65,6 @@ public class HuaweiInterstitial extends TPInterstitialAdapter {
         if (interstitialAd == null)
             interstitialAd = new InterstitialAd(context);
 
-        // "testb4znbuh3n2"为测试专用的广告位ID，App正式发布时需要改为正式的广告位ID
         interstitialAd.setAdId(mPlacementId);
         interstitialAd.setAdListener(adListener);
         interstitialAd.loadAd(new AdParam.Builder().build());
@@ -74,7 +73,6 @@ public class HuaweiInterstitial extends TPInterstitialAdapter {
     private AdListener adListener = new AdListener() {
         @Override
         public void onAdLoaded() {
-            // 广告获取成功时调用
             Log.i(TAG, "onAdLoaded: ");
             if (mCallbackRouter.getListener(mPlacementId) != null) {
                 setNetworkObjectAd(interstitialAd);
@@ -84,7 +82,6 @@ public class HuaweiInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdFailed(int errorCode) {
-            // 广告获取失败时调用
             Log.i(TAG, "onAdFailed: errorCode : " + errorCode);
             TPError tpError = new TPError(NETWORK_NO_FILL);
             tpError.setErrorCode(errorCode + "");
@@ -94,7 +91,6 @@ public class HuaweiInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdClosed() {
-            // 广告关闭时调用
             Log.i(TAG, "onAdClosed: ");
             if (mCallbackRouter.getShowListener(mPlacementId) != null)
                 mCallbackRouter.getShowListener(mPlacementId).onAdClosed();
@@ -102,7 +98,6 @@ public class HuaweiInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdClicked() {
-            // 广告点击时调用
             Log.i(TAG, "onAdClicked: ");
             if (mCallbackRouter.getShowListener(mPlacementId) != null)
                 mCallbackRouter.getShowListener(mPlacementId).onAdVideoClicked();
@@ -110,13 +105,11 @@ public class HuaweiInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdLeave() {
-            // 广告离开时调用
             Log.i(TAG, "onAdLeave: ");
         }
 
         @Override
         public void onAdOpened() {
-            // 广告打开时调用
             Log.i(TAG, "onAdOpened: ");
             if (mCallbackRouter.getShowListener(mPlacementId) != null)
                 mCallbackRouter.getShowListener(mPlacementId).onAdShown();
@@ -124,7 +117,6 @@ public class HuaweiInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdImpression() {
-            // 广告曝光时调用
             Log.i(TAG, "onAdImpression: ");
 
         }
@@ -147,7 +139,6 @@ public class HuaweiInterstitial extends TPInterstitialAdapter {
             }
             return;
         }
-        // 显示广告
         if (interstitialAd != null && interstitialAd.isLoaded()) {
             interstitialAd.show(activity);
         } else {

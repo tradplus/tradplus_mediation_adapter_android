@@ -26,8 +26,8 @@ public class BaiduNativeAd extends TPBaseAd {
     private TPNativeAdView mTPNativeAdView;
     private NativeResponse mNativeResponse;
     private XNativeView mXNativeView;
-    private View mExpressAdView;// 模版View
-    private ExpressResponse mExpressResponse; // 模版
+    private View mExpressAdView;
+    private ExpressResponse mExpressResponse;
     private RelativeLayout mRelativeLayout;
     private static final String TAG = "BaiduNative";
 
@@ -87,13 +87,11 @@ public class BaiduNativeAd extends TPBaseAd {
         String imageUrl = nativeResponse.getImageUrl();
         List<String> multiPicUrls = nativeResponse.getMultiPicUrls();
         if (multiPicUrls != null && multiPicUrls.size() > 2) {
-            // 返回多张图
             mTPNativeAdView.setMainImageUrl(multiPicUrls.get(0));
             mTPNativeAdView.setPicUrls(multiPicUrls);
         }
 
         if (!TextUtils.isEmpty(imageUrl)) {
-            // 返回一张大图
             mTPNativeAdView.setMainImageUrl(imageUrl);
         }
 
@@ -177,16 +175,6 @@ public class BaiduNativeAd extends TPBaseAd {
     }
 
     public void registerClickAfterRender(ViewGroup viewGroup, ArrayList<View> clickViews) {
-        /**
-         * 广告数据渲染完毕，View展示的时候使用NativeResponse调用registerViewForInteraction来发送曝光
-         * registerViewForInteraction()与BaiduNativeManager配套使用
-         * 警告：调用该函数来发送展现，勿漏！
-         *
-         * view: 广告容器或广告View（曝光计费，必传）
-         * clickViews: 可点击的View，默认展示下载整改弹框
-         * creativeViews: 带有下载引导文案的View，默认不会触发下载整改弹框
-         * interactionListener: 曝光、点击回调
-         */
         if (mNativeResponse != null) {
             mNativeResponse.registerViewForInteraction(viewGroup, clickViews, null, new NativeResponse.AdInteractionListener() {
                 @Override
@@ -221,19 +209,16 @@ public class BaiduNativeAd extends TPBaseAd {
                 }
             });
 
-            // 给隐私、权限注册事件回调
             mNativeResponse.setAdPrivacyListener(new NativeResponse.AdDownloadWindowListener() {
                 @Override
                 public void adDownloadWindowShow() {
                     Log.i(TAG, "adDownloadWindowShow: ");
-                    // 使弹窗出现时暂停
                     mXNativeView.pause();
                 }
 
                 @Override
                 public void adDownloadWindowClose() {
                     Log.i(TAG, "adDownloadWindowClose: ");
-                    // 使弹窗消失时继续
                     mXNativeView.resume();
                 }
 
@@ -265,7 +250,6 @@ public class BaiduNativeAd extends TPBaseAd {
                 }
             });
 
-            // 尝试播放，判断是否需要自动播放
             mXNativeView.render();
         }
     }
@@ -279,9 +263,9 @@ public class BaiduNativeAd extends TPBaseAd {
     @Override
     public int getNativeAdType() {
         if (isRender == TPBaseAd.AD_TYPE_NATIVE_EXPRESS) {
-            return AD_TYPE_NATIVE_EXPRESS; //模版，下发isRender == 1
+            return AD_TYPE_NATIVE_EXPRESS;
         } else {
-            return AD_TYPE_NORMAL_NATIVE; //自渲染 ，下发isRender == 2
+            return AD_TYPE_NORMAL_NATIVE;
         }
     }
 
@@ -322,7 +306,6 @@ public class BaiduNativeAd extends TPBaseAd {
     public void clean() {
     }
 
-    // 获取安装状态、下载进度所对应的按钮文案
     private String getBtnText(NativeResponse nrAd) {
         if (nrAd == null) {
             return "";

@@ -56,18 +56,6 @@ public class FacebookBanner extends TPBannerAdapter {
 
 
         if (userParams.size() > 0) {
-//            Log.i(TAG, "suportGDPR ccpa: " + userParams.get(AppKeyManager.KEY_CCPA) + ":COPPA:" + userParams.get(AppKeyManager.KEY_COPPA));
-//            if (localExtras.containsKey(AppKeyManager.KEY_CCPA)) {
-//                boolean cppa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
-//                if (cppa) {
-//                    AdSettings.setDataProcessingOptions(new String[]{});
-//                } else {
-//                    AdSettings.setDataProcessingOptions(new String[]{"LDU"}, 1, 1000);
-//                }
-//
-//            } else {
-//                AdSettings.setDataProcessingOptions(new String[]{"LDU"}, 0, 0);
-//            }
 
             if (userParams.containsKey(AppKeyManager.KEY_COPPA)) {
                 boolean coppa = (boolean) userParams.get(AppKeyManager.KEY_COPPA);
@@ -76,7 +64,6 @@ public class FacebookBanner extends TPBannerAdapter {
                     mLoadAdapterListener.loadAdapterLoadFailed(new TPError(NETWORK_NO_FILL));
                     return;
                 }
-//                AdSettings.setMixedAudience(coppa);
             }
         }
 

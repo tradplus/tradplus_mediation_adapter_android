@@ -213,8 +213,6 @@ public class BigoInterstitial extends TPInterstitialAdapter {
 
     @Override
     public void getBiddingToken(Context context, Map<String, String> tpParams, Map<String, Object> localParams, final OnS2STokenListener onS2STokenListener) {
-        // token在SDK未初始化或者异常情况下可能为空，开发者需要进⾏空值校验
-        // 成功初始化BigoAds SDK后 获取token
         boolean initialized = BigoAdSdk.isInitialized();
         BigoInitManager.getInstance().initSDK(context, localParams, tpParams, new TPInitMediation.InitCallback() {
             @Override

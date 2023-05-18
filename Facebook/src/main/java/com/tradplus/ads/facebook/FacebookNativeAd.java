@@ -100,7 +100,6 @@ public class FacebookNativeAd extends TPBaseAd {
 
         mNativeAdView.setMediaView(nativeAdMedia);
 
-//        TPImageLoader.getInstance().loadImage(null, mFacebookNative.getAdIcon().getUrl());
     }
 
     @Override
@@ -160,7 +159,6 @@ public class FacebookNativeAd extends TPBaseAd {
             }
         }
 
-//        NativeBannerAdView.render(context, mFacebookNativeBanner, NativeBannerAdView.Type.HEIGHT_100);
         TPImageLoader.getInstance().loadImage(null, mFacebookNativeBanner.getAdIcon().getUrl());
     }
 
@@ -179,7 +177,7 @@ public class FacebookNativeAd extends TPBaseAd {
     @Override
     public Object getNetworkObj() {
         if (mFacebookView != null) {
-            return mFacebookView; //模版
+            return mFacebookView;
         }
 
         if (mFacebookNative != null) {
@@ -246,9 +244,9 @@ public class FacebookNativeAd extends TPBaseAd {
     public int getNativeAdType() {
         Log.i(TAG, "isRender: " + isRender);
         if (isRender == AppKeyManager.TEMPLATE_RENDERING_YES) {
-            return AD_TYPE_NATIVE_EXPRESS; //模版
+            return AD_TYPE_NATIVE_EXPRESS;
         } else {
-            return AD_TYPE_NORMAL_NATIVE;//自渲染
+            return AD_TYPE_NORMAL_NATIVE;
         }
     }
 

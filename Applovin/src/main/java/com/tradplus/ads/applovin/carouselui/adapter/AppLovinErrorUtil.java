@@ -3,9 +3,6 @@ package com.tradplus.ads.applovin.carouselui.adapter;
 import com.applovin.sdk.AppLovinErrorCodes;
 import com.tradplus.ads.base.common.TPError;
 
-/**
- * Created by sainase on 2020-06-10.
- */
 public class AppLovinErrorUtil {
     public static TPError getTradPlusErrorCode(int errorCode){
         TPError tradPlusErrorCode = new TPError();

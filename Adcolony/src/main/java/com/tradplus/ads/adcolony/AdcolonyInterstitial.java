@@ -127,7 +127,6 @@ public class AdcolonyInterstitial extends TPInterstitialAdapter {
         /** Request a new ad if ad is expiring */
         @Override
         public void onExpiring(AdColonyInterstitial ad) {
-//            AdColony.requestInterstitial(zoneId, this, adOptions);
         }
 
         @Override

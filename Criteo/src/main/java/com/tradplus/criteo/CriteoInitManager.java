@@ -58,7 +58,6 @@ public class CriteoInitManager extends TPInitMediation {
         //  You must initialize the SDK before calling Criteo.getInstance()
         suportGDPR(context, userParams);
 
-        // 仅过多次测试 不延迟 第一次请求的类型百分比请求失败
         postDelayResult(mCriteoPublisherId + adUnits, 2000);
     }
 
@@ -72,9 +71,6 @@ public class CriteoInitManager extends TPInitMediation {
         if (userParams.containsKey(AppKeyManager.KEY_CCPA)) {
             boolean ccpa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
             Log.i("privacylaws", "CCPA: " + ccpa);
-            // note :与我们定义相反
-            // false	User have not opted out 同意
-            // true     opted out 拒绝
             Criteo.getInstance().setUsPrivacyOptOut(!ccpa);
         }
     }

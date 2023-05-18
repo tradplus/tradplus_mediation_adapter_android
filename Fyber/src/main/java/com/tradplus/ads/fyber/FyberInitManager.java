@@ -79,8 +79,6 @@ public class FyberInitManager extends TPInitMediation {
             if (userParams.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean ccpa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
                 Log.i("privacylaws", "ccpa: " + ccpa);
-                //If the user chooses NOT to opt out, and is ok with advertising as usual, you can use "1YNN". —— 正常上报数据
-                //If the user chooses to restrict advertising and opt out, you can use "1YYN". ————限制广告数据上报
                 InneractiveAdManager.setUSPrivacyString(ccpa ? "1YNN" : "1YYN");
             }
 
@@ -93,7 +91,6 @@ public class FyberInitManager extends TPInitMediation {
                 }
             }
 
-            // 巴西隐私政策
             if (userParams.containsKey(AppKeyManager.KEY_LGPD)) {
                 int lgpd = (int) userParams.get(AppKeyManager.KEY_LGPD);
                 boolean consent = (lgpd == TradPlus.PERSONALIZED);

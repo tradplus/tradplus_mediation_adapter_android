@@ -44,8 +44,6 @@ public class CriteoInterstitialAd extends TPInterstitialAdapter {
             }
             return;
         }
-//         mAdUnitId = "190tsfngohsvfkh3hmkm";
-//         mCriteoPublisherId = "B-000000";
 
         mCallbackRouter = InterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(mAdUnitId, mLoadAdapterListener);

@@ -29,7 +29,7 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
     private String placementId;
     private boolean hasGrantedReward = false;
     private boolean alwaysRewardUser;
-    private Integer mVideoMute = 1; // 静音
+    private Integer mVideoMute = 1;
     private AwesomeInterstitialCallbackRouter mCallbackRouter;
     private static final String TAG = "AwesomeInterstitialVideo";
 
@@ -44,7 +44,6 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
                 alwaysRewardUser = (rewardUser == AppKeyManager.ENFORCE_REWARD);
             }
 
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             if (!TextUtils.isEmpty(tpParams.get(AppKeyManager.VIDEO_MUTE))) {
                 mVideoMute = Integer.parseInt(tpParams.get(AppKeyManager.VIDEO_MUTE));
             }
@@ -52,7 +51,6 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
             mLoadAdapterListener.loadAdapterLoadFailed(new TPError(ADAPTER_CONFIGURATION_ERROR));
             return;
         }
-//        placementId = "30479";
         mCallbackRouter = AwesomeInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(placementId, mLoadAdapterListener);
 

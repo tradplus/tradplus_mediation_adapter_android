@@ -71,7 +71,6 @@ public class AppNextNativeAd extends TPBaseAd {
         MediaView mediaView = new MediaView(context);
         mediaView.setMute(videoMute);
         mediaView.setAutoPLay(autoPlayVideo);
-//        mediaView.setClickEnabled(true); // 默认值是true
         nativeAd.setMediaView(mediaView);
         mTpNativeAdView.setMediaView(mediaView);
 

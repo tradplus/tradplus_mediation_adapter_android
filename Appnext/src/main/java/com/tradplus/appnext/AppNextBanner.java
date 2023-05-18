@@ -43,7 +43,6 @@ public class AppNextBanner extends TPBannerAdapter {
                 mAdsize = serverExtras.get(AppKeyManager.ADSIZE + mPID);
             }
         }
-//        mPID="f47aaeb4-302c-4733-a13a-22a2bb721aae";
 
 
         AppNextInitManager.getInstance().initSDK(context, localExtras, serverExtras, new TPInitMediation.InitCallback() {

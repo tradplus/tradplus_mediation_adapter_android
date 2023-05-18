@@ -97,25 +97,19 @@ public class AdColonyInitManager extends TPInitMediation {
                 boolean need_set_gdpr = true;
                 int consent = (int) userParams.get(AppKeyManager.GDPR_CONSENT);
                 if (consent == TradPlus.NONPERSONALIZED || consent == TradPlus.UNKNOWN) {
-                    // 用户拒绝 || 未知 情况都不收集信息
                     need_set_gdpr = false;
                 }
 
                 boolean isEu = (boolean) userParams.get(AppKeyManager.IS_UE);
                 Log.i("privacylaws", "GDPR: " + need_set_gdpr + ":isUe:" + isEu);
-                // 如果设置为 true，则用户受 GDPR 法律的约束,欧盟地区受到约束
                 appOptions.setPrivacyFrameworkRequired(AdColonyAppOptions.GDPR, isEu);
-                // “1”值表示用户已同意存储和处理个人信息，“0”值表示用户已拒绝
                 appOptions.setPrivacyConsentString(AdColonyAppOptions.GDPR, need_set_gdpr ? "1" : "0");
             }
 
             if (userParams.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean ccpa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
                 Log.i("privacylaws", "ccpa: " + ccpa);
-                // note: 跟我们定义相反
-                // 设为true 表示受到约束
                 appOptions.setPrivacyFrameworkRequired(AdColonyAppOptions.CCPA, true);
-                // “0”值表示用户已选择不出售其数据。
                 appOptions.setPrivacyConsentString(AdColonyAppOptions.CCPA, ccpa ? "1" : "0");
             } else {
                 appOptions.setPrivacyFrameworkRequired(AdColonyAppOptions.CCPA, false);
@@ -127,7 +121,6 @@ public class AdColonyInitManager extends TPInitMediation {
                 appOptions.setPrivacyFrameworkRequired(AdColonyAppOptions.COPPA, coppa);
             }
 
-            //Google 为家庭设计 (DFF) / 家庭政策
             if (userParams.containsKey(AppKeyManager.DFF)) {
                 boolean dff = (boolean) userParams.get(AppKeyManager.DFF);
                 Log.i("privacylaws", "dff:" + dff);

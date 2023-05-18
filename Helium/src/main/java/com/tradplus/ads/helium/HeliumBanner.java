@@ -91,7 +91,6 @@ public class HeliumBanner extends TPBannerAdapter {
             return;
         }
 
-        // 同一个pid之前loaded成功但没有show，再次请求不会成功
         // clear loaded ads on existing placements
         if (bannerAd != null) {
             bannerAd.clearAd();

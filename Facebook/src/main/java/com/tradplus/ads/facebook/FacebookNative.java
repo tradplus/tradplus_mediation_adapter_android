@@ -69,7 +69,6 @@ public class FacebookNative extends TPNativeAdapter {
                 mIsTemplateRending = Integer.parseInt(template);
             }
 
-            // 模版NativeBanner支持下发AdSize
             String adSize = tpParams.get(AppKeyManager.ADSIZE + placementId);
             Log.i(TAG, "adSize: " + adSize);
             if (!TextUtils.isEmpty(adSize) && !BANNERZERO.equals(adSize)) {
@@ -91,18 +90,6 @@ public class FacebookNative extends TPNativeAdapter {
         }
 
         if (userParams.size() > 0) {
-//            Log.i(TAG, "suportGDPR ccpa: " + userParams.get(AppKeyManager.KEY_CCPA) + ":COPPA:" + localExtras.get(AppKeyManager.KEY_COPPA));
-//            if (localExtras.containsKey(AppKeyManager.KEY_CCPA)) {
-//                boolean cppa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
-//                if (cppa) {
-//                    AdSettings.setDataProcessingOptions(new String[]{});
-//                } else {
-//                    AdSettings.setDataProcessingOptions(new String[]{"LDU"}, 1, 1000);
-//                }
-//
-//            } else {
-//                AdSettings.setDataProcessingOptions(new String[]{"LDU"}, 0, 0);
-//            }
 
             if (userParams.containsKey(AppKeyManager.KEY_COPPA)) {
                 boolean coppa = (boolean) userParams.get(AppKeyManager.KEY_COPPA);
@@ -311,7 +298,6 @@ public class FacebookNative extends TPNativeAdapter {
     }
 
     private void AdLoadedNative(Context context) {
-        // 自渲染 native
         if (mFacebookNative != null) {
             mFacebookNative.unregisterView();
 
@@ -326,7 +312,6 @@ public class FacebookNative extends TPNativeAdapter {
     }
 
     private void AdLoadedTemplateNativeBanner(Context context) {
-        // 模版NativeBanner
         if (mNativeBannerAd != null) {
             if (mNativeBannerAd.isAdLoaded() && !mNativeBannerAd.isAdInvalidated()) {
 
@@ -350,7 +335,6 @@ public class FacebookNative extends TPNativeAdapter {
     }
 
     private void AdLoadedTemplateNative(Context context) {
-        // 模版Native
         if (mFacebookNative != null) {
             Log.i(TAG, "TemplateNativeAdLoaded: ");
 

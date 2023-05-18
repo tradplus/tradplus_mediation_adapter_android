@@ -211,8 +211,6 @@ public class BigoBanner extends TPBannerAdapter {
 
     @Override
     public void getBiddingToken(Context context, Map<String, String> tpParams, Map<String, Object> localParams, final OnS2STokenListener onS2STokenListener) {
-        // token在SDK未初始化或者异常情况下可能为空，开发者需要进⾏空值校验
-        // 成功初始化BigoAds SDK后 获取token
         boolean initialized = BigoAdSdk.isInitialized();
         BigoInitManager.getInstance().initSDK(context, localParams, tpParams, new TPInitMediation.InitCallback() {
             @Override
@@ -221,7 +219,6 @@ public class BigoBanner extends TPBannerAdapter {
                 boolean tokenEmpty = TextUtils.isEmpty(bidderToken);
                 Log.i(TAG, "onSuccess bidderToken isEmpty " + tokenEmpty);
                 if (!initialized) {
-                    // 第一次初始化打印250
                     BigoInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                 }
                 onS2STokenListener.onTokenResult(!tokenEmpty ? bidderToken : "",null);

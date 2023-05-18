@@ -92,7 +92,6 @@ public class AdFlyNative extends TPNativeAdapter {
 
             @Override
             public void onAdLoaded(AdflyAd ad) {
-                // 在收到 onAdLoaded 回调后可以开始显示广告
                 Log.i(TAG, "onAdLoaded: ");
                 mAdFlyNativeAd = new AdFlyNativeAd(activity, mNativeAd);
                 if (mLoadAdapterListener != null) {

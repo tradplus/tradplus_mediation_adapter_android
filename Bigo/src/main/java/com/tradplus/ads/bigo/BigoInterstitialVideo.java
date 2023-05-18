@@ -113,7 +113,6 @@ public class BigoInterstitialVideo extends TPRewardAdapter {
     private final RewardAdInteractionListener adInteractionListener = new RewardAdInteractionListener() {
         @Override
         public void onAdRewarded() {
-            // 表示激励视频已播放完成，可下发奖励。
             Log.i(TAG, "onAdRewarded: ");
             hasGrantedReward = true;
             if (mCallbackRouter.getShowListener(mPlacementId) != null) {
@@ -237,7 +236,6 @@ public class BigoInterstitialVideo extends TPRewardAdapter {
                 boolean tokenEmpty = TextUtils.isEmpty(bidderToken);
                 Log.i(TAG, "onSuccess bidderToken isEmpty " + tokenEmpty);
                 if (!initialized) {
-                    // 第一次初始化打印250
                     BigoInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                 }
                 onS2STokenListener.onTokenResult(!tokenEmpty ? bidderToken : "", null);
