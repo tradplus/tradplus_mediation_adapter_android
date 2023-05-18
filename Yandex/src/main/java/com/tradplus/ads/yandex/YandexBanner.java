@@ -32,8 +32,8 @@ public class YandexBanner extends TPBannerAdapter {
     private String mPlacementId,payload;
     private BannerAdView mBannerAdView;
     private TPBannerAdImpl mTpBannerAd;
-    private int onAdShow = 0; // 0 表示没有展示
-    private Integer mAdSize = 4; // 默认4，服务器4 返回320 * 50
+    private int onAdShow = 0;
+    private Integer mAdSize = 4;
 
     @Override
     public void loadCustomAd(final Context context, Map<String, Object> userParams, Map<String, String> tpParams) {

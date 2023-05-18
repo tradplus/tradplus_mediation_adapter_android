@@ -38,7 +38,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
 
     private String mPlacementId;
     private static final String TAG = "ToutiaoSplash";
-    //开屏广告加载超时时间,建议大于3000,这里为了冷启动第一次加载到广告并且展示,示例设置了3000ms
     private int timeout = 3000;
     private TTAdManager adManager;
     private TTAdNative mAdNative;
@@ -46,7 +45,7 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
     private int mZoomOut;
     private SplashClickEyeManager mSplashClickEyeManager;
     private CSJSplashAd.SplashClickEyeListener mSplashClickEyeListener;
-    private boolean mIsSplashClickEye = false;//是否是开屏点睛
+    private boolean mIsSplashClickEye = false;
     private boolean isSupportClickEye;
     private CSJSplashAd mCSJSplashAd;
     private boolean isC2SBidding;
@@ -122,7 +121,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
         if (isC2SBidding && isBiddingLoaded) {
             if (mLoadAdapterListener != null) {
                 setNetworkObjectAd(mCSJSplashAd);
-                // 竞价成功时的上报接⼝（必传），单位是分
                 mCSJSplashAd.win(ecpmLevel);
                 mLoadAdapterListener.loadAdapterLoaded(null);
             }
@@ -132,16 +130,12 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
         int width = UIUtils.getScreenWidthInPx(context);
         int height = UIUtils.getScreenHeightInPx(context);
 
-        // V4.2.5.2开始不区分渲染方式，
-        // 要求开发者同时设置setImageAcceptedSize（单位：px）和setExpressViewAcceptedSize（单位：dp ）接口，不同时设置可能会导致展示异常。
         final AdSlot.Builder builder = new AdSlot.Builder().setCodeId(mPlacementId).setSupportDeepLink(true).setImageAcceptedSize(width, height).setExpressViewAcceptedSize((float) width, (float) height);
 
         AdSlot adSlot = builder.build();
-        //step4:请求广告，调用开屏广告异步请求接口，对请求回调的广告作渲染处理
         mAdNative.loadSplashAd(adSlot, new TTAdNative.CSJSplashAdListener() {
             @Override
             public void onSplashLoadSuccess() {
-                // 广告物料、素材加载成功回调
                 Log.i(TAG, "onSplashLoadSuccess: ");
             }
 
@@ -150,7 +144,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
                 LoadSplashFail(csjAdError, null);
             }
 
-            // 广告渲染回调，接入方可以在这个回调中，调用ad.showSplashView(splashContainerView)进行渲染
             @Override
             public void onSplashRenderSuccess(CSJSplashAd csjSplashAd) {
                 if (csjSplashAd == null) {
@@ -164,13 +157,10 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
                 Log.i(TAG, "onSplashRenderSuccess: ");
 
                 if (mZoomOut == 1) {
-                    //获取SplashView
                     View splashView = csjSplashAd.getSplashView();
-                    //初始化开屏点睛相关数据
                     initSplashClickEyeData(context, csjSplashAd, splashView);
                 }
 
-                //设置SplashView的交互监听器
                 csjSplashAd.setSplashAdListener(splashAdListener);
 
                 if (csjSplashAd.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
@@ -209,13 +199,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
     }
 
 
-    /**
-     * 竞价失败时的上报接⼝（必传）
-     * auctionPrice 胜出者的第⼀名价格（不想上报价格传时null），单位是分
-     * lossReason 竞价失败的原因（不想上报原因时传null），可参考枚举值或者媒体⾃定义回传
-     * winBidder 胜出者（不想上报胜出者时传null），可参考枚举值或者媒体⾃定义回传
-     * 102 bid价格低于最高价
-     */
     @Override
     public void setLossNotifications(String auctionPrice, String lossReason) {
         if (mCSJSplashAd != null) {
@@ -336,7 +319,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
             return;
         }
 
-//        mIsSplashClickEye = SplashClickEyeManager.getInstance(mCxt).isSupportSplashClickEye();
         Activity activity = GlobalTradPlus.getInstance().getActivity();
         if (activity == null) {
             if (mLoadAdapterListener != null) {
@@ -373,7 +355,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
         @Override
         public void onSplashClickEyeReadyToShow(CSJSplashAd csjSplashAd) {
             Log.i(TAG, "onSplashClickEyeReadyToShow: ");
-            //开始执行开屏点睛动画
             startSplashAnimationStart();
             if (mShowListener != null) {
                 mShowListener.onZoomOutStart();
@@ -383,7 +364,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
         @Override
         public void onSplashClickEyeClick() {
             isSupportClickEye = true;
-            // 广告loaded成功，即使不是开屏点睛广告，也应该正常展示
             SplashClickEyeManager splashClickEyeManager = SplashClickEyeManager.getInstance(mContext);
             splashClickEyeManager.setSupportSplashClickEye(true);
         }
@@ -391,7 +371,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
         @Override
         public void onSplashClickEyeClose() {
             Log.i(TAG, "onSplashClickEyeClose: ");
-            //sdk关闭了了点睛悬浮窗
             SplashClickEyeManager splashClickEyeManager = SplashClickEyeManager.getInstance(mContext);
             splashClickEyeManager.clearSplashStaticData();
             if (mShowListener != null) {
@@ -441,7 +420,6 @@ public class ToutiaoSplashAd extends TPSplashAdapter {
             mShowListener.onAdVideoError(new TPError(SHOW_FAILED));
             return;
         }
-        //设置SplashView的交互监听器
         View splashView = mCSJSplashAd.getSplashView();
         if (splashView != null && mAdContainerView != null) {
             mAdContainerView.removeAllViews();

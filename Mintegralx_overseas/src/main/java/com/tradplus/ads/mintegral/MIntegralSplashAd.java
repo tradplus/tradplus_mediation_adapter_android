@@ -43,13 +43,13 @@ public class MIntegralSplashAd extends TPSplashAdapter {
     private MBSplashHandler mbSplashHandler;
     private Integer direction;
     private String payload;
-    private int is_skipable;// 是否可以跳过 否 2 ；是 1
-    boolean allowSkip = true;// 是否允许用户跳过启动广告
-    private int countdown_time; // 广告播放的时间。 必须在2-10秒内
+    private int is_skipable;
+    boolean allowSkip = true;
+    private int countdown_time;
     private int mAppIcon;
     private int mAppIconWidth = 100;
     private int mAppIconHeight = 100;
-    private boolean isSupportZoomOut; // 开屏浮球功能
+    private boolean isSupportZoomOut;
     private int isCloseDestory;
 
     @Override
@@ -66,7 +66,6 @@ public class MIntegralSplashAd extends TPSplashAdapter {
             countdown_time = Integer.parseInt(tpParams.get(AppKeyManager.KEY_COUNTDOWN));
 
             if (is_skipable == AppKeyManager.NO_SKIP) {
-                // 不允许跳过
                 allowSkip = false;
             }
         } else {
@@ -112,7 +111,6 @@ public class MIntegralSplashAd extends TPSplashAdapter {
     }
 
     private void requestSplash(Context context) {
-        // 2是横屏、1是竖屏
         if (direction == 2) {
             direction = Configuration.ORIENTATION_LANDSCAPE;
         } else {
@@ -120,14 +118,13 @@ public class MIntegralSplashAd extends TPSplashAdapter {
         }
 
         if (mAppIcon != 0) {
-            // logo先设高后设置宽，与setLogoView相反
             mbSplashHandler = new MBSplashHandler(mPlacementId, mUnitId, allowSkip, countdown_time,
                     direction, mAppIconHeight, mAppIconWidth);
             ImageView imageView = new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView.setImageResource(mAppIcon);
             mbSplashHandler.setLogoView(imageView, mAppIconWidth, mAppIconHeight);
-            Log.i(TAG, "设置appIcon,IconWidth ：" + mAppIconWidth + ", AppIconHeight :" + mAppIconHeight);
+            Log.i(TAG, "appIcon,IconWidth ：" + mAppIconWidth + ", AppIconHeight :" + mAppIconHeight);
         } else {
             mbSplashHandler = new MBSplashHandler(mPlacementId, mUnitId, allowSkip, countdown_time);
             mbSplashHandler.setOrientation(direction);
@@ -191,18 +188,6 @@ public class MIntegralSplashAd extends TPSplashAdapter {
             @Override
             public void onDismiss(MBridgeIds mBridgeIds, int type) {
                 Log.i(TAG, "onDismiss: tpye :" + type);
-//todo 浮球功能，等后台支持
-//                Activity activity = GlobalTradPlus.getInstance().getActivity();
-//                if (activity != null) {
-//                    if (isSupportZoomOut) {
-//                        Log.i(TAG, "isSupportZoomOut: ");
-//                        activity.setResult(Activity.RESULT_OK);
-//                    }
-//                   activity.finish();
-//                }
-//                if (type == 6 || type == 4 || type == 5) {
-//                    MBZoomOutManager.getInstance().dismissZoomView();
-//                }
 
                 if (mShowListener != null) {
                     mShowListener.onAdClosed();
@@ -216,11 +201,6 @@ public class MIntegralSplashAd extends TPSplashAdapter {
                     mShowListener.onTick(millisUntilFinished);
                 }
 
-//todo 浮球功能，等后台支持
-//                if (millisUntilFinished == 0) {
-//                    Activity activity = GlobalTradPlus.getInstance().getActivity();
-//                    showZoomOut(activity, mAdContainerView);
-//                }
             }
 
             @Override
@@ -240,17 +220,15 @@ public class MIntegralSplashAd extends TPSplashAdapter {
         } else {
             mbSplashHandler.preLoadByToken(payload);
         }
-        mbSplashHandler.onResume();//通知我们页面可以显示出来
+        mbSplashHandler.onResume();
 
     }
 
-    //todo 浮球功能，等后台支持
     private void showZoomOut(Activity activity, ViewGroup zoomOutViewLayout) {
         if (activity == null || zoomOutViewLayout == null) {
             return;
         }
         Log.i(TAG, "showZoomOut: ");
-//        zoomOutViewLayout.removeAllViews();
 
         MBridgeSDKFactory.getMBridgeSDK().updateDialogWeakActivity(new WeakReference<Activity>(activity));
         MBZoomOutManager.getInstance().startZoomOut((ViewGroup) activity.getWindow().getDecorView(),
@@ -306,8 +284,6 @@ public class MIntegralSplashAd extends TPSplashAdapter {
             Log.i(TAG, "isReady: " + (TextUtils.isEmpty(payload) ? mbSplashHandler.isReady() :
                     mbSplashHandler.isReady(payload)));
         }
-        //onLoadSuccessed后立马调用isReady会返回false，有延迟；但可以直接调用show
-        //isReady是为了给不在回调里使用的
          return !isAdsTimeOut();
     }
 
@@ -341,7 +317,6 @@ public class MIntegralSplashAd extends TPSplashAdapter {
                     public void onSuccess() {
                         String token = BidManager.getBuyerUid(context);
                         if (!finalInitSuccess) {
-                            // 第一次初始化 250
                             MintegralInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                         }
 

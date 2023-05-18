@@ -45,7 +45,6 @@ public class MyTargetRewardAd extends TPRewardAdapter {
                 alwaysRewardUser = (rewardUser == AppKeyManager.ENFORCE_REWARD);
             }
         }
-//        mSlotId = "854785";
 
         mMyTatgetICbR = MyTargetInterstitialCallbackRouter.getInstance();
         mMyTatgetICbR.addListener(mSlotId, mLoadAdapterListener);

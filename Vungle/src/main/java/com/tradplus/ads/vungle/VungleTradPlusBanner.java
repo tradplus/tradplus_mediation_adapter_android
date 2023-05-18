@@ -93,7 +93,6 @@ public class VungleTradPlusBanner extends TPBannerAdapter {
         VungleInitManager.getInstance().initSDK(context, localExtras, serverExtras, new TPInitMediation.InitCallback() {
             @Override
             public void onSuccess() {
-                // 下发AdSize 为 0 的情况是选择了300 * 250 中矩形
                 Banners.loadBanner(placementId, isEmptyPayLoad(), getBannerAdConfig(BANNERZERO.equals(mAdSize)), vungleLoadAdCallback);
             }
 

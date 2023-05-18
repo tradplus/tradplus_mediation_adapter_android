@@ -33,8 +33,8 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
     private static final String TAG = "GDTInterstitial";
     private UnifiedInterstitialAD mUnifiedInterstitialAD;
     private String mPlacementId;
-    private boolean isVideoSoundEnable = true; // true（自动播放时静音）; 1 :静音
-    private boolean showPopUpWin = false; // 插屏半屏广告支持; false 有遮罩展示；true 无遮罩展示; 默认有遮罩
+    private boolean isVideoSoundEnable = true;
+    private boolean showPopUpWin = false;
     private TxAdnetInterstitialCallbackRouter mCallbackRouter;
     private int fullScreenType;
     private int videoMaxTime, autoPlayVideo;
@@ -54,21 +54,15 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
             mPlacementId = serverExtras.get(AppKeyManager.AD_PLACEMENT_ID);
             payload = serverExtras.get(DataKeys.BIDDING_PAYLOAD);
             price = serverExtras.get(DataKeys.BIDDING_PRICE);
-            // 自动播放视频
             mAutoPlayVideo = serverExtras.get(AppKeyManager.AUTO_PLAY_VIDEO);
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             mVideoMute = serverExtras.get(AppKeyManager.VIDEO_MUTE);
-            // 视频最大时长
             mVideoMaxTime = serverExtras.get(AppKeyManager.VIDEO_MAX_TIME);
-            // 是否全屏视频 是1 否0
             fullScreenType = Integer.parseInt(serverExtras.get(AppKeyManager.FULL_SCREEN_TYPE));
 
-            Log.i(TAG, "loadCustomAd: AutoPlayVideo(自动播放) : " + mAutoPlayVideo + " , VideoMute(视频静音) :" + mVideoMute
-                    + ", VideoMaxTime(视频最大时长) : " + mVideoMaxTime + "， FullScreenType(全屏视频) : " + fullScreenType);
 
             if (!TextUtils.isEmpty(mVideoMute)) {
                 if (!mVideoMute.equals(AppKeyManager.VIDEO_MUTE_YES)) {
-                    isVideoSoundEnable = false; // true（自动播放时静音）；false(自动播放有声)
+                    isVideoSoundEnable = false;
                 }
             }
 
@@ -121,30 +115,26 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
             mUnifiedInterstitialAD = new UnifiedInterstitialAD(activity, mPlacementId, mUnifiedInterstitialADListener, null, payload);
         }
         setVideoOption();
-        // 设置监听器，监听视频广告的状态变化
         mUnifiedInterstitialAD.setMediaListener(mUnifiedInterstitialMediaListener);
 
         if (fullScreenType == AppKeyManager.FULL_TYPE) {
-            Log.i(TAG, "loadAd 全屏视频");
             mUnifiedInterstitialAD.loadFullScreenAD();
         } else {
-            Log.i(TAG, "loadAd 插屏半屏");
             mUnifiedInterstitialAD.loadAD();
         }
     }
 
     private void setVideoOption() {
         VideoOption.Builder builder = new VideoOption.Builder();
-        //指定自动播放时是否静音，如果true（自动播放时静音）；false(自动播放有声)，默认值为true。
         Log.i(TAG, "PlacementId: " + mPlacementId + "， videoMute: " + isVideoSoundEnable);
         VideoOption option = builder.setAutoPlayMuted(isVideoSoundEnable)
                 .setDetailPageMuted(isVideoSoundEnable)
-                .setAutoPlayPolicy(autoPlayVideo == 1 ? VideoOption.AutoPlayPolicy.ALWAYS : VideoOption.AutoPlayPolicy.WIFI) //0代表wifi网络下；1，代表总是自动播放。
+                .setAutoPlayPolicy(autoPlayVideo == 1 ? VideoOption.AutoPlayPolicy.ALWAYS : VideoOption.AutoPlayPolicy.WIFI)
                 .build();
         mUnifiedInterstitialAD.setVideoOption(option);
 
         if (videoMaxTime >= 5 && videoMaxTime <= 60) {
-            mUnifiedInterstitialAD.setMaxVideoDuration(videoMaxTime);//设置最大时长
+            mUnifiedInterstitialAD.setMaxVideoDuration(videoMaxTime);
         }
     }
 
@@ -166,14 +156,11 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
         if (mUnifiedInterstitialAD != null) {
             setBidEcpm();
             if (fullScreenType == AppKeyManager.FULL_TYPE) {
-                Log.i(TAG, "showAd 全屏视频 ");
                 mUnifiedInterstitialAD.showFullScreenAD(activity);
             } else {
                 if (showPopUpWin) {
-                    Log.i(TAG, "showAd 插屏半屏（无遮罩）");
                     mUnifiedInterstitialAD.showAsPopupWindow(activity);
                 }else {
-                    Log.i(TAG, "showAd 插屏半屏（有遮罩）");
                     mUnifiedInterstitialAD.show(activity);
                 }
             }
@@ -182,7 +169,6 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
         }
     }
 
-    // 监听视频广告的状态变化
     private final UnifiedInterstitialMediaListener mUnifiedInterstitialMediaListener = new UnifiedInterstitialMediaListener() {
 
         @Override
@@ -246,13 +232,10 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
     private final UnifiedInterstitialADListener mUnifiedInterstitialADListener = new UnifiedInterstitialADListener() {
         @Override
         public void onADReceive() {
-            //onADReceive之后才可调用getECPM()
         }
 
         @Override
         public void onVideoCached() {
-            // 视频素材加载完成，在此时调用iad.show()或iad.showAsPopupWindow()视频广告不会有进度条。
-            // 2 视频；0 图片
             if (mUnifiedInterstitialAD.getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
                 if (mCallbackRouter.getListener(mPlacementId) != null) {
                     Log.i(TAG, "onVideoCached: " + mUnifiedInterstitialAD.getAdPatternType());
@@ -307,9 +290,7 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
 
         @Override
         public void onRenderSuccess() {
-            //插屏半屏广告渲染成功时回调，此回调后才可以调用 show 方法
             setFirstLoadedTime();
-            // 2 视频；0 图片
             if (mUnifiedInterstitialAD.getAdPatternType() != AdPatternType.NATIVE_VIDEO) {
                 if (mCallbackRouter.getListener(mPlacementId) != null) {
                     Log.i(TAG, "onADReceive: " + mUnifiedInterstitialAD.getAdPatternType());
@@ -322,7 +303,6 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
 
         @Override
         public void onRenderFail() {
-            //插屏半屏广告渲染失败时回调
             Log.i(TAG, "onRenderFail: ");
         }
     };
@@ -341,7 +321,6 @@ public class TxAdnetInterstitialVideo extends TPInterstitialAdapter {
     @Override
     public boolean isReady() {
         Log.i(TAG, "isReady:" + mUnifiedInterstitialAD.isValid());
-        // 广告是否有效，无效广告将无法展示
         if (mUnifiedInterstitialAD != null) {
             return !isAdsTimeOut() && mUnifiedInterstitialAD.isValid();
         }

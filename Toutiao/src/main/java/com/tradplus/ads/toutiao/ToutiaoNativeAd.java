@@ -102,7 +102,7 @@ public class ToutiaoNativeAd extends TPBaseAd {
             mTPNativeAdView.setPicObject(new ArrayList<Object>(imageList));
         }
 
-        String source = nativeData.getSource();//广告来源
+        String source = nativeData.getSource();
         Log.i(TAG, "source: " + source);
         if (!TextUtils.isEmpty(source)) {
             mTPNativeAdView.setAdSource(source);
@@ -192,11 +192,10 @@ public class ToutiaoNativeAd extends TPBaseAd {
 
     @Override
     public int getNativeAdType() {
-        // 均按照TPBaseAd中定义的NativeType进行返回
         if (isRender == TPBaseAd.AD_TYPE_NORMAL_NATIVE || isRender == ToutiaoConstant.NATIVE_PATCH_VIDEO) {
-            return AD_TYPE_NORMAL_NATIVE;//自渲染
+            return AD_TYPE_NORMAL_NATIVE;
         } else if (isRender == TPBaseAd.AD_TYPE_NATIVE_EXPRESS) {
-            return AD_TYPE_NATIVE_EXPRESS;//模版
+            return AD_TYPE_NATIVE_EXPRESS;
         } else {
             return AD_TYPE_NATIVE_LIST;
         }

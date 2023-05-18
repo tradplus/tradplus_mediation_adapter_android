@@ -76,7 +76,6 @@ public class SmaatoBanner extends TPBannerAdapter {
     private void requestBanner(Context context) {
         // find bannerView you setup in your activity.xml、
         bannerView = new BannerView(context);
-        // 自动刷新关闭
         bannerView.setAutoReloadInterval(AutoReloadInterval.DISABLED);
         // load banner with desired size
         bannerView.loadAd(mPlacementId, calculateAdSize(mAdSize));

@@ -22,12 +22,12 @@ public class MBZoomOutManager {
     private static final int LEFT = 0;
     private static final int RIGHT = 1;
 
-    private int zoomOutWidth;//悬浮窗的宽度
-    private int zoomOutHeight;//悬浮窗的高度
-    private int zoomOutMargin;//悬浮窗最小离屏幕边缘的距离
-    private int zoomOutAbove;//悬浮窗默认距离屏幕底端的高度
-    private int zoomOutPos;//悬浮窗默认位于屏幕左面或右面
-    private int zoomOutAnimationTime;//悬浮窗缩放动画的，单位ms
+    private int zoomOutWidth;
+    private int zoomOutHeight;
+    private int zoomOutMargin;
+    private int zoomOutAbove;
+    private int zoomOutPos;
+    private int zoomOutAnimationTime;
     private int zoomOutAnimationAlphaTime;
 
     private View splashView;
@@ -109,14 +109,7 @@ public class MBZoomOutManager {
         mbSplashHandler = null;
     }
 
-    /**
-     * 开屏采用单独的activity时候，悬浮窗显示在另外一个activity使用该函数进行动画
-     * 调用前要先调用setSplashInfo设置数据，该函数会使用setSplashInfo设置的数据，并会清除对设置数据的引用
-     *
-     * @param animationContainer 一般是decorView
-     * @param zoomOutContainer   最终浮窗所在的父布局
-     * @param callBack           动画完成的回调
-     */
+
     public ViewGroup startZoomOut(final ViewGroup animationContainer,
                                   final ViewGroup zoomOutContainer,
                                   final AnimationCallBack callBack, ZoomOutTypeEnum zoomOutType) {
@@ -129,7 +122,6 @@ public class MBZoomOutManager {
             Log.d(TAG, "zoomOut  splashView is null");
             return null;
         }
-        //先把view按照原来的尺寸显示出来
         int[] animationContainerPos = new int[2];
         animationContainer.getLocationOnScreen(animationContainerPos);
         int x = originSplashPos[0] - animationContainerPos[0];
@@ -145,19 +137,7 @@ public class MBZoomOutManager {
         return startZoomOut(splashView, animationContainer, zoomOutContainer, callBack, zoomOutType);
     }
 
-    /**
-     * 开屏显示和悬浮窗显示在同一个activity中
-     * 使用该函数会清除setSplashInfo设置的数据
-     * * 动画步骤：
-     * 1、把需要动画的view从父布局中移除出来，目的是在动画时可以隐藏其他开屏的view
-     * 2、把splash对应的view加到动画的view里开始动画，因为动画窗口可能比较最终的布局要大
-     * 3、在动画结束把splash view加到zoomOutContainer里
-     *
-     * @param splash             开屏对应的view;
-     * @param animationContainer 开屏动画所在的layout
-     * @param zoomOutContainer   动画结束时，最终悬浮窗所在的父布局
-     * @param callBack           动画结束时的回调，splashAdView无法感知动画的执行时间，需要使用该函数通知动画结束了
-     */
+
     public ViewGroup startZoomOut(final View splash, final ViewGroup animationContainer,
                                   final ViewGroup zoomOutContainer,
                                   final AnimationCallBack callBack, ZoomOutTypeEnum zoomOutType) {

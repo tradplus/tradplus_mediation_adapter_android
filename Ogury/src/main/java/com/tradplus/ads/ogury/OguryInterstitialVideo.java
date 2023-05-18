@@ -60,8 +60,6 @@ public class OguryInterstitialVideo extends TPRewardAdapter {
             }
         }
 
-//        appId = "OGY-955A72153B4A";
-//        mPlacementId = "2189d8f0-321d-0139-77ec-0242ac120004";
         mCallbackRouter = OguryInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(mPlacementId, mLoadAdapterListener);
 

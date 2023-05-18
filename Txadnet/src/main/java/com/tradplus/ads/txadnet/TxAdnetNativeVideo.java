@@ -42,14 +42,14 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
     private String mPlacementId;
     private int mAdWidth;
     private int mAdHeight;
-    private NativeUnifiedADData mNativeUnifiedADData; // 原生自渲染
-    private NativeUnifiedAD mNativeUnifiedAD; // 原生自渲染
+    private NativeUnifiedADData mNativeUnifiedADData;
+    private NativeUnifiedAD mNativeUnifiedAD;
     private TxAdnetNativeData mTXAdnetNativeData;
     private int mIsTemplateRending, autoPlayVideo, videoMaxTime;
-    private boolean isVideoSoundEnable = true; // 下发 1 ；静音
+    private boolean isVideoSoundEnable = true;
     private TxAdnetNativeData mNativeData;
-    private NativeExpressAD nativeExpressAD;// 原生模版
-    private NativeExpressADView mNativeExpressADView; //原生模版View;
+    private NativeExpressAD nativeExpressAD;
+    private NativeExpressADView mNativeExpressADView;
     private boolean mNeedDownloadImg = false;
     private String payload;
     private String price;
@@ -69,16 +69,11 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
             payload = serverExtras.get(DataKeys.BIDDING_PAYLOAD);
             price = serverExtras.get(DataKeys.BIDDING_PRICE);
             secType = serverExtras.get(AppKeyManager.ADTYPE_SEC);
-            // 自动播放视频
             mAutoPlayVideo = serverExtras.get(AppKeyManager.AUTO_PLAY_VIDEO);
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             mVideoMute = serverExtras.get(AppKeyManager.VIDEO_MUTE);
-            // 视频最大时长
             mVideoMaxTime = serverExtras.get(AppKeyManager.VIDEO_MAX_TIME);
             template = serverExtras.get(AppKeyManager.IS_TEMPLATE_RENDERING);
 
-            Log.i(TAG, "AutoPlayVideo(自动播放) : " + mAutoPlayVideo + " , VideoMute(视频静音) :" + mVideoMute
-                    + ", VideoMaxTime(视频最大时长) : " + mVideoMaxTime + ", template :" + template);
 
             if (!TextUtils.isEmpty(template)) {
                 mIsTemplateRending = Integer.parseInt(template);
@@ -95,7 +90,7 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
             Log.i(TAG, "videoMute: " + mVideoMute);
             if (!TextUtils.isEmpty(mVideoMute)) {
                 if (!mVideoMute.equals(AppKeyManager.VIDEO_MUTE_YES)) {
-                    isVideoSoundEnable = false; // 三方静音，传true
+                    isVideoSoundEnable = false;
                     Log.i(TAG, "videoMute: " + isVideoSoundEnable);
                 }
             }
@@ -122,8 +117,8 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
         }
 
         if (mAdHeight == 0 || mAdWidth == 0) {
-            mAdWidth = ADSize.FULL_WIDTH; //最大宽度
-            mAdHeight = ADSize.AUTO_HEIGHT; //自适应高度
+            mAdWidth = ADSize.FULL_WIDTH;
+            mAdHeight = ADSize.AUTO_HEIGHT;
         }
 
         Log.i(TAG, "Width :" + mAdWidth + ", Height :" + mAdHeight);
@@ -146,7 +141,6 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
         if (mIsTemplateRending == AppKeyManager.TEMPLATE_RENDERING_NO || mIsTemplateRending == GDTConstant.TEMPLATE_PATCH_RENDERING_NO
                 || AppKeyManager.NATIVE_TYPE_DRAWLIST.equals(secType)) {
 
-            // 自渲染广告入口，用于初始化并加载广告
             if (TextUtils.isEmpty(payload)) {
                 mNativeUnifiedAD = new NativeUnifiedAD(context, mPlacementId, mNativeADUnifiedListener);
             } else {
@@ -154,18 +148,15 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
             }
 
             if (videoMaxTime >= 5 && videoMaxTime <= 60) {
-                mNativeUnifiedAD.setMaxVideoDuration(videoMaxTime);//设置最大时长
+                mNativeUnifiedAD.setMaxVideoDuration(videoMaxTime);
             }
             if (AppKeyManager.NATIVE_TYPE_DRAWLIST.equals(secType)) {
-                Log.i(TAG, "请求自渲染Draw信息流");
                 mNativeUnifiedAD.loadData(3);
             } else {
-                Log.i(TAG, "请求自渲染");
                 mNativeUnifiedAD.loadData(1);
             }
 
         } else if (mIsTemplateRending == AppKeyManager.TEMPLATE_RENDERING_YES || mIsTemplateRending == GDTConstant.TEMPLATE_PATCH_RENDERING_YES) {
-            Log.i(TAG, "请求模版");
             Activity activity = GlobalTradPlus.getInstance().getActivity();
             if (activity == null) {
                 if (mLoadAdapterListener != null) {
@@ -189,32 +180,24 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
     private VideoOption getVideoOption() {
         VideoOption.Builder builder = new VideoOption.Builder();
         if (autoPlayVideo == 3) {
-            Log.i(TAG, "VideoOption: 手动播放");
             builder.setAutoPlayPolicy(VideoOption.AutoPlayPolicy.NEVER);
         } else if (autoPlayVideo == 2) {
             builder.setAutoPlayPolicy(VideoOption.AutoPlayPolicy.WIFI);
         } else {
-            builder.setAutoPlayPolicy(VideoOption.AutoPlayPolicy.ALWAYS);//0代表wifi网络下；1，代表总是自动播放。
+            builder.setAutoPlayPolicy(VideoOption.AutoPlayPolicy.ALWAYS);
         }
 
         if (mNativeUnifiedADData != null && mNativeUnifiedADData.getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
-            Log.i(TAG, "VideoOption: 自渲染原生视频");
-            // 在预览页点击视频播放器区域控制视频的暂停或播放,true生效
-            // 同时需要设置setEnableDetailPage为false，否则点击会跳转到详情页
-            // 只对自渲染视频广告生效
             builder.setEnableUserControl(autoPlayVideo == 3);
-            builder.setNeedCoverImage(true); // 显示封面
+            builder.setNeedCoverImage(true);
         }
 
-        builder.setAutoPlayMuted(isVideoSoundEnable); // 自动播放时为静音
-        // 用户在预览页点击clickableViews或视频区域(setEnableUserControl设置为false)时是否跳转到详情页
-        // 默认为true，跳转到详情页；
-        // 只对自渲染视频广告生效 ———— 实际对自渲染图片也会生效
+        builder.setAutoPlayMuted(isVideoSoundEnable);
         builder.setEnableDetailPage(true);
 
-        builder.setDetailPageMuted(isVideoSoundEnable);  // 视频详情页播放时
+        builder.setDetailPageMuted(isVideoSoundEnable);
         if (nativeExpressAD != null && videoMaxTime >= 5 && videoMaxTime <= 60) {
-            nativeExpressAD.setMaxVideoDuration(videoMaxTime);//设置最大时长
+            nativeExpressAD.setMaxVideoDuration(videoMaxTime);
         }
 
         return builder.build();
@@ -222,7 +205,6 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
     }
 
 
-    // 自渲染
     private final NativeADUnifiedListener mNativeADUnifiedListener = new NativeADUnifiedListener() {
         @Override
         public void onADLoaded(List<NativeUnifiedADData> list) {
@@ -282,11 +264,9 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
         mLoadAdapterListener.loadAdapterLoaded(mTXAdnetNativeData);
     }
 
-    // 自渲染:设置广告点击曝光等事件监听者
     final NativeADEventListenerWithClickInfo nativeADEventListener = new NativeADEventListenerWithClickInfo() {
         @Override
         public void onADExposed() {
-            Log.i(TAG, "广告曝光");
             if (mTXAdnetNativeData != null) {
                 mTXAdnetNativeData.adShown();
             }
@@ -301,8 +281,6 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
 
         @Override
         public void onADError(AdError error) {
-            Log.d(TAG, "错误回调 error code :" + error.getErrorCode()
-                    + "  error msg: " + error.getErrorMsg());
             if (mLoadAdapterListener != null) {
                 mLoadAdapterListener.loadAdapterLoadFailed(TxAdnetErrorUtil.getTradPlusErrorCode(error));
             }
@@ -315,7 +293,6 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
     };
 
 
-    // 模版
     private final NativeExpressAD.NativeExpressADListener mNativeExpressADListener = new NativeExpressAD.NativeExpressADListener() {
         @Override
         public void onNoAD(AdError adError) {
@@ -328,22 +305,17 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
         @Override
         public void onADLoaded(List<NativeExpressADView> list) {
 
-            // 释放前一个展示的NativeExpressADView的资源
             if (mNativeExpressADView != null) {
                 mNativeExpressADView.destroy();
             }
 
             setBidEcpm();
 
-            // 广告数据加载成功，返回了可以用来展示广告的 NativeExpressADView，但是想让广告曝光还需要调用 NativeExpressADView 的 render 方法
             mNativeExpressADView = list.get(0);
             if (mNativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
                 mNativeExpressADView.setMediaListener(mediaListener);
-//                //预加载视频素材，加载成功会回调mediaListener的onVideoCached方法，失败的话回调onVideoError方法errorCode为702。
                 mNativeExpressADView.preloadVideo();
             } else {
-                Log.i(TAG, "onADLoaded: 模版图片");
-                // 广告可见才会产生曝光，否则将无法产生收益。
                 mNativeExpressADView.render();
             }
 
@@ -360,7 +332,7 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
         @Override
         public void onRenderSuccess(NativeExpressADView nativeExpressADView) {
             if (mNativeExpressADView.getBoundData().getAdPatternType() != AdPatternType.NATIVE_VIDEO) {
-                Log.i(TAG, "onRenderSuccess: 模版图片");
+                Log.i(TAG, "onRenderSuccess: ");
                 mNativeExpressADView = nativeExpressADView;
 
                 Context context = GlobalTradPlus.getInstance().getContext();
@@ -425,7 +397,7 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
 
         @Override
         public void onVideoCached(NativeExpressADView adView) {
-            Log.i(TAG, "onVideoCached 模版视频");
+            Log.i(TAG, "onVideoCached ");
             mNativeExpressADView = adView;
             mNativeExpressADView.render();
 

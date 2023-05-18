@@ -49,9 +49,6 @@ public class TapJoyOfferWall extends TPOfferWallAdapter {
             appId = tpParams.get(AppKeyManager.APP_ID);
             placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             mSdkKey = tpParams.get(AppKeyManager.SDK_KEY);
-//            appId = "51bfca07-3164-445c-a9cf-c1817ffc9860";
-//            placementId = "offerwall_unit";
-//            mSdkKey = "u6SfEbh_TA-WMiGqgQ3W8QECyiQIURFEeKm0zbOggubusy-o5ZfXp33sTXaD";
         } else {
             if (mLoadAdapterListener != null) {
                 mLoadAdapterListener.loadAdapterLoadFailed(new TPError(ADAPTER_CONFIGURATION_ERROR));
@@ -107,16 +104,6 @@ public class TapJoyOfferWall extends TPOfferWallAdapter {
         @Override
         public void onRequestSuccess(final TJPlacement tjPlacement) {
             Log.i(TAG, "onRequestSuccess: ");
-//            if (!tjPlacement.isContentAvailable()) {
-//
-//                mHandler.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        if (tapjoyTCbR.getListener(tjPlacement.getName()) != null)
-//                            tapjoyTCbR.getListener(tjPlacement.getName()).loadAdapterLoadFailed(new TPError(NETWORK_NO_FILL));
-//                    }
-//                });
-//            }
         }
 
         @Override

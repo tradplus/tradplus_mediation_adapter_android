@@ -39,7 +39,6 @@ public class MyTargetInterstitial extends TPInterstitialAdapter {
             mSlotId = tpParams.get(AppKeyManager.AD_SLOT_ID);
             payload = tpParams.get(DataKeys.BIDDING_PAYLOAD);
         }
-//        mSlotId = "854793";
 
         mMyTatgetICbR = MyTargetInterstitialCallbackRouter.getInstance();
         mMyTatgetICbR.addListener(mSlotId, mLoadAdapterListener);

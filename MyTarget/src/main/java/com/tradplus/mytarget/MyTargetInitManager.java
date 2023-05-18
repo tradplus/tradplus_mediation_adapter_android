@@ -27,8 +27,6 @@ public class MyTargetInitManager extends TPInitMediation {
 
     @Override
     public void initSDK(Context context, Map<String, Object> userParams, Map<String, String> tpParams, InitCallback initCallback) {
-        // 该源没有初始化SDK的方法，写这个类仅为了实现开发者接入时可获取对应的VersionCode
-        // 另外相关GDPR代码抽取到该类中
 
         String customAs = RequestUtils.getInstance().getCustomAs(TradPlusInterstitialConstants.NETWORK_MYTARGET);
 

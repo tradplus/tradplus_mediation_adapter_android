@@ -98,7 +98,6 @@ public class UnityAdsInitManager extends TPInitMediation {
             }
         }
 
-        // 确保在国内时设置, CCPA等如果不是默认值, 说明是海外不是国内
         if ((TradPlus.isCCPADoNotSell(context) == TradPlus.PRIVACY_DEFAULT_KEY)) {
             boolean openPersonalizedAd = GlobalTradPlus.getInstance().isOpenPersonalizedAd();
             MetaData privaceMetaData = new MetaData(context);
@@ -109,7 +108,7 @@ public class UnityAdsInitManager extends TPInitMediation {
             piplMetaData.set("pilp.consent", openPersonalizedAd);
             piplMetaData.commit();
 
-            Log.i("PersonalizeEnable", TAG + " openPersonalizedAd 个性化开关: " + openPersonalizedAd);
+            Log.i("PersonalizeEnable", TAG + " openPersonalizedAd : " + openPersonalizedAd);
         }
 
         // DFF Unity dashboard配置

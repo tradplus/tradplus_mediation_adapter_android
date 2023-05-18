@@ -16,6 +16,5 @@ public class TPMTGMediaView extends MBMediaView {
 
     @Override
     protected void onWindowVisibilityChanged(int i) {
-//        super.onWindowVisibilityChanged(i);
     }
 }

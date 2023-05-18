@@ -30,7 +30,7 @@ public class SigmobFullScreenVideo extends TPInterstitialAdapter {
 
     private String mPlacementId;
     private SigmobInterstitialCallbackRouter mSigmobICbR;
-    private WindInterstitialAd mWindInterstitialAd; // 普通广告位
+    private WindInterstitialAd mWindInterstitialAd;
     private final static String TAG = "SigmobFullScreenVideo";
 
     @Override
@@ -67,7 +67,6 @@ public class SigmobFullScreenVideo extends TPInterstitialAdapter {
     }
 
     private void requestInterstitial(String bidToken) {
-        //placementId 必填,USER_ID,OPTIONS可不填
         WindInterstitialAdRequest mWindInterstitialAdRequest = new WindInterstitialAdRequest(mPlacementId, null, null);
 
         mWindInterstitialAd = new WindInterstitialAd(mWindInterstitialAdRequest);

@@ -35,8 +35,8 @@ import java.util.Map;
 
 public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
 
-    private TTFeedAd mTTFeedAd; // 自渲染广告对象
-    private TTNativeExpressAd ttNativeExpressAd;// Draw信息流 广告对象
+    private TTFeedAd mTTFeedAd;
+    private TTNativeExpressAd ttNativeExpressAd;
     private ToutiaoNativeAd mToutiaoNativeAd;
     public static final String TAG = "ToutiaoNative";
     private String mPlacementId;
@@ -46,8 +46,8 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
     private int mIsTemplateRending;
     private TTAdManager adManager;
     private TTAdNative mAdNative;
-    private int onAdShow = 0; // 0 表示没有展示
-    private int onAdShowExpressAd = 0; // 0 表示没有展示
+    private int onAdShow = 0;
+    private int onAdShowExpressAd = 0;
     private boolean isC2SBidding;
     private boolean isBiddingLoaded;
     private double ecpmLevel;
@@ -99,11 +99,9 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
 
         if (mWidth <= 0 && mHeight <= 0) {
             if (mIsTemplateRending == AppKeyManager.TEMPLATE_RENDERING_YES || mIsTemplateRending == ToutiaoConstant.NATIVE_PATCH_VIDEO) {
-                // 模版 默认自适应屏幕
                 mWidth = (int) UIUtils.getScreenWidthDp(context);
                 mHeight = AppKeyManager.NATIVE_DEFAULT_HEIGHT;
             } else {
-                // 自渲染
                 mWidth = ToutiaoConstant.NATIVE_IMAGE_ACCEPTED_SIZE_X;
                 mHeight = ToutiaoConstant.NATIVE_IMAGE_ACCEPTED_SIZE_Y;
             }
@@ -140,13 +138,13 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
         if (isC2SBidding && isBiddingLoaded) {
             if (mLoadAdapterListener != null) {
                 if (ttNativeExpressAd != null) {
-                    ttNativeExpressAd.win(ecpmLevel);// Draw信息流
+                    ttNativeExpressAd.win(ecpmLevel);
                 }
                 if (mTTFeedAd != null) {
-                    mTTFeedAd.win(ecpmLevel); // 自渲染
+                    mTTFeedAd.win(ecpmLevel);
                 }
                 if (mExpressAd != null) {
-                    mExpressAd.win(ecpmLevel); // 模板
+                    mExpressAd.win(ecpmLevel);
                 }
                 mLoadAdapterListener.loadAdapterLoaded(mToutiaoNativeAd);
             }
@@ -156,15 +154,13 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
         if (mIsTemplateRending == ToutiaoConstant.NATIVE_PATCH_VIDEO) {
             AdSlot adSlot = new AdSlot.Builder()
                     .setCodeId(mPlacementId)
-                    .setImageAcceptedSize(mWidth, mHeight) // 单位px
-                    .setAdCount(3) //请求广告数量为1到3条
+                    .setImageAcceptedSize(mWidth, mHeight)
+                    .setAdCount(3)
                     .build();
 
             mAdNative.loadStream(adSlot,streamFeedAdListener);
         } else if (AppKeyManager.NATIVE_TYPE_DRAWLIST.equals(secType)) {
-            Log.i(TAG, "requestNative: Draw信息流");
-            //draw 信息流
-//            mPlacementId = "901121041";
+            Log.i(TAG, "requestNative: ");
             Activity activity = GlobalTradPlus.getInstance().getActivity();
             if (activity == null) {
                 if (mLoadAdapterListener != null) {
@@ -186,19 +182,19 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
             //模版
             Log.i(TAG, "requestNative: 模版");
             AdSlot slot = new AdSlot.Builder()
-                    .setCodeId(mPlacementId) //广告位id
+                    .setCodeId(mPlacementId)
                     .setSupportDeepLink(true)
-                    .setAdCount(1) //请求广告数量为1到3条
-                    .setExpressViewAcceptedSize(mWidth, mHeight).build(); //期望模板广告view的size,单位dp.build();
+                    .setAdCount(1)
+                    .setExpressViewAcceptedSize(mWidth, mHeight).build();
             mAdNative.loadNativeExpressAd(slot, nativeExpressAdListener);
         } else {
             //自渲染
             Log.i(TAG, "requestNative: 自渲染");
             AdSlot slot = new AdSlot.Builder()
-                    .setCodeId(mPlacementId) //广告位id
+                    .setCodeId(mPlacementId)
                     .setSupportDeepLink(true)
                     .setImageAcceptedSize(mWidth, mHeight)
-                    .setAdCount(3) //请求广告数量为1到3条
+                    .setAdCount(3)
                     .build();
             mAdNative.loadFeedAd(slot, feedAdListener);
         }
@@ -377,12 +373,9 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
                 });
 
                 ad.render();
-                //dislike设置
                 bindDislike(ad, false);
             }
-//            View expressAdView = list.get(0).getExpressAdView();
             mToutiaoNativeAd = new ToutiaoNativeAd(views);
-            // 返回Draw Type
             mToutiaoNativeAd.setRenderType(TPBaseAd.AD_TYPE_NATIVE_LIST);
 
             if (isC2SBidding) {
@@ -461,7 +454,6 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
             mTTFeedAd.setVideoAdListener(mVideoFeedListener);
             mTTFeedAd.setDownloadListener(downloadListener);
             mToutiaoNativeAd = new ToutiaoNativeAd(mTTFeedAd);
-            // 返回贴片Type
             mToutiaoNativeAd.setRenderType(ToutiaoConstant.NATIVE_PATCH_VIDEO);
 
             if (isC2SBidding) {
@@ -554,7 +546,6 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
                     }
 
                     mToutiaoNativeAd = new ToutiaoNativeAd(context,view);
-                    // 返回模版Type
                     mToutiaoNativeAd.setRenderType(TPBaseAd.AD_TYPE_NATIVE_EXPRESS);
 
                     if (isC2SBidding) {
@@ -568,7 +559,6 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
                 }
             });
             mTtNativeExpressAd.setDownloadListener(downloadListener);
-            //dislike设置
             bindDislike(mTtNativeExpressAd, false);
         }
     }
@@ -595,13 +585,6 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
         }
     }
 
-    /**
-     * 竞价失败时的上报接⼝（必传）
-     * auctionPrice 胜出者的第⼀名价格（不想上报价格传时null），单位是分
-     * lossReason 竞价失败的原因（不想上报原因时传null），可参考枚举值或者媒体⾃定义回传
-     * winBidder 胜出者（不想上报胜出者时传null），可参考枚举值或者媒体⾃定义回传
-     * 102 bid价格低于最高价
-     */
     @Override
     public void setLossNotifications(String auctionPrice, String lossReason) {
         if (ttNativeExpressAd != null) {
@@ -634,14 +617,7 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
 
 
 
-    /**
-     * 设置广告的不喜欢，注意：强烈建议设置该逻辑，如果不设置dislike处理逻辑，则模板广告中的 dislike区域不响应dislike事件。
-     *
-     * @param ad
-     * @param customStyle 是否自定义样式，true:样式自定义
-     */
     private void bindDislike(final TTNativeExpressAd ad, boolean customStyle) {
-        //使用默认模板中默认dislike弹出样式
         Activity activity = GlobalTradPlus.getInstance().getActivity();
         if (activity != null) {
             ad.setDislikeCallback(activity, new TTAdDislike.DislikeInteractionCallback() {
@@ -653,7 +629,6 @@ public class TouTiaoRenderNativeVideo extends TPNativeAdapter {
                 @Override
                 public void onSelected(int position, String value, boolean b) {
                     Log.i(TAG, "onSelected: ");
-                    //用户选择不喜欢原因后，移除广告展示
                     if (ad != null)
                         ad.destroy();
                 }

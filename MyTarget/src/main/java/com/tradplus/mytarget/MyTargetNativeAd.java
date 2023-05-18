@@ -35,7 +35,7 @@ public class MyTargetNativeAd extends TPNativeAdapter {
     private NativeBannerAd nativeBannerAd;
     private String payload;
     private int isNative;
-    private int adChoicesPosition = 1;// 默认 顶右
+    private int adChoicesPosition = 1;
 
     @Override
     public void loadCustomAd(final Context context, Map<String, Object> userParams, Map<String, String> tpParams) {
@@ -57,7 +57,6 @@ public class MyTargetNativeAd extends TPNativeAdapter {
             }
         }
 
-//            mSlotId="854520";
 
         MyTargetInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
             @Override
@@ -231,7 +230,6 @@ public class MyTargetNativeAd extends TPNativeAdapter {
     }
 
     private int adChoicesPostition(int postion) {
-        // 位置按照google native角标定义：0 顶左;1 顶右;2 底右;3 底左
         if (postion == 0) {
             return AdChoicesPlacement.TOP_LEFT;
         } else if (postion == 2) {

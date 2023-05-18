@@ -12,7 +12,6 @@ public class VungleInterstitialCallbackRouter {
 
     private final Map<String, TPLoadAdapterListener> listeners = new HashMap<>();
     private final Map<String, TPShowAdapterListener> showListeners = new HashMap<>();
-//    private final Map<String, VungleNativeAd> bannerListeners = new HashMap<>();
 
     public static VungleInterstitialCallbackRouter getInstance() {
         if(instance == null){
@@ -51,17 +50,5 @@ public class VungleInterstitialCallbackRouter {
         return getShowListeners().get(id);
     }
 
-//    public VungleNativeAd getBannerListener(String id){
-//        return getBannerListeners().get(id);
-//    }
-//
-//    public void addBannerListener(String id, VungleNativeAd listener){
-//        getBannerListeners().put(id,listener);
-//
-//    }
-
-//    public Map<String, VungleNativeAd> getBannerListeners() {
-//        return bannerListeners;
-//    }
 
 }

@@ -62,27 +62,18 @@ public class SigmobInitManager extends TPInitMediation {
         windAds = WindAds.sharedAds();
         suportGDPR(context, userParams);
 
-        windAds.setAdult(isAdult);//是否未成年/true成年/flase未成年
+        windAds.setAdult(isAdult);
         boolean openPersonalizedAd = GlobalTradPlus.getInstance().isOpenPersonalizedAd();
         windAds.setPersonalizedAdvertisingOn(openPersonalizedAd);
-        Log.i("PersonalizeEnable", TAG + " openPersonalizedAd 个性化开关: " + openPersonalizedAd);
+        Log.i("PersonalizeEnable", TAG + " openPersonalizedAd : " + openPersonalizedAd);
 
         boolean privacyUserAgree = GlobalTradPlus.getInstance().isPrivacyUserAgree();
         Log.i(TAG, "WindCustomController == null ? " + (mWindCustomController == null) + "，privacyUserAgree :" + privacyUserAgree);
 
         WindAdOptions windAdOptions = new WindAdOptions(mAppId, mAppKey);
-        // 隐私信息开关
         windAdOptions.setCustomController(mWindCustomController == null ? new SigmobCustomController(privacyUserAgree) : getTTCustomController());
         windAds.startWithOptions(context, windAdOptions);
 
-        //主动READ_PHONE_STATE，WRITE_EXTERNAL_STORAGE，ACCESS_FINE_LOCATION 权限授权请求
-        // 由于Sigmob 授权确认是弹窗提醒，不符合要求；
-        // 同时Sigmob开发表明，如果不调用将不获取以上权限，故注释方法
-//        if (GlobalTradPlus.getInstance().isPrivacyUserAgree()) {
-//            Activity activity = GlobalTradPlus.getInstance().getActivity();
-//            if (activity != null)
-//                WindAds.requestPermission(activity);
-//        }
         sendResult(mAppKey + mAppId, true);
     }
 

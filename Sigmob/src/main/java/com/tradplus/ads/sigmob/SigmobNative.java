@@ -45,7 +45,6 @@ public class SigmobNative extends TPNativeAdapter {
             return;
         }
 
-//        mPlacementId = "ed70b4760ff";
 
         final String token = bidToken;
         SigmobInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {

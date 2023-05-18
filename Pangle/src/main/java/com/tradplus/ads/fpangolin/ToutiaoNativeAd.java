@@ -24,7 +24,7 @@ public class ToutiaoNativeAd extends TPBaseAd {
     private PAGNativeAd mPAGNativeAd;
     private TPNativeAdView mTPNativeAdView;
     public static final String TAG = "PangleNative";
-    private int onAdShow = 0; // 0 表示没有展示
+    private int onAdShow = 0;
 
     public ToutiaoNativeAd(PAGNativeAd pagNativeAd) {
         mPAGNativeAd = pagNativeAd;
@@ -103,33 +103,6 @@ public class ToutiaoNativeAd extends TPBaseAd {
 
     @Override
     public void registerClickView(ViewGroup viewGroup, ArrayList<View> clickViews) {
-        //Register clickable views that could be clicked by the user
-//        List<View> creativeViewList = new ArrayList<>();
-//        View callToAction = viewGroup.findViewWithTag(TPBaseAd.NATIVE_AD_TAG_CALLTOACTION);
-//        if (callToAction != null) {
-//            creativeViewList.add(callToAction);
-//        }
-//
-//        List<View> clickViewList = new ArrayList<>();
-//        View iconView = viewGroup.findViewWithTag(TPBaseAd.NATIVE_AD_TAG_ICON);
-//        if (iconView != null) {
-//            clickViewList.add(iconView);
-//        }
-//
-//        View titleView = viewGroup.findViewWithTag(TPBaseAd.NATIVE_AD_TAG_TITLE);
-//        if (titleView != null) {
-//            clickViewList.add(titleView);
-//        }
-//
-//        View subTitleView = viewGroup.findViewWithTag(TPBaseAd.NATIVE_AD_TAG_SUBTITLE);
-//        if (subTitleView != null) {
-//            clickViewList.add(subTitleView);
-//        }
-//
-//        View viewWithTag = viewGroup.findViewWithTag(TPBaseAd.NATIVE_AD_TAG_IMAGE);
-//        if (viewWithTag != null) {
-//            clickViewList.add(viewWithTag);
-//        }
 
         if (mPAGNativeAd != null) {
             mPAGNativeAd.registerViewForInteraction(viewGroup, clickViews, clickViews, null, new PAGNativeAdInteractionListener() {
@@ -167,7 +140,7 @@ public class ToutiaoNativeAd extends TPBaseAd {
 
     @Override
     public int getNativeAdType() {
-        return AD_TYPE_NORMAL_NATIVE; //自渲染
+        return AD_TYPE_NORMAL_NATIVE;
     }
 
     @Override

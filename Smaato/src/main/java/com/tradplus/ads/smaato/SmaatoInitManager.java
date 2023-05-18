@@ -38,7 +38,6 @@ public class SmaatoInitManager extends TPInitMediation {
     @Override
     public void initSDK(Context context, Map<String, Object> userParams, Map<String, String> tpParams, InitCallback initCallback) {
         if (!availableParams(tpParams)) {
-            // 初始化SDK参数有问题返回失败
             sendResult(TAG, false, "", TPError.EMPTY_INIT_CONFIGURATION);
             return;
         }
@@ -72,7 +71,6 @@ public class SmaatoInitManager extends TPInitMediation {
         Config config = Config.builder()
                 .enableLogging(needTestDevice)
                 .setLogLevel(LogLevel.DEBUG)
-                // 测试广告均是http，线上基本是https
                 .setHttpsOnly(!needTestDevice)
                 .build();
 

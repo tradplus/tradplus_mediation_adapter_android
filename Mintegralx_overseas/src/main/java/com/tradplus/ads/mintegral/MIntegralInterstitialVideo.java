@@ -36,13 +36,13 @@ import static com.tradplus.ads.base.common.TPError.SHOW_FAILED;
  */
 public class MIntegralInterstitialVideo extends TPInterstitialAdapter {
 
-    private MBNewInterstitialHandler mbNewInterstitialHandler; // 新插屏
-    private MBBidInterstitialVideoHandler mMBBidInterstitialVideoHandler; // 新插屏Bidding
+    private MBNewInterstitialHandler mbNewInterstitialHandler;
+    private MBBidInterstitialVideoHandler mMBBidInterstitialVideoHandler;
     private String mPlacementId;
     private String mUnitId;
     private MIntegralInterstitialCallbackRouter mCallbackRouter;
     private String payload;
-    private Integer mVideoMute = 1; // 静音
+    private Integer mVideoMute = 1;
     private final static String TAG = "MTGOSInVideo";
 
     @Override
@@ -55,7 +55,6 @@ public class MIntegralInterstitialVideo extends TPInterstitialAdapter {
             mPlacementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             mUnitId = tpParams.get(AppKeyManager.UNIT_ID);
             payload = tpParams.get(DataKeys.BIDDING_PAYLOAD);
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             if (!TextUtils.isEmpty(tpParams.get(AppKeyManager.VIDEO_MUTE))) {
                 mVideoMute = Integer.parseInt(tpParams.get(AppKeyManager.VIDEO_MUTE));
             }
@@ -105,7 +104,6 @@ public class MIntegralInterstitialVideo extends TPInterstitialAdapter {
     private void loadNewBidInterstitial(Context context) {
         mMBBidInterstitialVideoHandler = new MBBidInterstitialVideoHandler(context, mPlacementId, mUnitId);
         mMBBidInterstitialVideoHandler.setInterstitialVideoListener(mNewInterstitialListener);
-        // 服务器默认 1静音 2 有声
         mMBBidInterstitialVideoHandler.playVideoMute(mVideoMute == 1 ? MBridgeConstans.REWARD_VIDEO_PLAY_MUTE : MBridgeConstans.REWARD_VIDEO_PLAY_NOT_MUTE);
         mMBBidInterstitialVideoHandler.loadFromBid(payload);
     }
@@ -286,7 +284,6 @@ public class MIntegralInterstitialVideo extends TPInterstitialAdapter {
                     public void onSuccess() {
                         String token = BidManager.getBuyerUid(context);
                         if (!finalInitSuccess) {
-                            // 第一次初始化 250
                             MintegralInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                         }
 

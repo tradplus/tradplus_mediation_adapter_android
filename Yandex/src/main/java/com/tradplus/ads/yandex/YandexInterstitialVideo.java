@@ -34,7 +34,7 @@ public class YandexInterstitialVideo extends TPRewardAdapter {
     private RewardedAd mRewardedAd;
     private boolean hasGrantedReward = false;
     private boolean alwaysRewardUser;
-    private int onRewardedAdShow = 0; // 0 表示没有展示
+    private int onRewardedAdShow = 0;
     private static final String TAG = "YandexRewardVideo";
 
     @Override

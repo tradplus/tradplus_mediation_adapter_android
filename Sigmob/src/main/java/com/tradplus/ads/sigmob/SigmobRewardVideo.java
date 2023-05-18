@@ -50,9 +50,6 @@ public class SigmobRewardVideo extends TPRewardAdapter {
                 int rewardUser = Integer.parseInt(tpParams.get(AppKeyManager.ALWAYS_REWARD));
                 alwaysRewardUser = (rewardUser == AppKeyManager.ENFORCE_REWARD);
             }
-//            mPlacementId = "e775312a38d";
-//            mAppKey = "17cda9562bef2c35";
-//            mAppId = "4146";
         } else {
             mLoadAdapterListener.loadAdapterLoadFailed(new TPError(ADAPTER_CONFIGURATION_ERROR));
             return;
@@ -85,7 +82,6 @@ public class SigmobRewardVideo extends TPRewardAdapter {
     }
 
     private void requestInterstitial(String bidToken) {
-        //placementId 必填,USER_ID,OPTIONS可不填
         WindRewardAdRequest request = new WindRewardAdRequest(mPlacementId, !TextUtils.isEmpty(userId) ? userId : null, null);
         Log.i(TAG, "RewardData: userId : " + userId);
 

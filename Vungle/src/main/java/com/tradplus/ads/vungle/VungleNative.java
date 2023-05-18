@@ -156,7 +156,6 @@ public class VungleNative extends TPNativeAdapter {
 
         @Override
         public void onAdEnd(String s, boolean b, boolean b1) {
-            // 已经废弃
         }
 
         @Override

@@ -123,7 +123,6 @@ public class StartAppInterstitialVideo extends TPRewardAdapter {
             rewardedVideo.showAd(mPlacementId, new AdDisplayListener() {
                 @Override
                 public void adHidden(Ad ad) {
-                    //广告页面中点击关闭时候会回调
                     Log.i(TAG, "adHidden: ");
                     if (mStartAppICbR.getShowListener(mPlacementId) == null) {
                         return;

@@ -82,8 +82,6 @@ public class YouDaoNativeData extends TPBaseAd {
 
     @Override
     public void registerClickView(final ViewGroup viewGroup, ArrayList<View> clickViews) {
-        // ⼴告展示的时候必须调⽤⼴告展示上报recordImpression⽅法，否则统计服务器不会记录该次展示。
-        // 并且参数view应该是最外层的⼴告view
         mNativeResponse.realRecordImpression(viewGroup);
         View.OnClickListener listener = new View.OnClickListener() {
             @Override

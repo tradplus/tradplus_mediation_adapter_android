@@ -67,8 +67,6 @@ public class OguryInitManager extends TPInitMediation {
 
                 boolean isEu = (boolean) userParams.get(AppKeyManager.IS_UE);
                 Log.i("privacylaws", "suportGDPR: " + need_set_gdpr + ":isUe:" + isEu);
-                // UNDER_AGE_OF GDPR_CONSENT_TREATMENT_FALSE：指定用户不应接受 GDPR ，COPPA 不适用。
-                // UNDER_AGE_OF GDPR_CONSENT_TREATMENT_TRUE：指定用户应接受 GDPR。
                 Ogury.applyChildPrivacy(need_set_gdpr ? OguryChildPrivacyTreatment.UNDER_AGE_OF_GDPR_CONSENT_TREATMENT_TRUE :
                         OguryChildPrivacyTreatment.UNDER_AGE_OF_GDPR_CONSENT_TREATMENT_FALSE);
             }

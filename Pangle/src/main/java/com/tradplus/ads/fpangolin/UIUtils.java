@@ -19,9 +19,6 @@ import android.widget.RelativeLayout;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * Created by bytedance on 2019/9/5.
- */
 
 public class UIUtils {
 
@@ -31,7 +28,6 @@ public class UIUtils {
         return width / (scale <= 0 ? 1 : scale) + 0.5f;
     }
 
-    //全面屏、刘海屏适配
     public static float getHeight(Activity activity) {
         hideBottomUIMenu(activity);
         float height;
@@ -49,7 +45,6 @@ public class UIUtils {
             return;
         }
         try {
-            //隐藏虚拟按键，并且全屏
             if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
                 View v = activity.getWindow().getDecorView();
                 v.setSystemUiVisibility(View.GONE);
@@ -70,7 +65,6 @@ public class UIUtils {
         }
     }
 
-    //获取屏幕真实高度，不包含下方虚拟导航栏
     public static int getRealHeight(Context context) {
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
@@ -84,7 +78,6 @@ public class UIUtils {
         return realHeight;
     }
 
-    //获取状态栏高度
     public static float getStatusBarHeight(Context context) {
         float height = 0;
         int resourceId = context.getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -105,7 +98,6 @@ public class UIUtils {
     }
 
     /**
-     * 判断是否是刘海屏
      * @return
      */
     public static boolean hasNotchScreen(Activity activity){
@@ -117,7 +109,6 @@ public class UIUtils {
     }
 
     /**
-     * Android P 刘海屏判断
      * @param activity
      * @return
      */
@@ -141,7 +132,6 @@ public class UIUtils {
     }
 
     /**
-     * 小米刘海屏判断.
      * @return 0 if it is not notch ; return 1 means notch
      * @throws IllegalArgumentException if the key exceeds 32 characters
      */
@@ -152,13 +142,11 @@ public class UIUtils {
                 ClassLoader classLoader = activity.getClassLoader();
                 @SuppressWarnings("rawtypes")
                 Class SystemProperties = classLoader.loadClass("android.os.SystemProperties");
-                //参数类型
                 @SuppressWarnings("rawtypes")
                 Class[] paramTypes = new Class[2];
                 paramTypes[0] = String.class;
                 paramTypes[1] = int.class;
                 Method getInt = SystemProperties.getMethod("getInt", paramTypes);
-                //参数
                 Object[] params = new Object[2];
                 params[0] = new String(key);
                 params[1] = new Integer(0);
@@ -180,7 +168,6 @@ public class UIUtils {
     }
 
     /**
-     * 华为刘海屏判断
      * @return
      */
     public static boolean hasNotchAtHuawei(Context context) {
@@ -198,11 +185,10 @@ public class UIUtils {
         }
     }
 
-    public static final int VIVO_NOTCH = 0x00000020;//是否有刘海
-    public static final int VIVO_FILLET = 0x00000008;//是否有圆角
+    public static final int VIVO_NOTCH = 0x00000020;
+    public static final int VIVO_FILLET = 0x00000008;
 
     /**
-     * VIVO刘海屏判断
      * @return
      */
     public static boolean hasNotchAtVivo(Context context) {
@@ -220,7 +206,6 @@ public class UIUtils {
         }
     }
     /**
-     * O-P-P-O刘海屏判断
      * @return
      */
     public static boolean hasNotchAtOPPO(Context context) {
@@ -245,7 +230,6 @@ public class UIUtils {
     }
 
     /**
-     *用于o-p-p-o 版本隐私协议
      */
     public static String getKllkDecryptString(String encryptionString) {
 
@@ -288,13 +272,11 @@ public class UIUtils {
 
     public static int getScreenWidthInPx(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-//        DisplayMetrics dm = context.getApplicationContext().getResources().getDisplayMetrics();
         return displayMetrics.widthPixels;
     }
 
     public static int getScreenHeightInPx(Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-//        DisplayMetrics dm = context.getApplicationContext().getResources().getDisplayMetrics();
         return displayMetrics.heightPixels;
     }
 
@@ -308,7 +290,6 @@ public class UIUtils {
     }
 
     /**
-     * 获取全面屏宽高
      * @param context
      * @return
      */

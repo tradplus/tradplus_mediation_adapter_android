@@ -39,11 +39,11 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
     private int minSplashTimeWhenNoAD = 2000;
     private long expireTimestamp = 0;
     private int mZoomOut;
-    private int mIsHaslfSplash = 0; //默认全屏0 ；半屏 1；
+    private int mIsHaslfSplash = 0;
     private String payload;
     private String price;
-    private String mShakable = "1"; // "0"：屏蔽开屏摇一摇广告 ; "1"或不传: 不屏蔽开屏摇一摇广告
-    private int fetchDelay = 0; //拉取广告的超时时长：取值范围[1500, 5000]，设为0表示使用优量汇SDK默认的超时时长
+    private String mShakable = "1";
+    private int fetchDelay = 0;
     private int mAppIcon;
 
     @Override
@@ -68,9 +68,7 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
             }
 
             if (userParams.containsKey(GDTConstant.SHAKABLE)) {
-                // shakable false 关闭摇一摇, 默认开启
                 boolean shakable = (boolean) userParams.get(GDTConstant.SHAKABLE);
-                Log.i(TAG, "是否关闭摇一摇: " + shakable);
                 if (!shakable) mShakable = "0";
 
             }
@@ -107,7 +105,6 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
     private void fetchSplashAD(Activity activity, String posId, int fetchDelay) {
         fetchSplashADTime = System.currentTimeMillis();
 
-        // 默认不屏蔽，当用户设置0时屏蔽开屏摇一摇广告
         Map<String, String> extraUserData = new HashMap<>();
         extraUserData.put("shakable", mShakable);
         GlobalSetting.setExtraUserData(extraUserData);
@@ -118,17 +115,12 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
             splashAD = new SplashAD(activity, posId, mSplashADZoomOutListener, fetchDelay, payload);
         }
 
-        //判断用户是否使用半屏广告
         if (mIsHaslfSplash == 1) {
-            Log.i(TAG, "请求半屏开屏: ");
             splashAD.fetchAdOnly();
         } else {
-            // 设置开发者 logo，仅在全屏广告时有效，参数要求是 Resource ID
             if (mAppIcon != 0) {
-                Log.i(TAG, "设置开发者logo: " + mAppIcon);
                 splashAD.setDeveloperLogo(mAppIcon);
             }
-            Log.i(TAG, "请求全屏开屏: ");
             splashAD.fetchFullScreenAdOnly();
         }
 
@@ -183,20 +175,17 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
         @Override
         public void onADDismissed() {
             Log.i(TAG, "onADDismissed: ");
-//            if (mZoomOut != 1) {
             if (mShowListener != null) {
                 mShowListener.onAdClosed();
             }
-//            }
         }
 
         @Override
         public void onNoAD(final AdError adError) {
             Log.i(TAG, "onNoAD，errorCode：" + adError.getErrorCode() + ",errorMessage: " + adError.getErrorMsg());
-            long alreadyDelayMills = System.currentTimeMillis() - fetchSplashADTime;//从拉广告开始到onNoAD已经消耗了多少时间
+            long alreadyDelayMills = System.currentTimeMillis() - fetchSplashADTime;
             long shouldDelayMills = alreadyDelayMills > minSplashTimeWhenNoAD ? 0 : minSplashTimeWhenNoAD
-                    - alreadyDelayMills;//为防止加载广告失败后立刻跳离开屏可能造成的视觉上类似于"闪退"的情况，根据设置的minSplashTimeWhenNoAD
-            // 计算出还需要延时多久
+                    - alreadyDelayMills;
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -210,7 +199,6 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
 
         @Override
         public void onADPresent() {
-            //广告成功展示时调用，成功展示不等于有效展示（比如广告容器高度不够）
             Log.i(TAG, "onADPresent: ");
 
 
@@ -235,7 +223,6 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
         @Override
         public void onADExposure() {
             Log.i(TAG, "onADExposure: ");
-            // 广告曝光时调用
             if (mShowListener != null) {
                 mShowListener.onAdShown();
             }

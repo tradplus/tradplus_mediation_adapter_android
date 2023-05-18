@@ -88,10 +88,7 @@ public class TxAdnetNativeData extends TPBaseAd {
 
         String buttonText = nativeData.getButtonText();
         if (!TextUtils.isEmpty(buttonText)) {
-            // 是否是微信原生页广告
             if (nativeData.isWeChatCanvasAd()) {
-                // 只有加入白名单的应用支持该类型的广告
-                // 如果是该类型广告建议将广告容器中按钮的文案设置为“去微信看看”
                 mTPNativeAdView.setCallToAction("去微信看看");
             } else {
                 mTPNativeAdView.setCallToAction(buttonText);
@@ -106,7 +103,6 @@ public class TxAdnetNativeData extends TPBaseAd {
 
         int adPatternType = nativeData.getAdPatternType();
         if (adPatternType == AdPatternType.NATIVE_VIDEO) {
-            // 视频素材
             mediaView = new MediaView(mCtx);
             mediaView.setBackgroundColor(0xff000000);
             Log.i(TAG, "NATIVE_VIDEO");
@@ -115,13 +111,11 @@ public class TxAdnetNativeData extends TPBaseAd {
                 _params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             }
             mediaView.setLayoutParams(_params);
-//            mNativeAdContainer.addView(mediaView);
             mTPNativeAdView.setMediaView(mediaView);
         }
 
         if (adPatternType == AdPatternType.NATIVE_2IMAGE_2TEXT ||
                 adPatternType == AdPatternType.NATIVE_1IMAGE_2TEXT) {
-            // 双图双文、单图双文
             Log.i(TAG, "IMAGE:");
             mTPNativeAdView.setMainImageUrl(nativeData.getImgUrl());
         }
@@ -196,15 +190,10 @@ public class TxAdnetNativeData extends TPBaseAd {
     public void registerClickAfterRender(ViewGroup viewGroup, ArrayList<View> clickViews) {
         if (isRender == AppKeyManager.TEMPLATE_RENDERING_NO || isRender == AppKeyManager.TEMPLATE_PATCH_RENDERING_NO) {
             if (nativeUnifiedADData != null && mNativeAdContainer != null) {
-                // 最后两个list，List clickViews, List customClickViews
-                // 开发者不能对clickViews和customClickViews设置OnClickListener，会影响点击事件的上报
-                // clickViews为触发广告点击行为的View，必须在container中，不然不会响应点击事件
-                // customClickViews点击可以直接下载或进入落地页
                 nativeUnifiedADData.bindAdToView(mCtx, mNativeAdContainer, null, clickViews, null);
 
                 if (nativeUnifiedADData.getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
                     try {
-                        // 视频广告，注册mMediaView的点击事件
                         nativeUnifiedADData.bindMediaView(mediaView, mVideoOption, nativeADMediaListener);
                     } catch (Throwable e) {
                         e.printStackTrace();
@@ -230,7 +219,6 @@ public class TxAdnetNativeData extends TPBaseAd {
     }
 
 
-    // 视频相关回调
     final NativeADMediaListener nativeADMediaListener = new NativeADMediaListener() {
         @Override
         public void onVideoInit() {
@@ -278,14 +266,8 @@ public class TxAdnetNativeData extends TPBaseAd {
 
         @Override
         public void onVideoClicked() {
-            //自渲染视频广告中，如果setEnableUserControl设置为true时，用户点击视频区域时将收到此回调
-
-            // 此时并不是广告点击
 
             Log.i(TAG, "onVideoClicked: ");
-//            if (mShowListener != null) {
-//                mShowListener.onAdClicked();
-//            }
         }
 
         @Override
@@ -354,9 +336,9 @@ public class TxAdnetNativeData extends TPBaseAd {
             return AD_TYPE_NATIVE_LIST;
         } else {
             if (isRender == AppKeyManager.TEMPLATE_RENDERING_NO || isRender == AppKeyManager.TEMPLATE_PATCH_RENDERING_NO) {
-                return AD_TYPE_NORMAL_NATIVE; //自渲染 ，下发isRender == 2 5
+                return AD_TYPE_NORMAL_NATIVE;
             } else {
-                return AD_TYPE_NATIVE_EXPRESS; //模版，下发isRender == 1 4
+                return AD_TYPE_NATIVE_EXPRESS;
             }
         }
     }

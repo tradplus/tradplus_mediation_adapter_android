@@ -50,7 +50,6 @@ public class ToutiaoInterstitialAdapter extends TPInterstitialAdapter {
 
     @Override
     public void loadCustomAd(final Context context, final Map<String, Object> localExtras, final Map<String, String> serverExtras) {
-        // C2S true LoadAdapterListener == null
         if (mLoadAdapterListener == null && !isC2SBidding) {
             return;
         }
@@ -125,15 +124,8 @@ public class ToutiaoInterstitialAdapter extends TPInterstitialAdapter {
         }
 
         if (mInterstitialType == AppKeyManager.FULL_TYPE) {
-            // 全屏插屏 支持模版渲染和自渲染
             intFullScreen(context);
-            // V4900起废弃API
-//        } else if (mInterstitialType == AppKeyManager.INTERACTION_TYPE) {
-//            // 插屏广告指支持模版渲染
-////            initInterstitial(context);
         } else {
-//            mInterstitialType == AppKeyManager.INTERSTITIAL_TYPE
-            // 新插屏广告 支持模版
             initNewInterstitial(context);
         }
     }
@@ -144,16 +136,15 @@ public class ToutiaoInterstitialAdapter extends TPInterstitialAdapter {
                 .setSupportDeepLink(true)
                 .setOrientation(direction == 2 ? TTAdConstant.HORIZONTAL : TTAdConstant.VERTICAL);
 
-        //模板广告需要设置期望个性化模板广告的大小,单位dp,激励视频场景，只要设置的值大于0即可
         if (mAdsizeRatio == 1) {
             builder.setExpressViewAcceptedSize(ToutiaoConstant.EXPRESSVIEW_WIDTH1, ToutiaoConstant.EXPRESSVIEW_HEIGHT1);
-            Log.i(TAG, "初始化新插屏广告 initInterstitial ，尺寸选择 1:1");
+            Log.i(TAG, " initInterstitial ，尺寸选择 1:1");
         } else if (mAdsizeRatio == 2) {
             builder.setExpressViewAcceptedSize(ToutiaoConstant.EXPRESSVIEW_WIDTH3, ToutiaoConstant.EXPRESSVIEW_HEIGHT3);
-            Log.i(TAG, "初始化新插屏广告 initInterstitial ，尺寸选择 3:2");
+            Log.i(TAG, " initInterstitial ，尺寸选择 3:2");
         } else if (mAdsizeRatio == 3) {
             builder.setExpressViewAcceptedSize(ToutiaoConstant.EXPRESSVIEW_WIDTH2, ToutiaoConstant.EXPRESSVIEW_HEIGHT2);
-            Log.i(TAG, "初始化新插屏广告 initInterstitial ，尺寸选择 2:3");
+            Log.i(TAG, " initInterstitial ，尺寸选择 2:3");
         }
 
         AdSlot adSlot = builder.build();
@@ -200,7 +191,6 @@ public class ToutiaoInterstitialAdapter extends TPInterstitialAdapter {
 
         @Override
         public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ttFullScreenVideoAd) {
-            // 广告物料加载完成的回调
             Log.i(TAG, "onFullScreenVideoAdLoad: Timestamp :" + ttFullScreenVideoAd.getExpirationTimestamp());
             mFullScreenVideoAd = ttFullScreenVideoAd;
 
@@ -213,14 +203,11 @@ public class ToutiaoInterstitialAdapter extends TPInterstitialAdapter {
 
         @Override
         public void onFullScreenVideoCached() {
-            // 已废弃 请使用 onFullScreenVideoCached(TTFullScreenVideoAd ad) 方法
         }
 
         @Override
         public void onFullScreenVideoCached(TTFullScreenVideoAd ttFullScreenVideoAd) {
-            //广告物料加载完成的回调
             Log.i(TAG, "onFullScreenVideoCached: ");
-            // 广告视频/图片加载完成的回调，接入方可以在这个回调后展示广告
             if (isC2SBidding) {
                 if (onC2STokenListener != null) {
                     Map<String, Object> mediaExtraInfo = mFullScreenVideoAd.getMediaExtraInfo();
@@ -246,13 +233,6 @@ public class ToutiaoInterstitialAdapter extends TPInterstitialAdapter {
     };
 
 
-    /**
-     * 竞价失败时的上报接⼝（必传）
-     * auctionPrice 胜出者的第⼀名价格（不想上报价格传时null），单位是分
-     * lossReason 竞价失败的原因（不想上报原因时传null），可参考枚举值或者媒体⾃定义回传
-     * winBidder 胜出者（不想上报胜出者时传null），可参考枚举值或者媒体⾃定义回传
-     * 102 bid价格低于最高价
-     */
     @Override
     public void setLossNotifications(String auctionPrice, String lossReason) {
         if (mFullScreenVideoAd != null) {
@@ -374,7 +354,6 @@ public class ToutiaoInterstitialAdapter extends TPInterstitialAdapter {
             return;
         }
 
-        // 全屏插屏和新插屏API一样
         mFullScreenVideoAd.showFullScreenVideoAd(activity);
     }
 

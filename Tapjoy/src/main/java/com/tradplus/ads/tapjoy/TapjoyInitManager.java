@@ -115,7 +115,6 @@ public class TapjoyInitManager extends TPInitMediation {
                 }
             }
 
-            //Google 为家庭设计 (DFF) / 家庭政策
             if (userParams.containsKey(AppKeyManager.DFF)) {
                 boolean dff = (boolean) userParams.get(AppKeyManager.DFF);
                 Log.i("privacylaws", "dff:" + dff);

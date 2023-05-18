@@ -33,7 +33,6 @@ public class StartappNativeAd extends TPBaseAd {
     private void initNativeAd() {
         if (mNativeAdDetail != null) {
             mTpNativeAdView = new TPNativeAdView();
-            // 由于三方有 @NonNull 处理所以不判空
             mTpNativeAdView.setTitle(mNativeAdDetail.getTitle());
             mTpNativeAdView.setSubTitle(mNativeAdDetail.getDescription());
             mTpNativeAdView.setCallToAction(mNativeAdDetail.getCallToAction());

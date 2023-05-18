@@ -31,7 +31,7 @@ public class YandexInterstitial extends TPInterstitialAdapter {
     private String placementId, payload;
     private InterstitialCallbackRouter mCallbackRouter;
     private InterstitialAd mInterstitialAd;
-    private int onInterstitialAdShow = 0; // 0 表示没有展示
+    private int onInterstitialAdShow = 0;
     private static final String TAG = "YandexInterstitial";
 
     @Override

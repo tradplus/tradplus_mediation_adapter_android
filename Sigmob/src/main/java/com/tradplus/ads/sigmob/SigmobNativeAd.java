@@ -80,21 +80,10 @@ public class SigmobNativeAd extends TPBaseAd {
     public void registerClickView(ViewGroup viewGroup, ArrayList<View> clickViews) {
         if (mNativeADData == null) return;
 
-        //重要! 这个涉及到广告计费，必须正确调用。convertView必须使用ViewGroup。
-        //作为creativeViewList传入，点击不进入详情页，直接下载或进入落地页，视频和图文广告均生效
-        /**
-         * @param view                  自渲染的根View
-         * @param clickableViews        可点击的View的列表
-         * @param creativeViewList      用于下载或者拨打电话的View
-         * @param disLikeView           dislike按钮
-         * @param nativeAdEventListener 点击回调
-         */
         mNativeADData.bindViewForInteraction(viewGroup, clickViews, clickViews, null, mNativeADEventListener);
         ImageView tp_image = (ImageView)viewGroup.findViewWithTag(TPBaseAd.NATIVE_AD_TAG_IMAGE);
 
-        //需要等到bindViewForInteraction后再去添加media
         if (adPatternType == NativeAdPatternType.NATIVE_VIDEO_AD) {
-            // @param mediaLayout 装video的容器
             mNativeADData.bindMediaView(frameLayout, new WindNativeAdData.NativeADMediaListener() {
                 @Override
                 public void onVideoLoad() {
@@ -150,7 +139,6 @@ public class SigmobNativeAd extends TPBaseAd {
 
         Activity activity = GlobalTradPlus.getInstance().getActivity();
         if (activity != null) {
-            //设置dislike弹窗
             mNativeADData.setDislikeInteractionCallback(activity, new WindNativeAdData.DislikeInteractionCallback() {
                 @Override
                 public void onShow() {
@@ -160,9 +148,6 @@ public class SigmobNativeAd extends TPBaseAd {
                 @Override
                 public void onSelected(int position, String value, boolean enforce) {
                     Log.i(TAG, "onSelected: " + position + ":" + value + ":" + enforce);
-//                if (windContainer != null) {
-//                    windContainer.removeAllViews();
-//                }
                     if (mShowListener != null) {
                         mShowListener.onAdClosed();
                     }
@@ -227,7 +212,7 @@ public class SigmobNativeAd extends TPBaseAd {
 
     @Override
     public int getNativeAdType() {
-        return AD_TYPE_NORMAL_NATIVE; //自渲染
+        return AD_TYPE_NORMAL_NATIVE;
     }
 
     @Override

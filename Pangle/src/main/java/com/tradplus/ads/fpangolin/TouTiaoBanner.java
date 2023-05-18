@@ -34,7 +34,7 @@ public class TouTiaoBanner extends TPBannerAdapter {
     private String mPlacementId;
     private PAGBannerAd mBannerAd;
     private TPBannerAdImpl mTpBannerAd;
-    private String mAdSize = "1"; // 默认值1，320 * 50
+    private String mAdSize = "1";
     private static final String TAG = "PangleBanner";
     private String payload;
 

@@ -9,9 +9,6 @@ import static com.tradplus.ads.base.common.TPError.NETWORK_NO_FILL;
 import static com.tradplus.ads.base.common.TPError.NETWORK_TIMEOUT;
 import static com.tradplus.ads.base.common.TPError.UNSPECIFIED;
 
-/**
- * Created by sainase on 2020-06-16.
- */
 public class SimgobErrorUtil {
 
     public static TPError getTradPlusErrorCode(WindAdError errorCode) {

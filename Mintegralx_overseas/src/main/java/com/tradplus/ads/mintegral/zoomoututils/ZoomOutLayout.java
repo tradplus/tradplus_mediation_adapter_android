@@ -16,11 +16,10 @@ public class ZoomOutLayout extends FrameLayout {
   private int maxY;
 
   private float moveAccumulateX, moveAccumulateY;
-  private final int touchSlop;//拖动和点击的触发阈值，采用系统的参数，超过该值认为是拖动，低于认为是点击
+  private final int touchSlop;
 
   public ZoomOutLayout(Context context, int m) {
     super(context);
-    //设置悬浮窗的圆角
     GradientDrawable gd = new GradientDrawable();
     gd.setCornerRadius(10);
     this.setBackgroundDrawable(gd);
@@ -64,10 +63,8 @@ public class ZoomOutLayout extends FrameLayout {
         float newX = event.getRawX() + dX;
         float newY = event.getRawY() + dY;
 
-        //这里采用累积，防止转一圈回到起点的情况也触发点击
         moveAccumulateX += Math.abs(newX - getX());
         moveAccumulateY += Math.abs(newY - getY());
-        //限制浮窗不会超出父布局
         newX = newX < margin ? margin : newX > maxX ? maxX : newX;
         newY = newY < margin ? margin : newY > maxY ? maxY : newY;
         animate()
@@ -77,7 +74,6 @@ public class ZoomOutLayout extends FrameLayout {
             .start();
         break;
       case MotionEvent.ACTION_UP:
-        //拖动吸附，放开手时自动吸附到左右两边
         float animationX;
         float upX = event.getRawX() + dX;
         if (upX * 2 > maxX) {
@@ -89,11 +85,9 @@ public class ZoomOutLayout extends FrameLayout {
             .x(animationX)
             .setDuration(0)
             .start();
-        //如果拖动超过一定距离拦截发向子view的点击事件
         if (moveAccumulateX > touchSlop || moveAccumulateY > touchSlop) {
           return true;
         }
-        //Log.d("fgt","x:"+getX()+" y:"+getY()+ " height:"+parentHeight+" width:"+parentWidth);
       default:
     }
     return super.onInterceptTouchEvent(event);

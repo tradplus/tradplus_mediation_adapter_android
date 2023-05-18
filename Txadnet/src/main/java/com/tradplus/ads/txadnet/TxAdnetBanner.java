@@ -83,9 +83,6 @@ public class TxAdnetBanner extends TPBannerAdapter implements UnifiedBannerADLis
         } else {
             mBannerView = new UnifiedBannerView(activity, mPlacementId, this, null, payload);
         }
-        //推荐您将 Banner 的宽高比固定为 6.4:1 以获得最佳的广告展示效果
-//        mBannerView.setLayoutParams(new FrameLayout.LayoutParams(DeviceUtils.dip2px(activity, mAdWidth), DeviceUtils.dip2px(activity, mAdHeight)));
-        //默认自动刷新频率30秒一次，0标识 不自动轮播
         mBannerView.setRefresh(0);
         mBannerView.loadAD();
     }
@@ -101,7 +98,6 @@ public class TxAdnetBanner extends TPBannerAdapter implements UnifiedBannerADLis
 
     @Override
     public void onNoAD(AdError adError) {
-        // 广告加载失败，error 对象包含了错误码和错误信息
         Log.i(TAG, "onNoAD: errorCode ：" + adError.getErrorCode() + ", errorMessage : " + adError.getErrorMsg());
         if (mLoadAdapterListener != null && !isDestory) {
             mLoadAdapterListener.loadAdapterLoadFailed(TxAdnetErrorUtil.getTradPlusErrorCode(adError));
@@ -110,7 +106,6 @@ public class TxAdnetBanner extends TPBannerAdapter implements UnifiedBannerADLis
 
     @Override
     public void onADReceive() {
-        // 广告加载成功回调，表示广告相关的资源已经加载完毕，Ready To Show
         Log.i(TAG, "onADReceive: ");
         setBidEcpm();
         if (mLoadAdapterListener != null) {
@@ -121,7 +116,6 @@ public class TxAdnetBanner extends TPBannerAdapter implements UnifiedBannerADLis
 
     @Override
     public void onADExposure() {
-        // 当广告曝光时发起的回调
         Log.i(TAG, "onADExposure: ");
         if (nTPBannerAd != null)
             nTPBannerAd.adShown();
@@ -129,7 +123,6 @@ public class TxAdnetBanner extends TPBannerAdapter implements UnifiedBannerADLis
 
     @Override
     public void onADClosed() {
-        // 当广告关闭时调用
         Log.i(TAG, "onADClosed: ");
         if (nTPBannerAd != null)
             nTPBannerAd.adClosed();
@@ -137,7 +130,6 @@ public class TxAdnetBanner extends TPBannerAdapter implements UnifiedBannerADLis
 
     @Override
     public void onADClicked() {
-        // 当广告点击时发起的回调，由于点击去重等原因可能和平台最终的统计数据有差异
         Log.i(TAG, "onADClicked: ");
         if (nTPBannerAd != null) {
             nTPBannerAd.adClicked();

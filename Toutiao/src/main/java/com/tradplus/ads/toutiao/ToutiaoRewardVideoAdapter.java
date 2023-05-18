@@ -40,7 +40,7 @@ public class ToutiaoRewardVideoAdapter extends TPRewardAdapter {
     private static final long TIMEOUT_VALUE = 30 * 1000;
     private int mIsTemplateRending;
     private boolean canAgain;
-    private boolean alwaysRewardUser = false; // 默认值不开启
+    private boolean alwaysRewardUser = false;
     private boolean isC2SBidding;
     private boolean isBiddingLoaded;
     private double ecpmLevel;
@@ -48,7 +48,6 @@ public class ToutiaoRewardVideoAdapter extends TPRewardAdapter {
 
     @Override
     public void loadCustomAd(final Context context, Map<String, Object> userParams, Map<String, String> tpParams) {
-        // C2S true LoadAdapterListener == null
         if (mLoadAdapterListener == null && !isC2SBidding) {
             return;
         }
@@ -130,7 +129,6 @@ public class ToutiaoRewardVideoAdapter extends TPRewardAdapter {
     private void initRewardVideo(Context context) {
         if (isC2SBidding && isBiddingLoaded) {
             if (mToutiaoICbR != null && mToutiaoICbR.getListener(placementId) != null) {
-                // 竞价成功时的上报接⼝（必传），单位是分
                 mttRewardVideoAd.win(ecpmLevel);
                 setNetworkObjectAd(mttRewardVideoAd);
                 mToutiaoICbR.getListener(placementId).loadAdapterLoaded(null);
@@ -138,24 +136,21 @@ public class ToutiaoRewardVideoAdapter extends TPRewardAdapter {
             return;
         }
 
-        int ori = context.getResources().getConfiguration().orientation; //获取屏幕方向
+        int ori = context.getResources().getConfiguration().orientation;
         Log.i(TAG, "RewardData: userId : " + userId + ", customData :" + customData);
         final AdSlot.Builder builder = new AdSlot.Builder()
                 .setCodeId(placementId)
                 .setSupportDeepLink(true)
                 .setAdCount(canAgain ? 2 : 1)
                 .setImageAcceptedSize(ToutiaoConstant.IMAGE_ACCEPTED_SIZE_X, ToutiaoConstant.IMAGE_ACCEPTED_SIZE_Y)
-                //必传参数，表来标识应用侧唯一用户；若非服务器回调模式或不需sdk透传
-                //可设置为空字符串
                 .setUserID(TextUtils.isEmpty(userId) ? "" : userId)
                 .setMediaExtra(TextUtils.isEmpty(customData) ? "" : customData)
                 .setOrientation(ori == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE ? TTAdConstant.HORIZONTAL : TTAdConstant.VERTICAL);
         Log.i(TAG, "initRewardVideo: " + mIsTemplateRending);
         if (mIsTemplateRending == AppKeyManager.TEMPLATE_RENDERING_YES || mIsTemplateRending == AppKeyManager.TEMPLATE_RENDERING_DEFAULT) {
-            //个性化模板广告需要设置期望个性化模板广告的大小,单位dp,激励视频场景，只要设置的值大于0即可
             builder.setExpressViewAcceptedSize(ToutiaoConstant.EXPRESS_VIEW_ACCEPTED_SIZE, ToutiaoConstant.EXPRESS_VIEW_ACCEPTED_SIZE);
         }
-        AdSlot adSlot = builder.build();//设置期望视频播放的方向，为TTAdConstant.HORIZONTAL或TTAdConstant.VERTICAL
+        AdSlot adSlot = builder.build();
 
         mAdNative.loadRewardVideoAd(adSlot, mRewardVideoAdListener);
     }
@@ -185,13 +180,6 @@ public class ToutiaoRewardVideoAdapter extends TPRewardAdapter {
 
     }
 
-    /**
-     * 竞价失败时的上报接⼝（必传）
-     * auctionPrice 胜出者的第⼀名价格（不想上报价格传时null），单位是分
-     * lossReason 竞价失败的原因（不想上报原因时传null），可参考枚举值或者媒体⾃定义回传
-     * winBidder 胜出者（不想上报胜出者时传null），可参考枚举值或者媒体⾃定义回传
-     * 102 bid价格低于最高价
-     */
     @Override
     public void setLossNotifications(String auctionPrice, String lossReason) {
         if (mttRewardVideoAd != null) {
@@ -222,7 +210,6 @@ public class ToutiaoRewardVideoAdapter extends TPRewardAdapter {
 
         @Override
         public void onRewardVideoAdLoad(TTRewardVideoAd ttRewardVideoAd) {
-            //视频广告的素材加载完毕，比如视频url等，在此回调后，可以播放在线视频，网络不好可能出现加载缓冲，影响体验。
             Log.i(TAG, "onRewardVideoAdLoad: Timestamp :" + ttRewardVideoAd.getExpirationTimestamp());
             mttRewardVideoAd = ttRewardVideoAd;
             mttRewardVideoAd.setRewardAdInteractionListener(new ToutiaoAdsInterstitialListener(placementId, alwaysRewardUser));
@@ -232,13 +219,11 @@ public class ToutiaoRewardVideoAdapter extends TPRewardAdapter {
 
         @Override
         public void onRewardVideoCached() {
-            // 已废弃 请使用 onRewardVideoCached(TTRewardVideoAd ad) 方法
 
         }
 
         @Override
         public void onRewardVideoCached(TTRewardVideoAd ttRewardVideoAd) {
-            //视频广告加载后，视频资源缓存到本地的回调，在此回调后，播放本地视频，流畅不阻塞。
             setFirstLoadedTime();
             Log.i(TAG, "onRewardVideoCached: ");
 

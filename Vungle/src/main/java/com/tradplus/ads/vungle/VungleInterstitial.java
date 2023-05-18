@@ -34,8 +34,8 @@ public class VungleInterstitial extends TPInterstitialAdapter {
     private VungleInterstitialCallbackRouter mRouter;
     private String placementId, appId;
     private Map<String, Object> localExtras;
-    private Integer mVideoMute = 1; // 1 静音
-    private Integer mAdOri = 0; // 默认 广告将旋转来适配设备方向
+    private Integer mVideoMute = 1;
+    private Integer mAdOri = 0;
 
     @Override
     public void loadCustomAd(final Context context,
@@ -120,16 +120,12 @@ public class VungleInterstitial extends TPInterstitialAdapter {
         if (ori == 0){
             return AdConfig.AUTO_ROTATE;
         }else if (ori == 1) {
-            // 强制竖屏播放
             return AdConfig.PORTRAIT;
         }else if (ori == 2) {
-            // 强制横屏播放
             return AdConfig.LANDSCAPE;
         }else if (ori == 3) {
-            // 强制素材按照自己的方向来播放
             return AdConfig.MATCH_VIDEO;
         }
-        // 广告将旋转来适配设备方向。
         return AdConfig.AUTO_ROTATE;
     }
 

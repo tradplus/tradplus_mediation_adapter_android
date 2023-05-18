@@ -32,8 +32,6 @@ public class ToutiaoSplash extends TPSplashAdapter {
 
     private static final String TAG = "PangleSplash";
     private String placementId;
-    // 三方没有进行预加载，缓存视频的广告设置3秒的超时时间还是很容易出现超时的情况的
-    // 第一次请求会超时问题。所以将超时时间设置为5秒
     private int timeout = 5000;
     private PAGAppOpenAd mPAGAppOpenAd;
     private String mPayload;
@@ -67,9 +65,7 @@ public class ToutiaoSplash extends TPSplashAdapter {
                 }
             }
 
-            // 不支持代码设置，Pangle后台创建PID时可以配置
             if (userParams.containsKey(ToutiaoConstant.PANGLE_SPLASH_DIRECTION)) {
-//                mOrientation = (Integer) userParams.get(ToutiaoConstant.PANGLE_SPLASH_DIRECTION);
             }
         }
 
@@ -95,7 +91,6 @@ public class ToutiaoSplash extends TPSplashAdapter {
     private void requestSplash() {
         PAGAppOpenRequest request = new PAGAppOpenRequest();
 
-        // 超时时间
         request.setTimeout(timeout);
 
         // bidding set payload

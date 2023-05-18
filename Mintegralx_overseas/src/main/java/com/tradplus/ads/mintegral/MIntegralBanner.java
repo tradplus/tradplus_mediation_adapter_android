@@ -195,7 +195,6 @@ public class MIntegralBanner extends TPBannerAdapter {
                     public void onSuccess() {
                         String token = BidManager.getBuyerUid(context);
                         if (!finalInitSuccess) {
-                            // 第一次初始化 250
                             MintegralInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                         }
 

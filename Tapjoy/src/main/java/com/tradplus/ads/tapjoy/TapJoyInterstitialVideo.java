@@ -120,8 +120,6 @@ public class TapJoyInterstitialVideo extends TPRewardAdapter {
         @Override
         public void onContentReady(TJPlacement tjPlacement) {
             Log.i(TAG, "onContentReady: ");
-            //isContentAvailable表示有广告，但不意味着下载已完成。
-            // 一旦广告完成加载，就会触发TJPlacementListener的 onContentReady 功能
             if (mCallbackRouter.getListener(tjPlacement.getName()) != null) {
                 setNetworkObjectAd(tjPlacement);
                 mCallbackRouter.getListener(tjPlacement.getName()).loadAdapterLoaded(null);

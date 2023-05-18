@@ -47,8 +47,6 @@ public class StartAppNative extends TPNativeAdapter {
             mLoadAdapterListener.loadAdapterLoadFailed(new TPError(ADAPTER_CONFIGURATION_ERROR));
             return;
         }
-//        mAppId = "210176017";
-//        mPlacementId = "native_test";
         if (userParams != null && userParams.size() > 0) {
             if (userParams.containsKey(DataKeys.DOWNLOAD_IMG)) {
                 String downLoadImg = (String) userParams.get(DataKeys.DOWNLOAD_IMG);

@@ -31,7 +31,7 @@ public class VerveBanner extends TPBannerAdapter {
     private boolean isBiddingLoaded;
     private TPBannerAdImpl mTpBannerAd;
     private HyBidAdView adViewAd;
-    private int onAdClick = 0; // 0 表示没有点击
+    private int onAdClick = 0;
     private OnC2STokenListener onC2STokenListener;
     private static final String TAG = "VerveBanner";
 

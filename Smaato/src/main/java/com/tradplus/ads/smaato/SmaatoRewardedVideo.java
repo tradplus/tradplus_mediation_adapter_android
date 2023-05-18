@@ -48,8 +48,6 @@ public class SmaatoRewardedVideo extends TPRewardAdapter {
             return;
         }
 
-//        mAppId = "1100047326";
-//        mPlacementId = "130626428";
         if (!TextUtils.isEmpty(tpParams.get(AppKeyManager.ALWAYS_REWARD))) {
             alwaysReward = (Integer.parseInt(tpParams.get(AppKeyManager.ALWAYS_REWARD)) == AppKeyManager.ENFORCE_REWARD);
         }

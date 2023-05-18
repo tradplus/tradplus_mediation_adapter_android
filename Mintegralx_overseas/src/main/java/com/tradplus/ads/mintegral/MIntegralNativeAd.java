@@ -30,10 +30,10 @@ public class MIntegralNativeAd extends TPBaseAd {
     private Campaign mCampaignBean;
     private MBNativeHandler mNativeHandler;
     private MBBidNativeHandler mBidNativeHandler;
-    private ViewGroup mAdvancedNativeView; // 模版
+    private ViewGroup mAdvancedNativeView;
     private int isRender;
     private RelativeLayout mRelativeLayout;
-    private MBNativeAdvancedHandler mMBNativeAdvancedHandler;//自动渲染（模版）Native
+    private MBNativeAdvancedHandler mMBNativeAdvancedHandler;
     private MBAdChoice mbAdChoice;
     private static final String TAG = "MTGOSNative";
 
@@ -100,9 +100,7 @@ public class MIntegralNativeAd extends TPBaseAd {
         if (campaignEx.getVideoUrlEncode() != null && campaignEx.getVideoUrlEncode().length() > 0) {
             MBMediaView mbMediaView = new MBMediaView(context);
             mbMediaView.setNativeAd(nativeAd);
-            // 设置在视频是否允许刷新
             mbMediaView.setAllowVideoRefresh(false);
-            // 开启或关闭 视频声音
             mbMediaView.setVideoSoundOnOff(isVideoSoundOnOff);
             mbMediaView.setOnMediaViewListener(new OnMBMediaViewListenerPlus() {
                 @Override
@@ -112,22 +110,19 @@ public class MIntegralNativeAd extends TPBaseAd {
 
                 @Override
                 public void onExitFullscreen() {
-                    Log.i(TAG, "onExitFullscreen: Mediaview退出全屏模式时调用");
+                    Log.i(TAG, "onExitFullscreen: ");
                 }
 
                 @Override
                 public void onStartRedirection(Campaign campaign, String s) {
-                    //广告开始跳转重定向时调用
                 }
 
                 @Override
                 public void onFinishRedirection(Campaign campaign, String s) {
-                    //广告完成跳转重定向后调用
                 }
 
                 @Override
                 public void onRedirectionFailed(Campaign campaign, String s) {
-                    //广告跳转重定向失败时调用
                 }
 
                 @Override
@@ -149,7 +144,6 @@ public class MIntegralNativeAd extends TPBaseAd {
 
                 @Override
                 public void onVideoComplete() {
-                    //广告视频完全播放完后调用，但广告没有关闭
                     Log.i(TAG, "onVideoComplete: ");
                     if (mShowListener != null) {
                         mShowListener.onAdVideoEnd();
@@ -157,7 +151,6 @@ public class MIntegralNativeAd extends TPBaseAd {
 
                 }
             });
-            // 设置MBMediaView是否可以全屏显示
             mbMediaView.setIsAllowFullScreen(true);
             mTpNativeAdView.setMediaView(mbMediaView);
         } else {
@@ -226,9 +219,9 @@ public class MIntegralNativeAd extends TPBaseAd {
     @Override
     public int getNativeAdType() {
         if (isRender == TPBaseAd.AD_TYPE_NATIVE_EXPRESS) {
-            return AD_TYPE_NATIVE_EXPRESS;//模版
+            return AD_TYPE_NATIVE_EXPRESS;
         } else {
-            return AD_TYPE_NORMAL_NATIVE; //自渲染
+            return AD_TYPE_NORMAL_NATIVE;
         }
     }
 

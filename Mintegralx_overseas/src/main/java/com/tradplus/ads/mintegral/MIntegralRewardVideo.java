@@ -29,11 +29,6 @@ import com.tradplus.ads.pushcenter.utils.RequestUtils;
 
 import java.util.Map;
 
-/**
- * need appkey and appid params
- * <p>
- * Test can use anr check tools,
- */
 public class MIntegralRewardVideo extends TPRewardAdapter {
 
     private MBRewardVideoHandler mMTGRewardVideoHandler;
@@ -43,7 +38,7 @@ public class MIntegralRewardVideo extends TPRewardAdapter {
     private MIntegralInterstitialCallbackRouter mMTGICbR;
     private String mUnitId;
     private String payload;
-    private Integer mVideoMute = 1; // 静音
+    private Integer mVideoMute = 1;
     private boolean canAgain = false;
     private boolean alwaysReward;
 
@@ -60,7 +55,6 @@ public class MIntegralRewardVideo extends TPRewardAdapter {
             if (!TextUtils.isEmpty(tpParams.get(AppKeyManager.ALWAYS_REWARD))) {
                 alwaysReward = (Integer.parseInt(tpParams.get(AppKeyManager.ALWAYS_REWARD)) == AppKeyManager.ENFORCE_REWARD);
             }
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             if (!TextUtils.isEmpty(tpParams.get(AppKeyManager.VIDEO_MUTE))) {
                 mVideoMute = Integer.parseInt(tpParams.get(AppKeyManager.VIDEO_MUTE));
             }
@@ -192,7 +186,6 @@ public class MIntegralRewardVideo extends TPRewardAdapter {
             @Override
             public void onVideoComplete(MBridgeIds mBridgeIds) {
                 Log.i(TAG, "onVideoComplete");
-                // 试玩广告不回调该监听，故在onAdClose中用isCompleteView作判断
                 if (mMTGICbR.getShowListener(mPlacementId + mUnitId) != null) {
                     mMTGICbR.getShowListener(mPlacementId + mUnitId).onAdVideoEnd();
                 }
@@ -208,11 +201,8 @@ public class MIntegralRewardVideo extends TPRewardAdapter {
         if (TextUtils.isEmpty(payload)) {
             mMTGRewardVideoHandler = new MBRewardVideoHandler(context, mPlacementId, mUnitId);
             mMTGRewardVideoHandler.setRewardVideoListener(rewardVideoListener);
-            // 服务器默认 1静音 2 有声
-            // MTG 参数 也是 1静音 2 有声
             mMTGRewardVideoHandler.playVideoMute(mVideoMute == 1 ? MBridgeConstans.REWARD_VIDEO_PLAY_MUTE : MBridgeConstans.REWARD_VIDEO_PLAY_NOT_MUTE);
             if (canAgain) {
-                // 再看一次，设置也不一定会下方对应素材的广告；监听和普通广告是同一个
                 mMTGRewardVideoHandler.setRewardPlus(true);
             }
             mMTGRewardVideoHandler.load();
@@ -221,7 +211,6 @@ public class MIntegralRewardVideo extends TPRewardAdapter {
             mMTGBidRewardVideoHandler.setRewardVideoListener(rewardVideoListener);
             mMTGBidRewardVideoHandler.playVideoMute(mVideoMute == 1 ? MBridgeConstans.REWARD_VIDEO_PLAY_MUTE : MBridgeConstans.REWARD_VIDEO_PLAY_NOT_MUTE);
             if (canAgain) {
-                // 再看一次，设置也不一定会下方对应素材的广告；监听和普通广告是同一个
                 mMTGBidRewardVideoHandler.setRewardPlus(true);
             }
             mMTGBidRewardVideoHandler.loadFromBid(payload);
@@ -265,7 +254,6 @@ public class MIntegralRewardVideo extends TPRewardAdapter {
 
         if (mMTGBidRewardVideoHandler != null) {
             if (!TextUtils.isEmpty(userId)) {
-                // userId在服务器回调中用到
                 mMTGBidRewardVideoHandler.showFromBid(userId, TextUtils.isEmpty(customData) ? "" : customData);
             } else {
                 mMTGBidRewardVideoHandler.showFromBid();
@@ -341,7 +329,6 @@ public class MIntegralRewardVideo extends TPRewardAdapter {
                     public void onSuccess() {
                         String token = BidManager.getBuyerUid(context);
                         if (!finalInitSuccess) {
-                            // 第一次初始化 250
                             MintegralInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                         }
 

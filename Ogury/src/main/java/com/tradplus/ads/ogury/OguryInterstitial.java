@@ -46,8 +46,6 @@ public class OguryInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-//        appId = "OGY-955A72153B4A";
-//        mPlacementId = "302544_default";
         mCallbackRouter = OguryInterstitialCallbackRouter.getInstance();
         mCallbackRouter.addListener(mPlacementId, mLoadAdapterListener);
 

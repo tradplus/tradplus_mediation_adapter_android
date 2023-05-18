@@ -49,8 +49,8 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
     private boolean videoSupport = true;//support native video
     private MBNativeHandler mMtgNativeHandler;
     private MBBidNativeHandler mMtgBidNativeHandler;
-    private MBNativeAdvancedHandler mMBNativeAdvancedHandler;///自动渲染（模版）Native
-    private ViewGroup mAdvancedNativeView;// 模版
+    private MBNativeAdvancedHandler mMBNativeAdvancedHandler;
+    private ViewGroup mAdvancedNativeView;
     private int mAdWidth;
     private int mAdHeight;
     private String mPlacementId;
@@ -58,11 +58,11 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
     private MIntegralNativeAd mMIntegralNativeAd;
     private String payload;
     private int mAutoPlayVideo;
-    private int mVideoMute = 1; // 默认静音播放
+    private int mVideoMute = 1;
     private int mIsclosable;
     private int mIsTemplateRending;
     private boolean mNeedDownloadImg = false;
-    private int adNum = 1; // 默认请求1个
+    private int adNum = 1;
 
     @Override
     public void loadCustomAd(final Context context, Map<String, Object> userParams, Map<String, String> tpParams) {
@@ -74,13 +74,9 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
             mPlacementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             mUnitId = tpParams.get(AppKeyManager.UNIT_ID);
             payload = tpParams.get(DataKeys.BIDDING_PAYLOAD);
-            // 自动渲染（模版）1 ；自定义渲染（自渲染） 2
             mIsTemplateRending = Integer.parseInt(tpParams.get(AppKeyManager.IS_TEMPLATE_RENDERING));
-            // 自动播放视频
             mAutoPlayVideo = Integer.parseInt(tpParams.get(AppKeyManager.AUTO_PLAY_VIDEO));
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             mVideoMute = Integer.parseInt(tpParams.get(AppKeyManager.VIDEO_MUTE));
-            // 关闭按钮展示设置
             mIsclosable = Integer.parseInt(tpParams.get(AppKeyManager.IS_CLOSABLE));
         } else {
             mLoadAdapterListener.loadAdapterLoadFailed(new TPError(ADAPTER_CONFIGURATION_ERROR));
@@ -111,7 +107,6 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
 
         if (mAdWidth <= 0 && mAdHeight <= 0) {
             if (mIsTemplateRending == TEMPLATE_RENDERING_YES) {
-                // 官方建议宽高比例
                 mAdWidth = 320;
                 mAdHeight = 250;
             } else {
@@ -145,7 +140,6 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
         final Map<String, Object> properties = MBNativeHandler.getNativeProperties(mPlacementId, mUnitId);
 
         if (mIsTemplateRending == TEMPLATE_RENDERING_YES) {
-            // 自动渲染
             Log.i(TAG, "load MBNativeAdvancedHandler : 自动渲染");
             Activity activity = GlobalTradPlus.getInstance().getActivity();
             if (activity == null) {
@@ -156,24 +150,18 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
             }
 
             mMBNativeAdvancedHandler = new MBNativeAdvancedHandler(activity, mPlacementId, mUnitId);
-            // 推荐: 320 x 250 比例
             mMBNativeAdvancedHandler.setNativeViewSize(DeviceUtils.dip2px(activity, mAdWidth), DeviceUtils.dip2px(activity, mAdHeight));
-            // 设置关闭按钮的状态 is_closable 1
             mMBNativeAdvancedHandler.setCloseButtonState(mIsclosable == 1 ? MBMultiStateEnum.positive : MBMultiStateEnum.negative);
-            // 默认静音 video_mute 1 静音
             mMBNativeAdvancedHandler.setPlayMuteState(mVideoMute != AppKeyManager.VIDEO_MUTE_NO ? MBridgeConstans.REWARD_VIDEO_PLAY_MUTE : MBridgeConstans.REWARD_VIDEO_PLAY_NOT_MUTE);
 
-            // 1 总是 ；2 仅Wi-Fi ；3 手动播放
             if (mAutoPlayVideo == AppKeyManager.AUTO_PLAYVIDEO_CLICK) {
                 mMBNativeAdvancedHandler.autoLoopPlay(AutoPlayMode.PLAY_WHEN_USER_CLICK);
             } else if (mAutoPlayVideo == AppKeyManager.AUTO_PLAYVIDEO_WIFI) {
                 mMBNativeAdvancedHandler.autoLoopPlay(AutoPlayMode.PLAY_WHEN_NETWORK_IS_WIFI);
             } else {
-                // 三方默认
                 mMBNativeAdvancedHandler.autoLoopPlay(AutoPlayMode.PLAY_WHEN_NETWORK_IS_AVAILABLE);
             }
 
-            // 获取广告试图
             mAdvancedNativeView = mMBNativeAdvancedHandler.getAdViewGroup();
             mMBNativeAdvancedHandler.setAdListener(mNativeAdvancedAdListener);
             if (!TextUtils.isEmpty(payload)) {
@@ -183,22 +171,19 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
             }
 
         } else {
-            // 自定义渲染
-            //期望获取的广告数量
             properties.put(MBridgeConstans.PROPERTIES_AD_NUM, adNum);
-            //SDK内部判断了这个属性：获取原生广告视频时长（三方建议加上）
             properties.put(MBridgeConstans.NATIVE_VIDEO_WIDTH, mAdWidth);
             properties.put(MBridgeConstans.NATIVE_VIDEO_HEIGHT, mAdHeight);
             properties.put(NATIVE_VIDEO_SUPPORT, videoSupport);
 
             if (!TextUtils.isEmpty(payload)) {
-                Log.i(TAG, "load MBBidNativeHandler: Bidding 自定义渲染 ");
+                Log.i(TAG, "load MBBidNativeHandler: Bidding  ");
                 mMtgBidNativeHandler = new MBBidNativeHandler(properties, context);
                 mMtgBidNativeHandler.setAdListener(nativeAdListener);
                 mMtgBidNativeHandler.setTrackingListener(nativeTrackingListener);
                 mMtgBidNativeHandler.bidLoad(payload);
             } else {
-                Log.i(TAG, "load MBNativeHandler : 自定义渲染");
+                Log.i(TAG, "load MBNativeHandler : ");
                 mMtgNativeHandler = new MBNativeHandler(properties, context);
                 mMtgNativeHandler.setAdListener(nativeAdListener);
                 mMtgNativeHandler.setTrackingListener(nativeTrackingListener);
@@ -207,7 +192,6 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
         }
     }
 
-    // 自动渲染（模版） 监听
     private final NativeAdvancedAdListener mNativeAdvancedAdListener = new NativeAdvancedAdListener() {
         @Override
         public void onLoadFailed(MBridgeIds mBridgeIds, String s) {
@@ -244,9 +228,8 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
             mMIntegralNativeAd = new MIntegralNativeAd(mMBNativeAdvancedHandler, mAdvancedNativeView, context);
             mMIntegralNativeAd.setRenderType(TPBaseAd.AD_TYPE_NATIVE_EXPRESS);
 
-            // onLoadSuccessed后调用，开发者可以通过这个API将广告ID记录并反馈到Mintegral
             if (!TextUtils.isEmpty(mMBNativeAdvancedHandler.getRequestId())) {
-                Log.i(TAG, "广告ID RequestId: " + mMBNativeAdvancedHandler.getRequestId());
+                Log.i(TAG, " RequestId: " + mMBNativeAdvancedHandler.getRequestId());
             }
 
             if (mLoadAdapterListener != null) {
@@ -290,7 +273,6 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
 
     };
 
-    // 自渲染监听
     private final NativeListener.NativeAdListener nativeAdListener = new NativeListener.NativeAdListener() {
         @Override
         public void onAdLoaded(List<Campaign> list, int i) {
@@ -310,8 +292,6 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
                 return;
             }
 
-            // 1 静音 ；2 播放
-            // 自定义渲染，true 开启 视频声音 ；false 关闭 视频声音
             Log.i(TAG, "VideoMute: " + mVideoMute);
             if (TextUtils.isEmpty(payload)) {
                 mMIntegralNativeAd = new MIntegralNativeAd(campaign, context, mMtgNativeHandler, mVideoMute == AppKeyManager.VIDEO_MUTE_NO);
@@ -465,7 +445,6 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
                     public void onSuccess() {
                         String token = BidManager.getBuyerUid(context);
                         if (!finalInitSuccess) {
-                            // 第一次初始化 250
                             MintegralInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                         }
 

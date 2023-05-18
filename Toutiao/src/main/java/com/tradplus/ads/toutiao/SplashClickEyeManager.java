@@ -16,12 +16,12 @@ public class SplashClickEyeManager {
     private static final String TAG = "ToutiaoSplashAd";
     private static final int LEFT = 0;
     private static final int RIGHT = 1;
-    private int mClickEyeViewWidth;//悬浮窗的宽度
-    private int mClickEyeViewHeight;//悬浮窗的高度
-    private int mClickEyeViewMargin;//悬浮窗最小离屏幕边缘的距离
-    private int mClickEyeViewMarginBottom;//悬浮窗默认距离屏幕底端的高度
-    private int mClickEyeViewPos;//悬浮窗默认位于屏幕左面或右面
-    private int mClickEyeViewAnimationTime;//悬浮窗缩放动画的，单位ms
+    private int mClickEyeViewWidth;
+    private int mClickEyeViewHeight;
+    private int mClickEyeViewMargin;
+    private int mClickEyeViewMarginBottom;
+    private int mClickEyeViewPos;
+    private int mClickEyeViewAnimationTime;
     private CSJSplashAd mSplashAd;
     private View mSplashShowView;
     private int[] mOriginSplashPos = new int[2];
@@ -39,7 +39,6 @@ public class SplashClickEyeManager {
 
 
     /**
-     * 单例获取SplashClickEyeManager对象
      *
      * @return
      */
@@ -66,13 +65,11 @@ public class SplashClickEyeManager {
     private void initClickEyeViewData(Context context) {
         int deviceWidth = Math.min(UIUtils.getScreenHeightInPx(context), UIUtils.getScreenWidthInPx(context));
         if (mSplashAd != null && mSplashAd.getSplashClickEyeSizeToDp() != null) {
-            //使用推荐的点睛宽高
             mClickEyeViewWidth = UIUtils.dp2px(context, mSplashAd.getSplashClickEyeSizeToDp()[0]);
             mClickEyeViewHeight = UIUtils.dp2px(context, mSplashAd.getSplashClickEyeSizeToDp()[1]);
         } else {
-            //默认的点睛宽高
-            mClickEyeViewWidth = Math.round(deviceWidth * 0.3f);//屏幕宽度的30%，之前使用PxUtils.dpToPx(context, 90);
-            mClickEyeViewHeight = Math.round(mClickEyeViewWidth * 16 / 9);//根据宽度计算高度，之前使用PxUtils.dpToPx(context, 160);
+            mClickEyeViewWidth = Math.round(deviceWidth * 0.3f);
+            mClickEyeViewHeight = Math.round(mClickEyeViewWidth * 16 / 9);
         }
     }
 
@@ -106,7 +103,6 @@ public class SplashClickEyeManager {
         return startSplashClickEyeAnimation(mSplashShowView, decorView, splashViewContainer, callBack);
     }
 
-    //开屏点睛动画
     public ViewGroup startSplashClickEyeAnimation(final View splash, final ViewGroup decorView,
                                                   final ViewGroup splashViewContainer,
                                                   final AnimationCallBack callBack) {

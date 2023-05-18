@@ -67,17 +67,9 @@ public class SigmobSplash extends TPSplashAdapter {
         if (mSplashAdRequest == null)
             mSplashAdRequest = new WindSplashAdRequest(mPlacementId, null, null);
 
-        /**
-         *  广告结束，广告内容是否自动隐藏。
-         *  若开屏和应用共用Activity，建议false。
-         *  开屏是单独Activity ，建议true。
-         */
+
         mSplashAdRequest.setDisableAutoHideAd(true);
 
-        /**
-         * 广告允许最大等待返回时间 : 默认5
-         */
-//        mSplashAdRequest.setFetchDelay(5);
         mWindSplashAD = new WindSplashAD(mSplashAdRequest, mWindSplshAdListener);
 
         if (TextUtils.isEmpty(bidToken)) {

@@ -44,7 +44,6 @@ public class MyTargetBanner extends TPBannerAdapter {
             mAdsize = tpParams.get(AppKeyManager.ADSIZE + placementId);
             payload = tpParams.get(DataKeys.BIDDING_PAYLOAD);
         }
-//        mSlotId = "854796";
 
         MyTargetInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
             @Override

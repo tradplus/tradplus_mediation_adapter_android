@@ -109,7 +109,6 @@ public class StartAppInterstitial extends TPInterstitialAdapter {
             interstitialAd.showAd(mPlacementId, new AdDisplayListener() {
                 @Override
                 public void adHidden(Ad ad) {
-                    //广告页面中点击关闭时候会回调
                     Log.i(TAG, "adHidden: ");
                     if (mStartAppICbR.getShowListener(mPlacementId) != null)
                         mStartAppICbR.getShowListener(mPlacementId).onAdClosed();
@@ -117,7 +116,6 @@ public class StartAppInterstitial extends TPInterstitialAdapter {
 
                 @Override
                 public void adDisplayed(Ad ad) {
-                    // TODO: 2020/11/24  StartApp的 bug 有时候 adDisplayed不回调 但是仍然记录次数
                     if (mStartAppICbR.getShowListener(mPlacementId) != null) {
                         Log.i(TAG, "adDisplayed onInterstitialShown: " + mPlacementId);
                         mStartAppICbR.getShowListener(mPlacementId).onAdShown();

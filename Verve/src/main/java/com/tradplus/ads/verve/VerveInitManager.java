@@ -88,7 +88,6 @@ public class VerveInitManager extends TPInitMediation {
 
             // CCPA false:consent;true:not consent
             // If such a user opts out of the sale of their personal information, set the do-not-sell flag to true.
-            // 选择不出售其个人信息，请将“不出售”标志设置为 true。
             if (userParams.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean ccpa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
                 Log.i("privacylaws", "ccpa:" + ccpa);

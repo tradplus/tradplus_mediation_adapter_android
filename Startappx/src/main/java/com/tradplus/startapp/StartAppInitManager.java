@@ -72,9 +72,6 @@ public class StartAppInitManager extends TPInitMediation {
                 //true:agree  false:deny
                 StartAppSDK.setUserConsent(context, "pas", System.currentTimeMillis(), need_set_gdpr);
             }
-            //ccpa ~~ false 加州用户均不上报数据 ；true 接受上报数据
-            //If the user chooses NOT to opt out, and is ok with advertising as usual, you can use "1YNN". —— 正常上报数据
-            //If the user chooses to restrict advertising and opt out, you can use "1YYN". ————限制广告数据上报
             if (userParams.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean ccpa = (boolean) userParams.get(AppKeyManager.KEY_CCPA);
                 Log.i("privacylaws", "ccpa: " + ccpa);

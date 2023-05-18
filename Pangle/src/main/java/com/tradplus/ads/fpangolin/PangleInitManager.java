@@ -29,7 +29,7 @@ public class PangleInitManager extends TPInitMediation {
 
     private boolean need_set_gdpr = false;
     private int ischild = 0;
-    private boolean ccpa = false; // 默认 false 加州用户均不上报数据
+    private boolean ccpa = false;
 
     public synchronized static PangleInitManager getInstance() {
         if (sInstance == null) {
@@ -96,7 +96,6 @@ public class PangleInitManager extends TPInitMediation {
             appId = tpParams.get(AppKeyManager.APP_ID);
         }
 
-        //隐私协议相关需要在初始化后设置
         suportGDPR(context, userParams);
 
         if (isInited(appId)) {

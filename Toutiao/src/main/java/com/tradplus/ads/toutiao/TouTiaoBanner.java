@@ -36,7 +36,7 @@ public class TouTiaoBanner extends TPBannerAdapter {
     private String mPlacementId;
     private TTNativeExpressAd mTTAd;
     private TPBannerAdImpl mTpBannerAd;
-    private int onAdShow = 0; // 0 表示没有展示
+    private int onAdShow = 0;
     private boolean isC2SBidding;
     private boolean isBiddingLoaded;
     private double ecpmLevel;
@@ -103,7 +103,6 @@ public class TouTiaoBanner extends TPBannerAdapter {
             return;
         }
 
-        //创建广告请求参数AdSlot
         AdSlot adSlot = new AdSlot.Builder()
                 .setCodeId(mPlacementId)
                 .setAdCount(1)
@@ -111,7 +110,6 @@ public class TouTiaoBanner extends TPBannerAdapter {
                 .setExpressViewAcceptedSize(mAdViewWidth <= 0 ? mAdWidth / 2 : mAdViewWidth, mAdViewHeight <= 0 ? mAdHeight / 2 : mAdViewHeight)//期望模板广告view的size,单位dp
                 .build();
 
-        //请求广告，对请求回调的广告作渲染处理
         mAdNative.loadBannerExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int errorCode, String errorMsg) {
@@ -135,11 +133,8 @@ public class TouTiaoBanner extends TPBannerAdapter {
                 Activity activity = GlobalTradPlus.getInstance().getActivity();
                 Log.i(TAG, "activity: " + activity);
                 if (activity != null) {
-                    // dislike设置
                     bindDislike(activity, mTTAd, false);
                 }else {
-                    Log.i(TAG, "activity == null, 无法setDislikeCallback。" +
-                            "开发者需检查创建TPBanner时是否传入Activity，或者此时Activity是否被销毁。");
                 }
 
                 mTTAd.render();
@@ -148,13 +143,6 @@ public class TouTiaoBanner extends TPBannerAdapter {
 
     }
 
-    /**
-     * 竞价失败时的上报接⼝（必传）
-     * auctionPrice 胜出者的第⼀名价格（不想上报价格传时null），单位是分
-     * lossReason 竞价失败的原因（不想上报原因时传null），可参考枚举值或者媒体⾃定义回传
-     * winBidder 胜出者（不想上报胜出者时传null），可参考枚举值或者媒体⾃定义回传
-     * 102 bid价格低于最高价
-     */
     @Override
     public void setLossNotifications(String auctionPrice, String lossReason) {
         if (mTTAd != null) {
@@ -276,14 +264,8 @@ public class TouTiaoBanner extends TPBannerAdapter {
         }
     };
 
-    /**
-     * 设置广告的不喜欢, 注意：强烈建议设置该逻辑，如果不设置dislike处理逻辑，则模板广告中的 dislike区域不响应dislike事件。
-     *
-     * @param ad
-     * @param customStyle 是否自定义样式，true:样式自定义
-     */
+
     private void bindDislike(Activity activity, final TTNativeExpressAd ad, boolean customStyle) {
-        //使用默认模板中默认dislike弹出样式
         ad.setDislikeCallback(activity, new TTAdDislike.DislikeInteractionCallback() {
             @Override
             public void onShow() {
@@ -293,7 +275,6 @@ public class TouTiaoBanner extends TPBannerAdapter {
             @Override
             public void onSelected(int position, String value, boolean b) {
                 Log.i(TAG, "onSelected: ");
-                //用户选择不喜欢原因后，移除广告展示
                 if (mTpBannerAd != null)
                     mTpBannerAd.adClosed();
             }

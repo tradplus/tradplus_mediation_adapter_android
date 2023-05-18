@@ -49,8 +49,6 @@ public class SmaatoInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-//        mAppId = "1100047326";
-//        mPlacementId = "130626426";
 
         mSmattoICBr = SmaatoInterstitialCallbackRouter.getInstance();
         mSmattoICBr.addListener(mPlacementId, mLoadAdapterListener);
@@ -119,9 +117,6 @@ public class SmaatoInterstitial extends TPInterstitialAdapter {
             @Override
             public void onAdOpened(@NonNull InterstitialAd interstitialAd) {
                 Log.i(TAG, "onAdOpened: ");
-//                if (mSmattoICBr.getShowListener(mPlacementId) != null) {
-//                    mSmattoICBr.getShowListener(mPlacementId).onAdVideoStart();
-//                }
             }
 
             @Override

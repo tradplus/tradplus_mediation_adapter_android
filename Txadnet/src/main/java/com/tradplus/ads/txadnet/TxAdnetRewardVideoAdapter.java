@@ -42,12 +42,12 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
     private static final long TIMEOUT_VALUE = 30 * 1000;
     private TxAdnetInterstitialCallbackRouter mGDTCbr;
     private String placementId, userId, customData;
-    private boolean isVideoSoundEnable = true; // 有声播放 true
+    private boolean isVideoSoundEnable = true;
     private boolean hasGrantedReward = false;
     private boolean alwaysRewardUser;
     private Map<String, Object> mRewardMap;
-    private int isRewardedInterstitialAd; // 奖励式插屏广告
-    private UnifiedInterstitialAD mUnifiedInterstitialAD; //插屏广告
+    private int isRewardedInterstitialAd;
+    private UnifiedInterstitialAD mUnifiedInterstitialAD;
     private static final String TAG = "GDTRewardedVideo";
     private ServerSideVerificationOptions serverSideVerificationOptions;
     private String payload;
@@ -67,18 +67,16 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
             payload = serverExtras.get(DataKeys.BIDDING_PAYLOAD);
             price = serverExtras.get(DataKeys.BIDDING_PRICE);
             isRewardedInterstitialAd = Integer.parseInt(serverExtras.get(AppKeyManager.ADSOURCE_TYPE));
-            // 视频静音 指定自动播放时是否静音: 1 自动播放时静音；2 自动播放时有声
             mVideoMute = serverExtras.get(AppKeyManager.VIDEO_MUTE);
 
             if (!TextUtils.isEmpty(serverExtras.get(AppKeyManager.ALWAYS_REWARD))) {
                 int rewardUser = Integer.parseInt(serverExtras.get(AppKeyManager.ALWAYS_REWARD));
                 alwaysRewardUser = (rewardUser == AppKeyManager.ENFORCE_REWARD);
             }
-            Log.i(TAG, "VideoMute(视频静音) :" + mVideoMute);
 
             if (!TextUtils.isEmpty(mVideoMute)) {
                 if (mVideoMute.equals(AppKeyManager.VIDEO_MUTE_YES)) {
-                    isVideoSoundEnable = false; // 如果想静音播放，传false
+                    isVideoSoundEnable = false;
                     Log.i(TAG, "videoMute: " + isVideoSoundEnable);
                 }
             }
@@ -131,19 +129,14 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
 
     private void initRewardVideo(Context context) {
         if (isRewardedInterstitialAd == AppKeyManager.INTERACTION_TYPE) {
-            Log.i(TAG, "loadAd 奖励式插屏全屏视频");
             loadFullVideoInterstitial();
         } else {
-            Log.i(TAG, "loadAd 激励视频");
             loadRewardVideo(context);
 
         }
     }
 
     private void loadRewardVideo(Context context) {
-        // 自渲染
-        // 自动播放有声
-        // volumeOn为true表示有声播放;volumeOnfalse表示静音播放
         if (TextUtils.isEmpty(payload)) {
             rewardVideoAD = new RewardVideoAD(context, placementId, mRwardVideoADListener, isVideoSoundEnable);
         } else {
@@ -176,10 +169,9 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
         }
 
         VideoOption.Builder builder = new VideoOption.Builder();
-        //指定自动播放时是否静音，如果true（自动播放时静音）；false(自动播放有声)，默认值为true。
         Log.i(TAG, "PlacementId: " + placementId + "， videoMute: " + isVideoSoundEnable);
         VideoOption option = builder.setAutoPlayMuted(!isVideoSoundEnable)
-                .setDetailPageMuted(!isVideoSoundEnable) //isVideoSoundEnable false 表示服务器下发的是静音，激励和插屏这块API不同
+                .setDetailPageMuted(!isVideoSoundEnable)
                 .setAutoPlayPolicy(VideoOption.AutoPlayPolicy.ALWAYS)
                 .build();
         mUnifiedInterstitialAD.setVideoOption(option);
@@ -189,9 +181,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
     private final UnifiedInterstitialADListener mUnifiedInterstitialADListener = new UnifiedInterstitialADListener() {
         @Override
         public void onADReceive() {
-            // 插屏全屏视频广告加载完毕，此回调后才可以调用 show 方法
-            // onADReceive之后才可调用getECPM()
-            // 如果支持奖励，设置ADRewardListener接收onReward回调
             mUnifiedInterstitialAD.setRewardListener(new ADRewardListener() {
                 @Override
                 public void onReward(Map<String, Object> map) {
@@ -200,7 +189,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
                     mRewardMap = map;
                 }
             });
-            // onADReceive之后才可调用getECPM()
             if (mGDTCbr.getListener(placementId) != null) {
                 Log.i(TAG, "onADReceive: " + mUnifiedInterstitialAD.getAdPatternType());
                 setNetworkObjectAd(mUnifiedInterstitialAD);
@@ -269,7 +257,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
 
         @Override
         public void onRenderFail() {
-            // 插屏全屏视频视频广告，渲染失败
             if (mGDTCbr.getListener(placementId) != null) {
                 mGDTCbr.getListener(placementId).loadAdapterLoadFailed(new TPError(NETWORK_NO_FILL));
             }
@@ -296,7 +283,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
         @Override
         public void onADShow() {
             Log.i(TAG, "onADShow: ");
-            // 激励视频广告页面展示
             if (mGDTCbr.getShowListener(placementId) != null) {
                 mGDTCbr.getShowListener(placementId).onAdVideoStart();
             }
@@ -305,7 +291,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
         @Override
         public void onADExpose() {
             Log.i(TAG, "onADExpose: ");
-            // 激励视频广告曝光 记录1300
             if (mGDTCbr.getShowListener(placementId) != null) {
                 mGDTCbr.getShowListener(placementId).onAdShown();
             }
@@ -377,7 +362,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
             }
 
             setBidEcpm();
-            Log.i(TAG, "showAd 奖励式插屏全屏视频");
             mUnifiedInterstitialAD.showFullScreenAD(activity);
         } else {
 
@@ -389,9 +373,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
             }
 
             if (rewardVideoAD.hasShown()) {
-                Log.i(TAG, "展示失败：该条广告已经展示过一次 ");
-                // 判断拉取的广告是否已经展示过，一次广告请求只能展示一次。
-                // RewardVideoADListener.onADShow()回调成功调用后返回true，其他情况下返回false
                 if (mGDTCbr.getShowListener(placementId) != null) {
                     TPError tpError = new TPError(SHOW_FAILED);
                     tpError.setErrorMessage("该条广告已经展示过一次");
@@ -401,7 +382,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
             }
 
             setBidEcpm();
-            Log.i(TAG, "showAd 激励视频");
             rewardVideoAD.showAD(activity);
 
         }
@@ -430,12 +410,10 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
     @Override
     public boolean isReady() {
         if (rewardVideoAD != null) {
-            //判断拉取的广告是否有效
             return rewardVideoAD.isValid() && !isAdsTimeOut();
         }
 
         if (mUnifiedInterstitialAD != null) {
-            //判断拉取的广告是否有效
             return mUnifiedInterstitialAD.isValid() && !isAdsTimeOut();
         }
         return false;
@@ -480,7 +458,6 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
         public void onDownloadConfirm(Activity context, int scenes, String infoUrl,
                                       final DownloadConfirmCallBack callBack) {
             Log.i("onDownloadConfirm", "scenes:" + scenes + " infourl:" + infoUrl);
-            //获取对应的json数据并自定义显示
             mTPDownloadConfirmListener.onDownloadConfirm(context, scenes, infoUrl, new TPDownloadConfirmCallBack() {
                 @Override
                 public void onConfirm() {

@@ -72,11 +72,9 @@ public class YouDaoNativeAds extends TPNativeAdapter {
 
     private void requestNative(Context context) {
         youDaoNative = new YouDaoNative(context, placementId, youDaoNativeNetworkListener);
-        //设置不采用默认浏览器打开广告落地页，全局设置，所有广告都生效
         YouDaoAd.getYouDaoOptions().setSdkBrowserOpenLandpageEnabled(false);
         YouDaoAd.getNativeDownloadOptions().setConfirmDialogEnabled(true);
         youDaoNative.setNativeEventListener(youDaoNativeEventListener);
-        //定位相关的信息没有添加
         youDaoNative.makeRequest();
     }
 
@@ -103,8 +101,6 @@ public class YouDaoNativeAds extends TPNativeAdapter {
         public void onNativeLoad(final NativeResponse nativeResponse) {
             Log.i(TAG, "onNativeLoad: ");
             mYouDaoNativeData = new YouDaoNativeData(nativeResponse);
-            //"showConfirmDialog"为服务器配置的是否弹窗的参数，其取值为"00"，"01"，"11"，其中"00"代表不弹窗，"01"代表在非wifi时弹窗，"11"代表在任何网络状态下都弹窗；
-            //在自定义弹窗时，开发者可使用该参数控制什么时候是否展示弹窗
             String showConfirmDialog = nativeResponse.getShowConfirmDialog();
             Log.i(TAG, "showConfirmDialog : "+ showConfirmDialog);
 
