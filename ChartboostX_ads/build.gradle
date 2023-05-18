@@ -1,0 +1,109 @@
+apply plugin: 'com.android.library'
+
+repositories {
+    google()
+    mavenCentral()
+
+    if ((useMaven as int == 0 )) {
+        if (isDev as int == 0) {
+            println("引用 'aar' ")
+            flatDir {
+                dirs project(':flute-sdk').file('aar')
+            }
+        }
+    }
+}
+
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion '28.0.3'
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "${chartboostx_ads_v}"
+
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "String", "NETWORK_VERSION", "\"${chartboost_version}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "NETWORK_VERSION", "\"${chartboost_version}\""
+        }
+    }
+}
+ext{
+    PROJ_GROUP="com.tradplus.ads.chartboostx"
+    PROJ_DESCRIPTION="tradplus-chartboostx"
+    PROJ_ARTIFACTID="tradplus-chartboostx"//包名
+    PROJ_VERSION=chartboostx_ads_v
+    PROJ_REPO="tradplus-chartboostx"
+    PROJ_NAME = "tradplus-chartboostx"
+    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
+    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
+
+    DEVELOPER_ID=""
+    DEVELOPER_NAME="you accout name"
+    DEVELOPER_EMAIL=""
+}
+dependencies {
+    compileOnly 'androidx.appcompat:appcompat:1.4.0'
+    compileOnly "com.chartboost:chartboost-sdk:${chartboost_version}"
+    compileOnly "com.google.android.gms:play-services-base:17.4.0"
+    compileOnly 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+
+    if(useMaven as int ==1){
+        compileOnly project(':flute-sdk')
+    }else {
+        if(isDev as int == 1){
+            compileOnly project(':flute-sdk')
+        }else {
+            println("引用tradplus-sdk-android.aar")
+            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
+        }
+    }
+}
+
+android.libraryVariants.all {
+    variant-> variant.outputs.all{
+        outputFileName = "chartboostx_ads"+"_${chartboostx_ads_v}."+'aar'
+    }
+        variant.getAssembleProvider().configure() {
+            it.doLast {
+                variant.outputs.all { output ->
+                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "chartboost"].join(File.separator)
+                    copy {
+                        from output.outputFile
+                        into outputPath
+                    }
+                }
+            }
+        }
+}
+
+task moveNetworkaar(type: Copy) {
+
+    println "----------> ARR copy start <-----------"
+    def buildPath = project.files("chartboostX_ads").from("network_libs")
+    //AAR所在的编译路径
+    from buildPath
+    //AAR所拷贝的目录
+    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "chartboost"].join(File.separator)
+    println "outputPath = " + outputPath
+    into outputPath
+
+    println "----------> ARR copy succeeded <-----------"
+}
+
+//开源gradle
+apply from: '../bintray.gradle'

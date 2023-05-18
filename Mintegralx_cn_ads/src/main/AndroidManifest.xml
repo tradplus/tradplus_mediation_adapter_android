@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tradplus.ads.mintegral">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application android:hardwareAccelerated="true">
+
+        <provider
+            android:name="com.mbridge.msdk.foundation.tools.MBFileProvider"
+            android:authorities="${applicationId}.mbFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/mb_provider_paths"/>
+        </provider>
+
+    </application>
+</manifest>

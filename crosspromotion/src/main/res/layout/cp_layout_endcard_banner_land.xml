@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/cp_bg_bottom_banner"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="55dp"
+            android:paddingTop="20dp"
+            android:paddingRight="35dp"
+            android:paddingBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/cp_img_icon"
+                    android:layout_width="99dp"
+                    android:layout_height="99dp" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_weight="1.0" android:gravity="center"
+                android:layout_width="match_parent" android:layout_marginLeft="20dp"
+                android:layout_height="wrap_content" android:layout_marginRight="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/cp_tv_title" android:text="tittitletitletitletitletitlele"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_weight="1.0"
+                    android:ellipsize="end"
+                    android:gravity="top"
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/cp_tv_desc" android:text="tittitletitletitletitletitlele"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1.0"
+                    android:ellipsize="end"
+                    android:gravity="top"
+                    android:maxLines="2"
+                    android:textColor="#FF666666"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/cp_btn_click"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/cp_bg_bottom_clickbtn"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textSize="18sp"
+                android:text="立即下载"
+                android:textColor="@android:color/white" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cp_tv_choice"
+            android:layout_width="32dp"
+            android:layout_height="16dp"
+            android:background="#FF8C8C8C"
+            android:gravity="center"
+            android:text="广告"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

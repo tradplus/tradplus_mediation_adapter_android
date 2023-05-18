@@ -1,0 +1,124 @@
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "${vunglex_ads_v}"
+        consumerProguardFiles 'proguard-rules.pro'
+
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+
+    buildTypes {
+        release {
+            buildConfigField "String", "NETWORK_VERSION", "\"${vunglex_version}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "NETWORK_VERSION", "\"${vunglex_version}\""
+        }
+    }
+
+}
+ext{
+    PROJ_GROUP="com.tradplus.ads.vungle"
+    PROJ_DESCRIPTION="tradplus-vunglex"
+    PROJ_ARTIFACTID="tradplus-vunglex"//包名
+    PROJ_VERSION=vunglex_ads_v
+    PROJ_REPO="tradplus-vunglex"
+    PROJ_NAME = "tradplus-vunglex"
+    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
+    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
+
+    DEVELOPER_ID=""
+    DEVELOPER_NAME="you accout name"
+    DEVELOPER_EMAIL=""
+}
+repositories {
+    mavenCentral()
+    jcenter()
+    google()
+
+     if ((useMaven as int == 0 )) {
+        if (isDev as int == 0) {
+            println("引用 'aar' ")
+            flatDir {
+                dirs project(':flute-sdk').file('aar')
+            }
+        }
+    }
+}
+
+
+dependencies {
+//    compileOnly fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    //更新到6.4.11
+    compileOnly "com.vungle:publisher-sdk-android:${vunglex_version}"
+    compileOnly 'com.google.android.gms:play-services-basement:17.3.0'
+    compileOnly 'com.google.android.gms:play-services-ads-identifier:17.0.0'
+    if(useMaven as int ==1){
+        compileOnly project(':flute-sdk')
+    }else {
+         
+        if(isDev as int == 1){
+              
+            compileOnly project(':flute-sdk')
+        }else {
+            println("引用tradplus-sdk-android.aar")
+            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
+        }
+    }
+
+}
+
+android.libraryVariants.all {
+    variant-> variant.outputs.all{
+        outputFileName = "vunglex_ads"+"_${vunglex_ads_v}."+'aar'
+    }
+        variant.getAssembleProvider().configure() {
+            it.doLast {
+                variant.outputs.all { output ->
+                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "vungle"].join(File.separator)
+                    copy {
+                        from output.outputFile
+                        into outputPath
+                    }
+                }
+            }
+        }
+}
+
+task moveNetworkaar(type: Copy) {
+
+    println "----------> ARR copy start <-----------"
+    def buildPath = project.files("vunglex_ads").from("network_libs")
+    //AAR所在的编译路径
+    from buildPath
+    //AAR所拷贝的目录
+    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "vungle"].join(File.separator)
+    println "outputPath = " + outputPath
+    into outputPath
+
+    println "----------> ARR copy succeeded <-----------"
+}
+
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+//开源gradle
+apply from: '../bintray.gradle'
+

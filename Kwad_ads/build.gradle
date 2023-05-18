@@ -1,0 +1,112 @@
+apply plugin: 'com.android.library'
+apply plugin: "com.cpdroid.fat-aar"
+android {
+    compileSdkVersion 30
+    buildToolsVersion "28.0.3"
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "${kwad_ads_v}"
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "String", "NETWORK_VERSION", "\"${kwad_version}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "NETWORK_VERSION", "\"${kwad_version}\""
+        }
+    }
+
+}
+
+ext{
+    PROJ_GROUP="com.tradplus.ads.kwad"
+    PROJ_DESCRIPTION="tradplus-kwad"
+    PROJ_ARTIFACTID="tradplus-kwad"//包名
+    PROJ_VERSION=kwad_ads_v
+    PROJ_REPO="tradplus-kwad"
+    PROJ_NAME = "tradplus-kwad"
+    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
+    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
+
+    DEVELOPER_ID=""
+    DEVELOPER_NAME="you accout name"
+    DEVELOPER_EMAIL=""
+}
+repositories{
+    if ((useMaven as int == 0 )) {
+        if (isDev as int == 0) {
+            println("引用 'aar' ")
+            flatDir {
+                dirs project(':flute-sdk').file('aar')
+            }
+        }
+    }
+}
+
+android.libraryVariants.all {
+    variant-> variant.outputs.all{
+        outputFileName = "kwad_ads"+"_${kwad_ads_v}."+'aar'
+    }
+        variant.getAssembleProvider().configure() {
+            it.doLast {
+                variant.outputs.all { output ->
+                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "kuaishou"].join(File.separator)
+                    copy {
+                        from output.outputFile
+                        into outputPath
+                    }
+                }
+            }
+        }
+}
+
+task moveNetworkaar(type: Copy) {
+
+    println "----------> ARR copy start <-----------"
+    def buildPath = project.files("kwad_ads").from("libs")
+    //AAR所在的编译路径
+    from buildPath
+    //AAR所拷贝的目录
+    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "kuaishou"].join(File.separator)
+    println "outputPath = " + outputPath
+    into outputPath
+
+    println "----------> ARR copy succeeded <-----------"
+}
+
+def support_version = "28.0.0"
+
+dependencies {
+    compileOnly fileTree(include: ['*.aar'], dir: 'libs')
+
+    if(useMaven as int ==1){
+        compileOnly project(':flute-sdk')
+    }else {
+        if(isDev as int == 1){
+              
+            compileOnly project(':flute-sdk')
+        }else {
+            println("引用tradplus-sdk-android.aar")
+            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
+        }
+    }
+
+//    compileOnly 'androidx.appcompat:appcompat:1.0.0'
+//     //建议使⽤的26以上的support库版本，建议使⽤28最新的
+//    // supprot库依赖，SDK内部依赖如下support，请确保添加
+//    compileOnly "com.android.support:appcompat-v7:$support_version"
+//    compileOnly "com.android.support:recyclerview-v7:$support_version"
+
+}
+//开源gradle
+apply from: '../bintray.gradle'

@@ -1,0 +1,119 @@
+apply plugin: 'com.android.library'
+
+project.group = 'com.tradplus.ads.crosspromotion'
+project.version = '1.0.0'
+android {
+    compileSdkVersion 30
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+
+    buildTypes {
+        release {
+            buildConfigField "String", "NETWORK_VERSION", "\"${crosspromotion_v}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "NETWORK_VERSION", "\"${crosspromotion_v}\""
+        }
+    }
+
+}
+
+ext {
+    PROJ_GROUP = "com.tradplus.ads.crosspro"
+    PROJ_DESCRIPTION = "tradplus-crosspromotion"
+    PROJ_ARTIFACTID = "tradplus-crosspromotion"//包名
+    PROJ_VERSION = crosspromotion_v
+    PROJ_REPO = "tradplus-crosspromotion"
+    PROJ_NAME = "tradplus-crosspromotion"
+    PROJ_VCSURL = "https://github.com/tradplus.keystore/sdk.git"
+    PROJ_WEBSITEURL = "https://github.com/tradplus.keystore/sdk"
+
+    DEVELOPER_ID = ""
+    DEVELOPER_NAME = "you accout name"
+    DEVELOPER_EMAIL = ""
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    google()
+
+    if ((useMaven as int == 0)) {
+        if (isDev as int == 0) {
+            println("引用 'aar' ")
+            flatDir {
+                dirs project(':flute-sdk').file('aar')
+            }
+        }
+    }
+}
+
+dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+//    implementation(name: 'AudienceNetwork', ext: 'aar')
+    if (useMaven as int == 1) {
+        compileOnly project(':flute-sdk')
+    } else {
+
+        if (isDev as int == 1) {
+
+            compileOnly project(':flute-sdk')
+        } else {
+            println("引用tradplus-sdk-android.aar")
+            compileOnly(name: 'tradplus-sdk-android', ext: 'aar')
+        }
+    }
+    print("cro isAndroidSupport ===== "+isAndroidSupport);
+    if(isAndroidSupport as int == 1){
+        print("cro isAndroidSupport = 1");
+        compileOnly project(':china_plugin')
+    }else {
+        print("cro isAndroidSupport = 0");
+        compileOnly project(':china_pluginx')
+    }
+
+}
+
+android.libraryVariants.all {
+    variant ->
+        variant.outputs.all {
+            outputFileName = "crosspromotion_ads" + "_${crosspromotion_v}." + 'aar'
+        }
+        variant.getAssembleProvider().configure() {
+            it.doLast {
+                variant.outputs.all { output ->
+                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "crosspromotion"].join(File.separator)
+                    def outputPathTwo = [project.rootDir.absolutePath, "build", "outputs", "crosspromotion_cn"].join(File.separator)
+                    copy {
+                        from output.outputFile
+                        into outputPath
+                    }
+                    copy {
+                        from output.outputFile
+                        into outputPathTwo
+                    }
+                }
+            }
+        }
+}
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+//开源gradle
+apply from: '../bintray.gradle'

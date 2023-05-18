@@ -1,0 +1,120 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "${yandex_ads_v}"
+
+        consumerProguardFiles 'proguard-rules.pro'
+
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+
+    buildTypes {
+        release {
+            buildConfigField "String", "NETWORK_VERSION", "\"${yandex_version}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "NETWORK_VERSION", "\"${yandex_version}\""
+        }
+    }
+
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    google()
+
+    if ((useMaven as int == 0 )) {
+        if (isDev as int == 0) {
+            println("引用 'aar' ")
+            flatDir {
+                dirs project(':flute-sdk').file('aar')
+            }
+        }
+    }
+}
+
+dependencies {
+    compileOnly "com.yandex.android:mobileads:${yandex_version}"
+
+    if(useMaven as int ==1){
+        compileOnly project(':flute-sdk')
+    }else {
+        if(isDev as int == 1){
+
+            compileOnly project(':flute-sdk')
+        }else {
+            println("引用tradplus-sdk-android.aar")
+            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
+        }
+    }
+
+}
+
+ext{
+    PROJ_GROUP="com.tradplus.ads.yandex"
+    PROJ_DESCRIPTION="tradplus-yandex"
+    PROJ_ARTIFACTID="tradplus-yandex"//包名
+    PROJ_VERSION=yandex_ads_v
+    PROJ_REPO="tradplus-yandex"
+    PROJ_NAME = "tradplus-yandex"
+    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
+    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
+
+    DEVELOPER_ID=""
+    DEVELOPER_NAME="you accout name"
+    DEVELOPER_EMAIL=""
+}
+
+android.libraryVariants.all {
+    variant-> variant.outputs.all{
+        outputFileName = "yandex_ads"+"_${yandex_ads_v}."+'aar'
+    }
+        variant.getAssembleProvider().configure() {
+            it.doLast {
+                variant.outputs.all { output ->
+                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "yandex"].join(File.separator)
+                    copy {
+                        from output.outputFile
+                        into outputPath
+                    }
+                }
+            }
+        }
+}
+
+
+task moveNetworkaar(type: Copy) {
+
+    println "----------> ARR copy start <-----------"
+    def buildPath = project.files("yandex_ads").from("libs")
+    //AAR所在的编译路径
+    from buildPath
+    //AAR所拷贝的目录
+    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "yandex"].join(File.separator)
+    println "outputPath = " + outputPath
+    into outputPath
+
+    println "----------> ARR copy succeeded <-----------"
+}
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+//开源gradle
+apply from: '../bintray.gradle'

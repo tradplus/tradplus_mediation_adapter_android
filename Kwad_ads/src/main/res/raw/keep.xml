@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--启⽤了资源混淆或资源缩减，需要保留SDK的资源，SDK的资源名都是以ksad_开头的-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@layout/ksad_*,@id/ksad_*,@style/ksad_*,@drawable/ksad_*,@string/ksad_*,@color/ksad_*,@attr/ksad_*,@dimen/ksad_*" />
+

@@ -1,0 +1,122 @@
+apply plugin: 'com.android.library'
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        // Helium 3.X
+//        maven {
+//            name "Helium's maven repo"
+//            url "https://cboost.jfrog.io/artifactory/helium"
+//        }
+        // Chartboost Mediation 4.0.0
+        maven {
+            name "Chartboost Mediation’s maven repo"
+            url "https://cboost.jfrog.io/artifactory/chartboost-mediation"
+        }
+        if ((useMaven as int == 0 )) {
+        if (isDev as int == 0) {
+            println("引用 'aar' ")
+            flatDir {
+                dirs project(':flute-sdk').file('aar')
+            }
+        }
+    }
+    }
+}
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "${helium_ads_v}"
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            buildConfigField "String", "NETWORK_VERSION", "\"${helium_version}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "NETWORK_VERSION", "\"${helium_version}\""
+        }
+    }
+}
+ext{
+    PROJ_GROUP="com.tradplus.ads.helium"
+    PROJ_DESCRIPTION="tradplus-helium"
+    PROJ_ARTIFACTID="tradplus-helium"//包名
+    PROJ_VERSION=helium_ads_v
+    PROJ_REPO="tradplus-helium"
+    PROJ_NAME = "tradplus-helium"
+    PROJ_VCSURL="https://github.com/tradplus.keystore/sdk.git"
+    PROJ_WEBSITEURL="https://github.com/tradplus.keystore/sdk"
+
+    DEVELOPER_ID=""
+    DEVELOPER_NAME="you accout name"
+    DEVELOPER_EMAIL=""
+}
+dependencies {
+    // Helium
+//    compileOnly "com.chartboost:helium:${helium_version}"
+    // Migration from Helium 3.X to Chartboost Mediation 4.0.0
+    compileOnly "com.chartboost:chartboost-mediation-sdk:${helium_version}"
+    compileOnly 'com.chartboost:chartboost-mediation-adapter-chartboost:4.9.2.0.0'
+    // Helium requirement
+    compileOnly 'org.greenrobot:eventbus:3.3.1'
+    compileOnly 'com.google.android.gms:play-services-base:18.0.1'
+    compileOnly 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+
+    if(useMaven as int ==1){
+        compileOnly project(':flute-sdk')
+    }else {
+         
+        if(isDev as int == 1){
+              
+            compileOnly project(':flute-sdk')
+        }else {
+            println("引用tradplus-sdk-android.aar")
+            compileOnly (name: 'tradplus-sdk-android', ext: 'aar')
+        }
+    }
+}
+
+android.libraryVariants.all {
+    variant-> variant.outputs.all{
+        outputFileName = "helium_ads"+"_${helium_ads_v}."+'aar'
+    }
+        variant.getAssembleProvider().configure() {
+            it.doLast {
+                variant.outputs.all { output ->
+                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "helium"].join(File.separator)
+                    copy {
+                        from output.outputFile
+                        into outputPath
+                    }
+                }
+            }
+        }
+}
+
+task moveNetworkaar(type: Copy) {
+
+    println "----------> ARR copy start <-----------"
+    def buildPath = project.files("helium_ads").from("network_libs")
+    //AAR所在的编译路径
+    from buildPath
+    //AAR所拷贝的目录
+    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "helium"].join(File.separator)
+    println "outputPath = " + outputPath
+    into outputPath
+
+    println "----------> ARR copy succeeded <-----------"
+}
+
+//开源gradle
+apply from: '../bintray.gradle'

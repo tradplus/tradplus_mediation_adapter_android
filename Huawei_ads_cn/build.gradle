@@ -1,0 +1,133 @@
+apply plugin: 'com.android.library'
+//apply plugin: 'com.huawei.agconnect'
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+    google()
+    if ((useMaven as int == 0)) {
+        if (isDev as int == 0) {
+            println("引用 'aar' ")
+            flatDir {
+                dirs project(':flute-sdk').file('aar')
+            }
+        }
+    }
+
+}
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        // 配置HMS Core SDK的Maven仓地址。
+        maven { url 'https://developer.huawei.com/repo/' }
+    }
+}
+
+android {
+    compileSdkVersion 30
+
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "${huawei_ads_cn_v}"
+        consumerProguardFiles 'proguard-rules.pro'
+
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+
+    buildTypes {
+        release {
+            buildConfigField "String", "NETWORK_VERSION", "\"${huaiwei_version}\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "NETWORK_VERSION", "\"${huaiwei_version}\""
+        }
+    }
+
+}
+ext {
+    PROJ_GROUP = "com.tradplus.ads.huawei"
+    PROJ_DESCRIPTION = "tradplus-huawei-cn"
+    PROJ_ARTIFACTID = "tradplus-huawei-cn"//包名
+    PROJ_VERSION = huawei_ads_cn_v
+    PROJ_REPO = "tradplus-huawei-cn"
+    PROJ_NAME = "tradplus-huawei-cn"
+    PROJ_VCSURL = "https://github.com/tradplus.keystore/sdk.git"
+    PROJ_WEBSITEURL = "https://github.com/tradplus.keystore/sdk"
+
+    DEVELOPER_ID = ""
+    DEVELOPER_NAME = "you accout name"
+    DEVELOPER_EMAIL = ""
+}
+
+dependencies {
+
+    if (useMaven as int == 1) {
+        compileOnly project(':flute-sdk')
+    } else {
+
+        if (isDev as int == 1) {
+
+            compileOnly project(':flute-sdk')
+        } else {
+            println("引用tradplus-sdk-android.aar")
+            compileOnly(name: 'tradplus-sdk-android', ext: 'aar')
+        }
+    }
+
+    compileOnly "com.huawei.hms:ads-lite:${huaiwei_version}"
+    compileOnly 'com.android.support:support-annotations:28.0.0'
+
+}
+
+android.libraryVariants.all {
+    variant ->
+        variant.outputs.all {
+            outputFileName = "huawei_ads_cn" + "_${huawei_ads_cn_v}." + 'aar'
+        }
+        variant.getAssembleProvider().configure() {
+            it.doLast {
+                variant.outputs.all { output ->
+                    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "huawei"].join(File.separator)
+                    copy {
+                        from output.outputFile
+                        into outputPath
+                    }
+                }
+            }
+        }
+}
+
+task moveNetworkaar(type: Copy) {
+
+    println "----------> ARR copy start <-----------"
+    def buildPath = project.files("huawei_ads_cn").from("network_libs")
+    //AAR所在的编译路径
+    from buildPath
+    //AAR所拷贝的目录
+    def outputPath = [project.rootDir.absolutePath, "build", "outputs", "huawei_cn"].join(File.separator)
+    println "outputPath = " + outputPath
+    into outputPath
+
+    println "----------> ARR copy succeeded <-----------"
+}
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
+//开源gradle
+apply from: '../bintray.gradle'
