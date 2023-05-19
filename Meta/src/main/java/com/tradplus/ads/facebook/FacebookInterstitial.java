@@ -156,7 +156,6 @@ public class FacebookInterstitial extends TPInterstitialAdapter {
         } else {
             Log.i(TAG, "Tried to show a Facebook interstitial ad before it finished loading. Please try again.");
             if (mShowListener != null) {
-//                onError(mFacebookInterstitial, AdError.INTERNAL_ERROR);
                 mShowListener.onAdVideoError(new TPError(SHOW_FAILED));
             } else {
                 Log.i(TAG, "Interstitial listener not instantiated. Please load interstitial again.");

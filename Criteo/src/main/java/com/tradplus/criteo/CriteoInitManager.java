@@ -55,7 +55,7 @@ public class CriteoInitManager extends TPInitMediation {
             sendResult(mCriteoPublisherId + adUnits, false, "", e.getLocalizedMessage());
             return;
         }
-        //  You must initialize the SDK before calling Criteo.getInstance()
+
         suportGDPR(context, userParams);
 
         postDelayResult(mCriteoPublisherId + adUnits, 2000);

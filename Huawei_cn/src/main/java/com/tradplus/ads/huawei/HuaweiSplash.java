@@ -78,7 +78,6 @@ public class HuaweiSplash extends TPSplashAdapter {
     private final SplashView.SplashAdLoadListener splashAdLoadListener = new SplashView.SplashAdLoadListener() {
         @Override
         public void onAdLoaded() {
-            // 广告获取成功时调用
             if (mAdContainerView != null) {
                 isLoaded = true;
                 Log.i(TAG, "onAdLoaded: ");

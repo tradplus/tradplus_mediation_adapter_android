@@ -69,7 +69,6 @@ public class BigoNativeAd extends TPBaseAd {
             mTPNativeAdView.setAdvertiserName(advertiser);
         }
 
-        // 返回广告是否含有图标
         boolean hasIcon = ad.hasIcon();
         if (hasIcon) {
             mTPNativeAdView.setIconView(new ImageView(context));
@@ -178,11 +177,11 @@ public class BigoNativeAd extends TPBaseAd {
         }
 
         View iconView = mTPNativeAdView.getIconView();
-        // 原生横幅不需要注册mediaView,否则会报错导致无点击,无展示回调
+
         mNativeAd.registerViewForInteraction(viewGroup, mIsNativeBanner ? null : mediaView,
                 iconView == null ? null : (ImageView) iconView, optionsView, clickViews);
 
-        // 视频播放的控制与回调
+
         if (mNativeAd.getCreativeType() == NativeAd.CreativeType.VIDEO) {
             VideoController videoController = mNativeAd.getVideoController();
             videoController.mute(mMute);

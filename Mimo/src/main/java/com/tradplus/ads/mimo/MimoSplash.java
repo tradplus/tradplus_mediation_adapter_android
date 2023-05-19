@@ -138,8 +138,8 @@ public class MimoSplash extends TPSplashAdapter {
                 mSplashAd = null;
                 mAdContainerView.removeAllViews();
             }
-        } catch (Exception e) {
-            Log.e(TAG, "onDestroy Exception:" + e.getMessage());
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 

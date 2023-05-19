@@ -80,7 +80,6 @@ public class AdcolonyInterstitialVideo extends TPRewardAdapter {
     private final AdColonyRewardListener mAdColonyRewardListener = new AdColonyRewardListener() {
         @Override
         public void onReward(AdColonyReward reward) {
-            // Used to retrieve information about whether or not the reward was successful.
             if (reward.success()) {
                 hasReward = true;
                 Log.i(TAG, "onReward: ");
@@ -129,7 +128,6 @@ public class AdcolonyInterstitialVideo extends TPRewardAdapter {
             Log.i(TAG, "onClosed: ");
         }
 
-        /** Ad request was not filled */
         @Override
         public void onRequestNotFilled(AdColonyZone zone) {
             Log.i(TAG, "onRequestNotFilled: ");

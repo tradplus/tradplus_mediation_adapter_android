@@ -103,7 +103,6 @@ public class MyTargetBanner extends TPBannerAdapter {
         @Override
         public void onShow(MyTargetView myTargetView) {
             Log.i(TAG, "onShow: ");
-            //不回调
             if (tpBannerAd != null)
                 tpBannerAd.adShown();
         }

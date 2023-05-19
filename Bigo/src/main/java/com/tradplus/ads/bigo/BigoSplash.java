@@ -171,7 +171,6 @@ public class BigoSplash extends TPSplashAdapter {
 
         @Override
         public void onAdImpression() {
-            // When the ad appears on the screen.
             Log.i(TAG, "onAdImpression: ");
             if (mShowListener != null) {
                 mShowListener.onAdShown();

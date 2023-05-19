@@ -121,7 +121,6 @@ public class MIntegralInterstitialVideo extends TPInterstitialAdapter {
 
         @Override
         public void onResourceLoadSuccess(MBridgeIds mBridgeIds) {
-            // Called when the ad is loaded , and is ready to be displayed completely
             Log.i(TAG, "onResourceLoadSuccess: ");
             if (mCallbackRouter.getListener(mPlacementId + mUnitId) != null) {
                 setFirstLoadedTime();

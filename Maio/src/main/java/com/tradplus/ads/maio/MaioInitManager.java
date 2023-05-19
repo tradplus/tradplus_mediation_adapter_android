@@ -65,9 +65,8 @@ public class MaioInitManager extends TPInitMediation {
             return;
         }
 
-        //TestMode
+
         MaioAds.setAdTestMode(TestDeviceUtil.getInstance().isNeedTestDevice());
-        //Init SDK
         MaioAds.init((Activity) context, appId, new MaioAdsListenerInterface() {
             @Override
             public void onInitialized() {

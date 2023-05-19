@@ -45,7 +45,6 @@ android {
 
 
 dependencies {
-    compileOnly fileTree(include: ['*.aar'], dir: 'network_libs')
 
     compileOnly 'androidx.appcompat:appcompat:1.1.0'
     compileOnly "com.smaato.android.sdk:smaato-sdk:${smaato_version}"

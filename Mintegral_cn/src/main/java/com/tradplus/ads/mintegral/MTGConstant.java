@@ -9,7 +9,6 @@ public class MTGConstant {
     public static final String KEY_DIRECTION = "direction";
     public static final String MTG_NATIVE_ADNUM = "ad_num";
 
-    // 视频静音
     public static final String VIDEO_MUTE = "video_mute";
     public static final String AD_REWARD_AGAIN = "reward_again";
 

@@ -111,7 +111,7 @@ public class UnityAdsInitManager extends TPInitMediation {
             Log.i("PersonalizeEnable", TAG + " openPersonalizedAd : " + openPersonalizedAd);
         }
 
-        // DFF Unity dashboard配置
+        // DFF Unity dashboard
     }
 
     @Override

@@ -73,9 +73,7 @@ public class AdcolonyBanner extends TPBannerAdapter {
     }
 
     private void requestBanner() {
-        // Optional Ad specific options to be sent with request
         adOptions = new AdColonyAdOptions();
-        //Request Ad
         AdColony.requestAdView(zoneId, listener, calculateAdSize(mAdSize), adOptions);
     }
 

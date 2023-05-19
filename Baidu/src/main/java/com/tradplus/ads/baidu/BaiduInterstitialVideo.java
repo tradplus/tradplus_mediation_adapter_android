@@ -178,7 +178,7 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
                 isBiddingLoaded = true;
                 return;
             }
-            // 说明：如果想一定走本地播放，那么收到该回调之后，可以调用show
+
             if (mCallbackRouter.getListener(mPlacementId) != null) {
                 setNetworkObjectAd(mRewardVideoAd);
                 mCallbackRouter.getListener(mPlacementId).loadAdapterLoaded(null);
@@ -194,7 +194,7 @@ public class BaiduInterstitialVideo extends TPRewardAdapter {
                 }
                 return;
             }
-            // 视频缓存失败，如果想走本地播放，可以在这儿重新load下一条广告，最好限制load次数（4-5次即可）。
+
             if (mCallbackRouter.getListener(mPlacementId) != null) {
                 mCallbackRouter.getListener(mPlacementId).loadAdapterLoadFailed(new TPError(CACHE_FAILED));
             }

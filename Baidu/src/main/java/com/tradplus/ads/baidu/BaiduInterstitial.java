@@ -137,13 +137,11 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
         }
 
         if (mFullScreenVideoAd == null) {
-            //useSurfaceView : 是否使用SurfaceView，默认使用TextureView
             mFullScreenVideoAd = new FullScreenVideoAd(context, mPlacementId, mFullScreenVideoAdListener, false);
         }
         mFullScreenVideoAd.load();
     }
 
-    // 新模版插屏
     private void initExpressInterstitial(Context context) {
         if (isC2SBidding && isBiddingLoaded) {
             loadSuccess();
@@ -152,9 +150,6 @@ public class BaiduInterstitial extends TPInterstitialAdapter {
 
         mExpressInterstitialAd = new ExpressInterstitialAd(context, mPlacementId);
         mExpressInterstitialAd.setLoadListener(mExpressInterstitialListener);
-        /** 这些为下载弹窗以及四要素的回调设置，无特别需要可以不进行设置 **/
-        //  mExpressInterstitialAd.setDownloadListener(adDownloadListener);
-        // 设置下载弹窗，默认为false
         mExpressInterstitialAd.setDialogFrame(true);
         Log.i(TAG, "ExpressInterstitial: ");
         mExpressInterstitialAd.load();

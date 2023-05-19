@@ -224,29 +224,6 @@ public class MIntegralSplashAd extends TPSplashAdapter {
 
     }
 
-    private void showZoomOut(Activity activity, ViewGroup zoomOutViewLayout) {
-        if (activity == null || zoomOutViewLayout == null) {
-            return;
-        }
-        Log.i(TAG, "showZoomOut: ");
-
-        MBridgeSDKFactory.getMBridgeSDK().updateDialogWeakActivity(new WeakReference<Activity>(activity));
-        MBZoomOutManager.getInstance().startZoomOut((ViewGroup) activity.getWindow().getDecorView(),
-                zoomOutViewLayout, new MBZoomOutManager.AnimationCallBack() {
-                    @Override
-                    public void animationStart(int animationTime) {
-                        Log.i(TAG, "animationStart: ");
-                    }
-
-                    @Override
-                    public void animationEnd() {
-                        if (mbSplashHandler != null) {
-                            mbSplashHandler.zoomOutAttacked();
-                        }
-                    }
-                }, ZoomOutTypeEnum.FloatBall);
-    }
-
     @Override
     public void showAd() {
         Log.i(TAG, "showAd: ");

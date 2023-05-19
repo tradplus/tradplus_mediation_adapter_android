@@ -2,7 +2,6 @@ package com.tradplus.ads.mintegral;
 
 public class MTGConstant {
 
-    // 视频静音
     public static final String VIDEO_MUTE = "video_mute";
     public static final String AD_REWARD_AGAIN = "reward_again";
     public static final String APPICON_WIDTH = "app_icon_width";

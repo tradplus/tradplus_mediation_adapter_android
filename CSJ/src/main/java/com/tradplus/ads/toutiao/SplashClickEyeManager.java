@@ -11,7 +11,6 @@ import com.bytedance.sdk.openadsdk.CSJSplashAd;
 import com.bytedance.sdk.openadsdk.TTSplashAd;
 
 
-
 public class SplashClickEyeManager {
     private static final String TAG = "ToutiaoSplashAd";
     private static final int LEFT = 0;

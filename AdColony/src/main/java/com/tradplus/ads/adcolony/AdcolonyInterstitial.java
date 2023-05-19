@@ -92,7 +92,6 @@ public class AdcolonyInterstitial extends TPInterstitialAdapter {
     }
 
     private final AdColonyInterstitialListener listener = new AdColonyInterstitialListener() {
-        /** Ad passed back in request filled callback, ad can now be shown */
         @Override
         public void onRequestFilled(AdColonyInterstitial ad) {
             mAdColonyInterstitial = ad;
@@ -104,7 +103,7 @@ public class AdcolonyInterstitial extends TPInterstitialAdapter {
 
         }
 
-        /** Ad request was not filled */
+
         @Override
         public void onRequestNotFilled(AdColonyZone zone) {
             Log.i(TAG, "onRequestNotFilled: ");
@@ -114,7 +113,7 @@ public class AdcolonyInterstitial extends TPInterstitialAdapter {
                 mCallbackRouter.getListener(zone.getZoneID()).loadAdapterLoadFailed(tpError);
         }
 
-        /** Ad opened, reset UI to reflect state change */
+
         @Override
         public void onOpened(AdColonyInterstitial ad) {
             Log.i(TAG, "onOpened: ");
@@ -124,7 +123,7 @@ public class AdcolonyInterstitial extends TPInterstitialAdapter {
 
         }
 
-        /** Request a new ad if ad is expiring */
+
         @Override
         public void onExpiring(AdColonyInterstitial ad) {
         }

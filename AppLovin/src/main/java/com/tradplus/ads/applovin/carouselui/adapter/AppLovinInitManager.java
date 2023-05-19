@@ -57,11 +57,9 @@ public class AppLovinInitManager extends TPInitMediation {
 
         boolean needTestDevice = TestDeviceUtil.getInstance().isNeedTestDevice();
         appLovinSdk = AppLovinSdk.getInstance(sdkKey, appLovinSdkSettings, context);
-        // Please make sure to set the mediation provider value to "max" to ensure proper functionality
+
         appLovinSdk.setMediationProvider("other");
-        //Enable verbose logging to see the GAID to use for test devices
         appLovinSdk.getSettings().setVerboseLogging(needTestDevice);
-        // To disable the creative debugger in code
 
         appLovinSdk.initializeSdk(new AppLovinSdk.SdkInitializationListener() {
             @Override
@@ -93,8 +91,6 @@ public class AppLovinInitManager extends TPInitMediation {
                 AppLovinPrivacySettings.setIsAgeRestrictedUser(coppa, context);
             }
 
-            // false:consent;
-            // true:not consent
             if (localExtras.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean ccpa = (boolean) localExtras.get(AppKeyManager.KEY_CCPA);
                 Log.i("privacylaws", "ccpa: " + ccpa);

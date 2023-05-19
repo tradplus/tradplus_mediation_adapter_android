@@ -81,7 +81,6 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
             String pId = String.valueOf(placementId);
             switch (event) {
                 case adLoaded:
-                    // called when an ad has finished loading
                     Log.i(TAG, "adLoaded: " + pId);
                     if (mCallbackRouter.getListener(pId) != null) {
                         mCallbackRouter.getListener(pId).loadAdapterLoaded(null);
@@ -89,14 +88,12 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
                     break;
                 case adEmpty:
                     Log.i(TAG, "adEmpty: ");
-                    // called when the request was successful but the server returned no ad
                     if (mCallbackRouter.getListener(pId) != null) {
                         mCallbackRouter.getListener(pId).loadAdapterLoadFailed(new TPError(NETWORK_NO_FILL));
                     }
                     break;
                 case adFailedToLoad:
                     Log.i(TAG, "adFailedToLoad: " + pId + ", msg : " + event.name());
-                    // called when an ad could not be loaded
                     TPError tpError = new TPError(NETWORK_NO_FILL);
                     tpError.setErrorMessage(event.name());
                     if (mCallbackRouter.getListener(pId) != null) {
@@ -105,7 +102,6 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
                     break;
                 case adShown:
                     Log.i(TAG, "adShown: " + pId);
-                    // called when an ad is first shown
                     if (mCallbackRouter.getShowListener(pId) != null) {
                         mCallbackRouter.getShowListener(pId).onAdShown();
                     }
@@ -116,7 +112,6 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
                     break;
                 case adFailedToShow:
                     Log.i(TAG, "adFailedToShow: " + pId + ", msg : " + event.name());
-                    // called when an ad fails to show
                     if (mCallbackRouter.getShowListener(pId) != null) {
                         TPError tpErrorTwo = new TPError(SHOW_FAILED);
                         tpErrorTwo.setErrorMessage(event.name());
@@ -125,7 +120,6 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
                     break;
                 case adClicked:
                     Log.i(TAG, "adClicked: " + pId);
-                    // called when an ad is clicked
                     if (mCallbackRouter.getShowListener(pId) != null) {
                         mCallbackRouter.getShowListener(pId).onAdVideoClicked();
                     }
@@ -133,7 +127,6 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
                 case adEnded:
                     Log.i(TAG, "video adEnded: " + pId);
                     hasGrantedReward = true;
-                    // called when a video ad has ended playing (but hasn't yet closed)
                     if (mCallbackRouter.getShowListener(pId) != null) {
                         mCallbackRouter.getShowListener(pId).onAdVideoEnd();
                     }
@@ -144,7 +137,6 @@ public class AwesomeInterstitialVideo extends TPRewardAdapter {
                         if (hasGrantedReward || alwaysRewardUser) {
                             mCallbackRouter.getShowListener(pId).onReward();
                         }
-                        // called when a fullscreen ad is closed
                         mCallbackRouter.getShowListener(pId).onAdClosed();
                     }
                     break;

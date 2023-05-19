@@ -13,9 +13,7 @@ import com.qq.e.ads.splash.SplashAD;
 import com.tradplus.ads.base.GlobalTradPlus;
 import com.tradplus.ads.common.util.PxUtils;
 
-/*
- * created by timfeng 2020/11/14
- */
+
 public class SplashZoomOutManager {
   private static final String TAG = "SplashZoomOutManager";
   private static final int LEFT = 0;

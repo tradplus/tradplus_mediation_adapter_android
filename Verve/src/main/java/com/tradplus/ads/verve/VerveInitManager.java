@@ -67,9 +67,6 @@ public class VerveInitManager extends TPInitMediation {
     public void suportGDPR(Context context, Map<String, Object> userParams) {
         if (userParams != null && userParams.size() > 0) {
             UserDataManager userDataManager = HyBid.getUserDataManager();
-            // From PubNative: "HyBid SDK is TCF v2 compliant, so any change in the IAB consent string will be picked up by the SDK."
-            // Because of this, they requested that we don't update consent values if one is already set.
-            // As a side effect, pubs that use the MAX consent flow will not be able to update consent values mid-session.
             if (userParams.containsKey(AppKeyManager.GDPR_CONSENT)) {
                 int consent = (int) userParams.get(AppKeyManager.GDPR_CONSENT);
                 Log.i("privacylaws", "suportGDPR: " + consent);

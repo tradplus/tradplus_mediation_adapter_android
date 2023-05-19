@@ -34,13 +34,6 @@ public class AdColonyInitManager extends TPInitMediation {
     @Override
     public void initSDK(Context context, Map<String, Object> userParams, Map<String, String> tpParams, final InitCallback initCallback) {
 
-        if (!(context instanceof Activity)) {
-            if (initCallback != null) {
-                initCallback.onFailed("", "Context is not Activity");
-            }
-            return;
-        }
-
         if (tpParams != null && tpParams.size() > 0) {
             appId = tpParams.get(AppKeyManager.APP_ID);
             zoneIds = tpParams.get(AdColonyConstant.ADCOLONY_ZONE_ID);
@@ -79,6 +72,13 @@ public class AdColonyInitManager extends TPInitMediation {
 
         suportGDPR(context, userParams);
         Log.d(TradPlusInterstitialConstants.INIT_TAG, "initSDK: appId :" + appId);
+
+        if (!(context instanceof Activity)) {
+            if (initCallback != null) {
+                initCallback.onFailed("", "Context is not Activity");
+            }
+            return;
+        }
 
         boolean configure = AdColony.configure((Activity) context, appOptions, appId, zoneIdsArr);
         Log.i(TAG, "configure: " + configure);

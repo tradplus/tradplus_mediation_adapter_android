@@ -42,10 +42,8 @@ repositories{
 
 
 dependencies {
-        compileOnly fileTree(include: ['*.aar'], dir: 'libs')
-
-
-
+    compileOnly fileTree(include: ['*.aar'], dir: 'libs')
+    compileOnly "com.google.android.gms:play-services-ads:${googlex_version}"
 }
 
 

@@ -74,8 +74,6 @@ public class OguryInitManager extends TPInitMediation {
             if (userParams.containsKey(AppKeyManager.KEY_COPPA)) {
                 boolean coppa = (boolean) userParams.get(AppKeyManager.KEY_COPPA);
                 Log.i("privacylaws", "coppa: " + coppa);
-                // CHILD_UNDER_COPPA_TREATMENT_FALSE: not applicable
-                // CHILD_UNDER_COPPA_TREATMENT_TRUE:
                 Ogury.applyChildPrivacy(coppa ? OguryChildPrivacyTreatment.CHILD_UNDER_COPPA_TREATMENT_TRUE :
                         OguryChildPrivacyTreatment.CHILD_UNDER_COPPA_TREATMENT_FALSE);
             }

@@ -74,17 +74,14 @@ public class SmaatoBanner extends TPBannerAdapter {
     }
 
     private void requestBanner(Context context) {
-        // find bannerView you setup in your activity.xml、
         bannerView = new BannerView(context);
         bannerView.setAutoReloadInterval(AutoReloadInterval.DISABLED);
-        // load banner with desired size
         bannerView.loadAd(mPlacementId, calculateAdSize(mAdSize));
 
 
-        // You can also set BannerView.EventListener to listen to events describing the advertisement lifecycle:
+
         bannerView.setEventListener(new BannerView.EventListener() {
             @Override
-            // banner ad successfully loaded
             public void onAdLoaded(@NonNull BannerView bannerView) {
                 Log.i(TAG, "onAdLoaded: ");
                 if (mLoadAdapterListener != null) {
@@ -93,7 +90,6 @@ public class SmaatoBanner extends TPBannerAdapter {
                 }
             }
 
-            // banner ad failed to load
             @Override
             public void onAdFailedToLoad(@NonNull BannerView bannerView, @NonNull BannerError bannerError) {
                 Log.i(TAG, "onAdFailedToLoad: " + bannerError.name());
@@ -104,7 +100,6 @@ public class SmaatoBanner extends TPBannerAdapter {
             }
 
             @Override
-            // banner ad was seen by the user
             public void onAdImpression(@NonNull BannerView bannerView) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -119,7 +114,6 @@ public class SmaatoBanner extends TPBannerAdapter {
             }
 
             @Override
-            // banner ad was clicked by the user
             public void onAdClicked(@NonNull BannerView bannerView) {
                 Log.i(TAG, "onAdClicked: ");
                 if (mTpBannerAd != null)
@@ -127,7 +121,6 @@ public class SmaatoBanner extends TPBannerAdapter {
             }
 
             @Override
-            // banner ad Time to Live expired
             public void onAdTTLExpired(@NonNull BannerView bannerView) {
                 Log.i(TAG, "onAdTTLExpired: ");
             }

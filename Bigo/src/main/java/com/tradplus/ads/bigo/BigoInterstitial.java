@@ -128,7 +128,6 @@ public class BigoInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onAdImpression() {
-            // When the ad appears on the screen.
             Log.i(TAG, "onAdImpression: ");
             if (mCallbackRouter.getShowListener(mPlacementId) != null) {
                 mCallbackRouter.getShowListener(mPlacementId).onAdShown();
@@ -221,7 +220,6 @@ public class BigoInterstitial extends TPInterstitialAdapter {
                 boolean tokenEmpty = TextUtils.isEmpty(bidderToken);
                 Log.i(TAG, "onSuccess bidderToken isEmpty " + tokenEmpty);
                 if (!initialized) {
-                    // 第一次初始化打印250
                     BigoInitManager.getInstance().sendInitRequest(true, INIT_STATE_BIDDING);
                 }
                 onS2STokenListener.onTokenResult(!tokenEmpty ? bidderToken : "", null);

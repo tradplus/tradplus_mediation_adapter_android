@@ -290,8 +290,8 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
             int price = (int) temp;
             Log.i(TAG, "setBidEcpm: " + price);
             splashAD.setBidECPM(price);
-        } catch (Exception e) {
-
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 
@@ -317,8 +317,8 @@ public class TxAdnetSplashAd extends TPSplashAdapter {
             String placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             try {
                 return GDTAdSdk.getGDTAdManger().getSDKInfo(placementId);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
                 return "";
             }
         }

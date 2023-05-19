@@ -54,9 +54,6 @@ public class AppLovinInterstitial extends TPInterstitialAdapter implements
         mAppLovinICBR.addListener(zoneId, mLoadAdapterListener);
 
 
-        // Initialize the AppLovin SDK
-
-
         AppLovinInitManager.getInstance().initSDK(context, userParams, tpParams, new TPInitMediation.InitCallback() {
             @Override
             public void onSuccess() {
@@ -77,7 +74,6 @@ public class AppLovinInterstitial extends TPInterstitialAdapter implements
         mAppLovinInterstitialAdDialog = AppLovinInterstitialAd.create(mAppLovinSdk, context);
         mAppLovinInterstitialAdDialog.setAdDisplayListener(this);
         mAppLovinInterstitialAdDialog.setAdClickListener(this);
-        // This will only ever be used if you have video ads enabled.
         mAppLovinInterstitialAdDialog.setAdVideoPlaybackListener(this);
         if (TextUtils.isEmpty(payload)) {
             mAppLovinSdk.getAdService().loadNextAdForZoneId(zoneId, this);

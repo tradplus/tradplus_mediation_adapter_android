@@ -482,8 +482,8 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
             } else {
                 rewardVideoAD.setBidECPM(price);
             }
-        } catch (Exception e) {
-
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 
@@ -509,8 +509,8 @@ public class TxAdnetRewardVideoAdapter extends TPRewardAdapter {
             String placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             try {
                 return GDTAdSdk.getGDTAdManger().getSDKInfo(placementId);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
                 return "";
             }
         }

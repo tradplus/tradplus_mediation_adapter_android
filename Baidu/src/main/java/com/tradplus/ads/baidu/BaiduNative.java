@@ -205,7 +205,7 @@ public class BaiduNative extends TPNativeAdapter {
         }
     };
 
-    // 模版监听回调
+
     private final BaiduNativeManager.ExpressAdListener mExpressAdListener = new BaiduNativeManager.ExpressAdListener() {
         @Override
         public void onNativeLoad(List<ExpressResponse> list) {

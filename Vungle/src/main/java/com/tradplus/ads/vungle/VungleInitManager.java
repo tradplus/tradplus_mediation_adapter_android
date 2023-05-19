@@ -64,7 +64,6 @@ public class VungleInitManager extends TPInitMediation {
             public void onError(VungleException exception) {
                 if (exception != null) {
                     Log.i(TAG, "InitCallback - onError: " + exception.getLocalizedMessage());
-//                    if (initCallback != null)
                     sendResult(mAppId, false, "", exception.getLocalizedMessage());
                 } else {
                     sendResult(mAppId, false, "", "");

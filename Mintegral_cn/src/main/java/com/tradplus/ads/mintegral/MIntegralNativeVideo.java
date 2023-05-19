@@ -149,7 +149,6 @@ public class MIntegralNativeVideo extends TPNativeAdapter {
             }
             mMBNativeAdvancedHandler = new MBNativeAdvancedHandler(activity, mPlacementId, mUnitId);
             mMBNativeAdvancedHandler.setNativeViewSize(DeviceUtils.dip2px(activity, mAdWidth), DeviceUtils.dip2px(activity, mAdHeight));
-            // mbThreeState negative will hide close button,positive will display close button, other we will Decide whether to display based on the material
             mMBNativeAdvancedHandler.setCloseButtonState(mIsclosable == 1 ? MBMultiStateEnum.positive : MBMultiStateEnum.negative);
             mMBNativeAdvancedHandler.setPlayMuteState(mVideoMute != AppKeyManager.VIDEO_MUTE_NO ? MBridgeConstans.REWARD_VIDEO_PLAY_MUTE : MBridgeConstans.REWARD_VIDEO_PLAY_NOT_MUTE);
 

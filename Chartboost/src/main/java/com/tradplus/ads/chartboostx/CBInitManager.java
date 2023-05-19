@@ -85,8 +85,6 @@ public class CBInitManager extends TPInitMediation {
             if (localExtras.containsKey(AppKeyManager.KEY_CCPA)) {
                 boolean ccpa = (boolean) localExtras.get(AppKeyManager.KEY_CCPA);
                 Log.i("privacylaws", "ccpa: " + ccpa);
-                // OPT_IN_SALE(1NN-) means the user consents (Behavioral and Contextual Ads)
-                // OPT_OUT_SALE(1NY-) means the user does not consent to targeting (Contextual ads)
                 if (ccpa) {
                     Chartboost.addDataUseConsent(context, new CCPA(CCPA.CCPA_CONSENT.OPT_IN_SALE));
                 } else {
@@ -104,7 +102,7 @@ public class CBInitManager extends TPInitMediation {
                     isChildDirected = (boolean) localExtras.get(AppKeyManager.DFF);
                     Log.i("privacylaws", "dff:" + isChildDirected);
                 }
-                // false means that COPPA restrictions do not apply.
+
                 Chartboost.addDataUseConsent(context, new COPPA(isChildDirected));
 
             }

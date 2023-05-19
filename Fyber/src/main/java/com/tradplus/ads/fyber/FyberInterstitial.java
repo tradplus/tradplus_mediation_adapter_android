@@ -195,11 +195,6 @@ public class FyberInterstitial extends TPInterstitialAdapter {
 
         @Override
         public void onPlayerError() {
-            /**
-             * Please note that onPlayerError callback method is deprecated starting from VAMP v7.3.0,
-             and won't be trigged when an error is occurred.
-             * Note: The SDK handles such errors internally and no further action is required.
-             */
             Log.i(TAG, "onPlayerError: ");
             if (mCallbackRouter.getShowListener(mPlacementId) != null)
                 mCallbackRouter.getShowListener(mPlacementId).onAdVideoError(new TPError(SHOW_FAILED));

@@ -62,10 +62,8 @@ public class InmobiInitManager extends TPInitMediation {
             InMobiSdk.setLogLevel(InMobiSdk.LogLevel.DEBUG);
         }
 
-        //Initialize Inmobi SDK before any API call.
         JSONObject consent = new JSONObject();
         try {
-            // Provide correct consent value to sdk which is obtained by User
             consent.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, need_set_gdpr);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -114,7 +114,6 @@ public class HuaweiNativeAd extends TPBaseAd {
 
         VideoOperator videoOperator = nativeAd.getVideoOperator();
         if (videoOperator.hasVideo()) {
-            // Add a video lifecycle event listener.
             videoOperator.setVideoLifecycleListener(videoLifecycleListener);
         }
 

@@ -76,8 +76,6 @@ public class IronSourceInitManager extends TPInitMediation {
             if (userParams.containsKey(AppKeyManager.KEY_COPPA)) {
                 boolean coppa = (boolean) userParams.get(AppKeyManager.KEY_COPPA);
                 Log.i("privacylaws", "coppa: " + coppa);
-                // The indication of whether a specific end-user is a child should be done using a “is_child_directed” flag,
-                // by setting its value to “true” or “false”.
                 IronSource.setMetaData("is_child_directed", coppa ? "true" : "false");
             }
 

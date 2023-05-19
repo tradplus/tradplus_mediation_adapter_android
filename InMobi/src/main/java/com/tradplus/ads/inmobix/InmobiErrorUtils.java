@@ -24,19 +24,15 @@ public class InmobiErrorUtils {
             switch (statusCode) {
                 case NO_FILL:
                     tradPlusErrorCode.setTpErrorCode(NETWORK_NO_FILL);
-                    //"Ad request successful but no ad served."
                     break;
                 case NETWORK_UNREACHABLE:
                     tradPlusErrorCode.setTpErrorCode(CONNECTION_ERROR);
-                    //"The Internet is unreachable. Please check your Internet connection."
                     break;
                 case EARLY_REFRESH_REQUEST:
                     tradPlusErrorCode.setTpErrorCode(LOAD_TOO_FREQUENTLY);
-                    //"The Ad Request cannot be done so frequently. Please wait for some time before loading another ad."
                     break;
                 case REQUEST_TIMED_OUT:
                     tradPlusErrorCode.setTpErrorCode(NETWORK_TIMEOUT);
-                    //"The Ad Request timed out waiting for a response from the network. This can be caused due to a bad network connection. Please try again after a few minutes."
                     break;
                 default:
                     tradPlusErrorCode.setTpErrorCode(UNSPECIFIED);

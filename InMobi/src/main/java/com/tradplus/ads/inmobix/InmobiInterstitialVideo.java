@@ -300,26 +300,12 @@ public class InmobiInterstitialVideo extends TPRewardAdapter {
             return;
         }
         inmobiInterstitialVideo = new InMobiInterstitial(context, pid, new InterstitialAdEventListener() {
-            /**
-             * Called to notify that an ad was successfully loaded.
-             * @param ad Represents the {@link InMobiInterstitial} ad which was loaded
-             * @param info Represents the ad meta information
-             */
             @Override
             public void onAdFetchSuccessful(InMobiInterstitial ad, AdMetaInfo info) {
                 onC2STokenListener.onC2SBiddingResult(info.getBid());
             }
 
-            /**
-             * Called to notify that an ad preload has failed.
-             Note: This  * notification is given only when you use
-             {@code preload()} in
-             * {@link InMobiInterstitial#getPreloadManager()}
-             *
-             * @param ad Represents the ad which was preloaded
-             * @param status Represents the {@link InMobiAdRequestStatus} status
-            containing error reason
-             */
+
             @Override
             public void onAdFetchFailed(InMobiInterstitial ad, InMobiAdRequestStatus status) {
                 onC2STokenListener.onC2SBiddingFailed("", status.getMessage());
@@ -329,7 +315,7 @@ public class InmobiInterstitialVideo extends TPRewardAdapter {
         if (parameters != null) {
             inmobiInterstitialVideo.setExtras(parameters);
         }
-        // Step to preload interstitial
+
         inmobiInterstitialVideo.getPreloadManager().preload();
     }
 }

@@ -82,10 +82,7 @@ public class InmobiBanner extends TPBannerAdapter {
     }
 
     private BannerAdEventListener bannerAdEventListener = new BannerAdEventListener() {
-        /**
-         * Called to notify that the banner ad was displayed
-         * @param inMobiBanner Represents the {@link InMobiBanner} ad which was displayed
-         */
+
         @Override
         public void onAdDisplayed(InMobiBanner inMobiBanner) {
             super.onAdDisplayed(inMobiBanner);
@@ -106,12 +103,6 @@ public class InmobiBanner extends TPBannerAdapter {
 
         }
 
-        /**
-         * Called to notify that an ad was received successfully but is not ready to be displayed yet.
-         *
-         * @param inMobiBanner Represents the ad which was loaded or preloaded
-         * @param adMetaInfo Represents the ad meta information
-         */
         @Override
         public void onAdFetchSuccessful(InMobiBanner inMobiBanner, AdMetaInfo adMetaInfo) {
             super.onAdFetchSuccessful(inMobiBanner, adMetaInfo);
@@ -124,11 +115,6 @@ public class InmobiBanner extends TPBannerAdapter {
         }
 
 
-        /**
-         * Called to notify that an ad was successfully loaded.
-         * @param inMobiBanner Represents the {@link InMobiBanner} ad which was loaded
-         * @param adMetaInfo Represents the ad meta information
-         */
         @Override
         public void onAdLoadSucceeded(InMobiBanner inMobiBanner, AdMetaInfo adMetaInfo) {
             super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
@@ -167,7 +153,6 @@ public class InmobiBanner extends TPBannerAdapter {
     };
 
     private void requestInMobiBanner(Context context) {
-        //Load
         long pid;
         try {
             pid = Long.parseLong(mPlacementId);
@@ -179,7 +164,6 @@ public class InmobiBanner extends TPBannerAdapter {
         }
 
         bannerAd = new InMobiBanner(context, pid);
-        //Close AutoRefresh
         bannerAd.setEnableAutoRefresh(false);
         bannerAd.setAnimationType(InMobiBanner.AnimationType.ANIMATION_OFF);
         bannerAd.setListener(bannerAdEventListener);
@@ -249,7 +233,6 @@ public class InmobiBanner extends TPBannerAdapter {
             @Override
             public void run() {
                 bannerAd = new InMobiBanner(context, finalPid);
-                //Close AutoRefresh
                 bannerAd.setEnableAutoRefresh(false);
                 bannerAd.setAnimationType(InMobiBanner.AnimationType.ANIMATION_OFF);
                 Log.i(TAG, "mAdWidth: " + mAdWidth + ",mAdHeight：" + mAdHeight);
@@ -272,7 +255,6 @@ public class InmobiBanner extends TPBannerAdapter {
                 if (parameters != null) {
                     bannerAd.setExtras(parameters);
                 }
-                // Step to preload interstitial
                 bannerAd.getPreloadManager().preload();
             }
         });

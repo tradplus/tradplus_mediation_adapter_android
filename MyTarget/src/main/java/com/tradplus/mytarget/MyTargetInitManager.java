@@ -56,7 +56,6 @@ public class MyTargetInitManager extends TPInitMediation {
 
                 boolean isEu = (boolean) localExtras.get(AppKeyManager.IS_UE);
                 Log.i("privacylaws", "suportGDPR: " + need_set_gdpr + ":isUe:" + isEu);
-                //true:agree  false:deny
                 MyTargetPrivacy.setUserConsent(need_set_gdpr);
             }
 

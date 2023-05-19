@@ -80,7 +80,6 @@ public class MIntegralBanner extends TPBannerAdapter {
 
     private void requestBanner(Context context) {
         mtgBannerView = new MBBannerView(context);
-        //bannerSize 5 自定义宽高
         BannerSize bannerSize = new BannerSize(5, mAdWidth, mAdHeight);
         mtgBannerView.init(bannerSize, mPlacementId, mUnitId);
         mtgBannerView.setAllowShowCloseBtn(true);

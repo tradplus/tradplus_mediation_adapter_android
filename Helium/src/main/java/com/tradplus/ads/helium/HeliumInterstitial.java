@@ -93,7 +93,6 @@ public class HeliumInterstitial extends TPInterstitialAdapter {
             return;
         }
 
-        // clear loaded ads on existing placements
         if (mHeliumInterstitialAd != null) {
             mHeliumInterstitialAd.clearLoaded();
         }

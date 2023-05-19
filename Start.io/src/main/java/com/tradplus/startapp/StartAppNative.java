@@ -26,7 +26,6 @@ import static com.tradplus.ads.base.common.TPError.NETWORK_NO_FILL;
 
 public class StartAppNative extends TPNativeAdapter {
     public static final String TAG = "StartAppNative";
-    //    private RelativeLayout mNativeAdView;
     private StartAppNativeAd mNativeView;
     private String mPlacementId;
     private TPNativeAdView mTpNativeAdView;

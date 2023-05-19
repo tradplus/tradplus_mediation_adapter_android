@@ -173,8 +173,8 @@ public class TxAdnetBanner extends TPBannerAdapter implements UnifiedBannerADLis
             int price = (int)temp;
             Log.i(TAG, "setBidEcpm: " + price);
             mBannerView.setBidECPM(price);
-        } catch (Exception e) {
-
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 
@@ -200,8 +200,8 @@ public class TxAdnetBanner extends TPBannerAdapter implements UnifiedBannerADLis
             String placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             try {
                 return GDTAdSdk.getGDTAdManger().getSDKInfo(placementId);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
                 return "";
             }
         }

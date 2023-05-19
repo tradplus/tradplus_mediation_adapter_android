@@ -69,7 +69,6 @@ public class HuaweiNative extends TPNativeAdapter {
                 Log.i(TAG, "closePosition: " + closePosition);
             }
 
-            // 开发者使用华为模板类型，设置TP内置的模板样式
             if (userParams.containsKey(HuaweiConstant.HUAWEI_NATIVE_TEMPLATE_TYPE)) {
                 nativeTemplate = (int) userParams.get(HuaweiConstant.HUAWEI_NATIVE_TEMPLATE_TYPE);
                 Log.i(TAG, "nativetemple: " + nativeTemplate);

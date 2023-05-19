@@ -46,7 +46,7 @@ import static com.tradplus.ads.base.util.AppKeyManager.TEMPLATE_RENDERING_YES;
 public class MIntegralNativeVideo extends TPNativeAdapter {
 
     private static final String TAG = "MTGOSNative";
-    private boolean videoSupport = true;//support native video
+    private boolean videoSupport = true;
     private MBNativeHandler mMtgNativeHandler;
     private MBBidNativeHandler mMtgBidNativeHandler;
     private MBNativeAdvancedHandler mMBNativeAdvancedHandler;

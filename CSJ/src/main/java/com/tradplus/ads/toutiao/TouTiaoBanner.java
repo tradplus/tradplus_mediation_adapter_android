@@ -135,6 +135,7 @@ public class TouTiaoBanner extends TPBannerAdapter {
                 if (activity != null) {
                     bindDislike(activity, mTTAd, false);
                 }else {
+                    Log.i(TAG, "activity == null, 无法setDislikeCallback。" + "开发者需检查创建TPBanner时是否传入Activity，或者此时Activity是否被销毁。");
                 }
 
                 mTTAd.render();

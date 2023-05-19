@@ -501,8 +501,8 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
             if (mNativeUnifiedADData != null) {
                 mNativeUnifiedADData.setBidECPM(price);
             }
-        } catch (Exception e) {
-
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
     }
 
@@ -528,8 +528,8 @@ public class TxAdnetNativeVideo extends TPNativeAdapter {
             String placementId = tpParams.get(AppKeyManager.AD_PLACEMENT_ID);
             try {
                 return GDTAdSdk.getGDTAdManger().getSDKInfo(placementId);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
                 return "";
             }
         }

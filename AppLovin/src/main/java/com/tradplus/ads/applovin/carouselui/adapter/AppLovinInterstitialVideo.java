@@ -198,9 +198,6 @@ public class AppLovinInterstitialVideo extends TPRewardAdapter implements
     @Override
     public void userRewardVerified(AppLovinAd appLovinAd, Map map) {
         Log.i(TAG, "userRewardVerified: ");
-        // Rewarded ad was displayed and user should receive the reward
-
-
     }
 
     @Override
